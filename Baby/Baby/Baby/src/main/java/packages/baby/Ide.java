@@ -43,7 +43,6 @@ public class Ide extends javax.swing.JFrame {
 //        cardPanel.add(homeScreenFrame, "homeScreen");
 //        getContentPane().add(cardPanel);
         
-        
         for (JButton btn : btns){
             btn.setUI(new BasicButtonUI());
 //            btn.setBackground(Color.red);
@@ -160,7 +159,7 @@ public class Ide extends javax.swing.JFrame {
 
         jTextArea1.setBackground(new java.awt.Color(31, 31, 31));
         jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
+        jTextArea1.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
         jTextArea1.setRows(5);
         jTextArea1.setBorder(null);
