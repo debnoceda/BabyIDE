@@ -8,33 +8,19 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-/** URGENT! Topic: Unsaved Changes
- * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
- * work has been done in the event of exiting application when there are unsaved changes
- * HOWEVER, THERE IS A BUG! Due to setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE), the application only exits when 'YES' is chosen
- * from confirmation dialogue. The problem is that the confirmation dialogue appears only when there is/are unsaved change/s.
- * In the case of a new file with no changes/updates, the confirmation dialogue does not appear, hence, there is no way to exit application.
- * Currently finding ways to solve the problem
- * 
- * In the case of unsaved changes in the event of opening file, no work has been done yet.
- */
+
 /**
  *
  * @author liaminakigillamac
@@ -44,8 +30,8 @@ public class Ide extends javax.swing.JFrame {
     private JPanel cardPanel;
     private homeScreen homeScreenFrame;
     
-    private File savedFile = null; // var to get copy file to save
-    private boolean unsavedChanges = false; // var to know if update to txt is present
+    private File savedFile = null;
+    private boolean unsavedChanges = false;
     /**
      * Creates new form Ide
      */
@@ -58,47 +44,6 @@ public class Ide extends javax.swing.JFrame {
 //        cardPanel.add(homeScreenFrame, "homeScreen");
 //        getContentPane().add(cardPanel);
         
-        jTextArea1.getDocument().addDocumentListener(new DocumentListener() { // bai wa ko kahibaw asa ni ibutang, diri lang sa hehe :3
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-        });
-               
-        addWindowListener(new WindowAdapter() { // bai wa ko kahibaw asa ni ibutang, diri lang sa hehe :3 part 2
-            @Override
-            public void windowClosing(WindowEvent e) {
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                if (unsavedChanges) {
-                    int choice = JOptionPane.showConfirmDialog(
-                        Ide.this,
-                        "You have unsaved changes. Do you want to exit without saving?",
-                        "Confirm Exit",
-                        JOptionPane.YES_NO_OPTION
-                    );
-                    
-                    if (choice == JOptionPane.NO_OPTION) {
-                        return;
-                    }
-                    
-                    // debating if option 'CANCEL' is necessary hmmmmmm
-                    // this path connects when 'YES' is chosen
-                    //dispose(); // Close the window // might be unnecessary idunno actually
-                    System.exit(0); // Exit the application
-                }           
-            }
-        });
-
         for (JButton btn : btns){
             btn.setUI(new BasicButtonUI());
 //            btn.setBackground(Color.red);
@@ -243,7 +188,7 @@ public class Ide extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-        
+
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnHomeActionPerformed
@@ -298,27 +243,14 @@ public class Ide extends javax.swing.JFrame {
             int returnValue = fileChooser.showSaveDialog(null);
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
+                savedFile = fileChooser.getSelectedFile();
 
-                // Ensure the file has the ".bby" extension
-                String fileName = selectedFile.getAbsolutePath();
+                String fileName = savedFile.getAbsolutePath();
                 if (!fileName.endsWith(".bby")) {
                     fileName += ".bby";
-                    selectedFile = new File(fileName);
-
-                }
-
-                try {
-                    FileWriter writer = new FileWriter(selectedFile);
-                    writer.write(code);
-                    writer.close();
-                    JOptionPane.showMessageDialog(null, "File saved successfully.");
                     savedFile = new File(fileName);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
                 }
             }
-            unsavedChanges = false;
         }
 
         if (savedFile != null) {
@@ -326,7 +258,6 @@ public class Ide extends javax.swing.JFrame {
                 FileWriter writer = new FileWriter(savedFile);
                 writer.write(code);
                 writer.close();
-                unsavedChanges = false;
                 JOptionPane.showMessageDialog(null, "File saved successfully.");
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
@@ -366,11 +297,9 @@ public class Ide extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
             }
         }
-        unsavedChanges = false;
 
     }//GEN-LAST:event_btnSaveAsActionPerformed
 
-    
     private void btnHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHomeMouseClicked
 //        cardLayout.show(cardPanel, "homeScreen");
     }//GEN-LAST:event_btnHomeMouseClicked
