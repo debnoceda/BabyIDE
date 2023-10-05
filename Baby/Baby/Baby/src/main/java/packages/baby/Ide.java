@@ -42,7 +42,7 @@ public class Ide extends javax.swing.JFrame {
 //        homeScreenFrame = new homeScreen ();
 //        cardPanel.add(homeScreenFrame, "homeScreen");
 //        getContentPane().add(cardPanel);
-        
+       //mekuuuu
         
         for (JButton btn : btns){
             btn.setUI(new BasicButtonUI());
