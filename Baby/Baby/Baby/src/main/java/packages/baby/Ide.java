@@ -170,16 +170,16 @@ public class Ide extends javax.swing.JFrame {
         pnlCenterLayout.setHorizontalGroup(
             pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCenterLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(42, 42, 42)
                 .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
-                .addGap(69, 69, 69))
+                .addGap(68, 68, 68))
         );
         pnlCenterLayout.setVerticalGroup(
             pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCenterLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(137, 137, 137)
                 .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                .addGap(288, 288, 288))
+                .addGap(199, 199, 199))
         );
 
         pnlRoot.add(pnlCenter, java.awt.BorderLayout.CENTER);
