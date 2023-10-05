@@ -31,6 +31,7 @@ public class Ide extends javax.swing.JFrame {
     private homeScreen homeScreenFrame;
     
     private File savedFile = null;
+    private boolean unsavedChanges = false;
     /**
      * Creates new form Ide
      */
