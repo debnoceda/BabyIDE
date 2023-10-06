@@ -27,12 +27,7 @@ import java.io.IOException;
 
 /** URGENT! Topic: Unsaved Changes
  * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
- * work has been done in the event of exiting application when there are unsaved changes
- * 
- * In the case of a new file with no changes/updates, the confirmation dialogue does not appear, hence, there is no way to exit application.
- * Currently finding ways to solve the problem
- * 
- * In the case of unsaved changes in the event of opening file, no work has been done yet.
+ * work has been done in the event of exiting application and opening another file when there are unsaved changes
  */
 /**
  *
@@ -250,6 +245,25 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenFileActionPerformed
+        
+        if (unsavedChanges) {
+                    int choice = JOptionPane.showConfirmDialog(
+                        Ide.this,
+                        "You have unsaved changes. Do you want to open another file without saving?",
+                        "Confirm Exit",
+                        JOptionPane.YES_NO_OPTION
+                    );
+                    
+                    if (choice == JOptionPane.NO_OPTION) {
+                        return;
+                    }
+                    
+                    // debating if option 'CANCEL' is necessary hmmmmmm
+                    // this path connects when 'YES' is chosen
+                    //dispose(); // Close the window // might be unnecessary idunno actually
+                    
+        }
+        
         JFileChooser fileChooser = new JFileChooser();
 
         // use if you want to filter s.t. only .txt file can be opened
