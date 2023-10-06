@@ -28,8 +28,7 @@ import java.io.IOException;
 /** URGENT! Topic: Unsaved Changes
  * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
  * work has been done in the event of exiting application when there are unsaved changes
- * HOWEVER, THERE IS A BUG! Due to setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE), the application only exits when 'YES' is chosen
- * from confirmation dialogue. The problem is that the confirmation dialogue appears only when there is/are unsaved change/s.
+ * 
  * In the case of a new file with no changes/updates, the confirmation dialogue does not appear, hence, there is no way to exit application.
  * Currently finding ways to solve the problem
  * 
@@ -95,7 +94,9 @@ public class Ide extends javax.swing.JFrame {
                     // this path connects when 'YES' is chosen
                     //dispose(); // Close the window // might be unnecessary idunno actually
                     System.exit(0); // Exit the application
-                }           
+                }    
+                
+                System.exit(0); // if no changes, then exit normally
             }
         });
 
