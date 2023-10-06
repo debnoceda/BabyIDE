@@ -269,7 +269,7 @@ public class Ide extends javax.swing.JFrame {
         // use if you want to filter s.t. only .txt file can be opened
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (.bby)", "bby");
         fileChooser.setFileFilter(filter);
-
+        
         int returnValue = fileChooser.showOpenDialog(null);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -299,6 +299,9 @@ public class Ide extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error opening file: " + e.getMessage());
             }
         }
+        
+        unsavedChanges = false; // used so that when opening fresh file, since no changes, it is not unsaved
+        
     }//GEN-LAST:event_btnOpenFileActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
