@@ -6,14 +6,10 @@ package packages.baby.frames;
 
 //import java.awt.CardLayout;
 //import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-import javax.swing.JButton;
-//import javax.swing.JPanel;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -35,23 +31,12 @@ import java.io.IOException;
  */
 
 public class Ide extends javax.swing.JFrame {
-//    private CardLayout cardLayout;
-//    private JPanel cardPanel;
-//    private homeScreen homeScreenFrame;
     
     private File savedFile = null; // var to get copy file to save
     private boolean unsavedChanges = false; // var to know if update to txt is present
-    /**
-     * Creates new form Ide
-     */
+
     public Ide() {
         initComponents();
-        JButton [] btns =  {btnHome, btnOpenFile, btnSave, btnSaveAs};
-//        cardLayout = new CardLayout();
-//        cardPanel = new JPanel(cardLayout);
-//        homeScreenFrame = new homeScreen ();
-//        cardPanel.add(homeScreenFrame, "homeScreen");
-//        getContentPane().add(cardPanel);
         
         jTextArea1.getDocument().addDocumentListener(new DocumentListener() { // bai wa ko kahibaw asa ni ibutang, diri lang sa hehe :3
             @Override
@@ -70,7 +55,7 @@ public class Ide extends javax.swing.JFrame {
             }
         });
                
-        addWindowListener(new WindowAdapter() { // bai wa ko kahibaw asa ni ibutang, diri lang sa hehe :3 part 2
+        addWindowListener(new WindowAdapter() { 
             @Override
             public void windowClosing(WindowEvent e) {
                 setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -96,36 +81,6 @@ public class Ide extends javax.swing.JFrame {
             }
         });
 
-        for (JButton btn : btns){
-            btn.setUI(new BasicButtonUI());
-//            btn.setBackground(Color.red);
-            btn.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-//                    btn.setBackground(Color.red);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-//                    btn.setBackground(Color.red);
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-//                    btn.setBackground(Color.red);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-//                    btn.setBackground(Color.red);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-//                    btn.setBackground(Color.red);
-                }
-            });
-        }
     }
 
     /**
@@ -146,6 +101,8 @@ public class Ide extends javax.swing.JFrame {
         pnlCenter = new javax.swing.JPanel();
         jTextArea1 = new javax.swing.JTextArea();
         sidebar1 = new packages.baby.panels.Sidebar();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea1 = new packages.baby.components.TextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -218,15 +175,18 @@ public class Ide extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jTextArea1.setBorder(null);
 
+        jScrollPane1.setViewportView(textArea1);
+
         javax.swing.GroupLayout pnlCenterLayout = new javax.swing.GroupLayout(pnlCenter);
         pnlCenter.setLayout(pnlCenterLayout);
         pnlCenterLayout.setHorizontalGroup(
             pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCenterLayout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
-                    .addComponent(sidebar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jTextArea1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+                    .addComponent(sidebar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(72, 72, 72))
         );
         pnlCenterLayout.setVerticalGroup(
@@ -236,7 +196,9 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addGap(49, 49, 49)
                 .addComponent(sidebar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(193, 193, 193))
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71))
         );
 
         pnlRoot.add(pnlCenter, java.awt.BorderLayout.CENTER);
@@ -439,10 +401,12 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSaveAs;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlRoot;
     private javax.swing.JPanel pnlSide;
     private packages.baby.panels.Sidebar sidebar1;
+    private packages.baby.components.TextArea textArea1;
     // End of variables declaration//GEN-END:variables
 }
