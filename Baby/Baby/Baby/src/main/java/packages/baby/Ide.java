@@ -4,15 +4,15 @@
  */
 package packages.baby;
 
-import java.awt.CardLayout;
-import java.awt.Color;
+//import java.awt.CardLayout;
+//import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import javax.swing.JPanel;
+//import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
@@ -33,10 +33,11 @@ import java.io.IOException;
  *
  * @author liaminakigillamac
  */
+
 public class Ide extends javax.swing.JFrame {
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
-    private homeScreen homeScreenFrame;
+//    private CardLayout cardLayout;
+//    private JPanel cardPanel;
+//    private homeScreen homeScreenFrame;
     
     private File savedFile = null; // var to get copy file to save
     private boolean unsavedChanges = false; // var to know if update to txt is present
