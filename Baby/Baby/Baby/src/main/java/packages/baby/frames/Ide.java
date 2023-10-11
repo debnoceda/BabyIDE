@@ -100,7 +100,6 @@ public class Ide extends javax.swing.JFrame {
         btnSaveAs = new javax.swing.JButton();
         pnlCenter = new javax.swing.JPanel();
         jTextArea1 = new javax.swing.JTextArea();
-        sidebar1 = new packages.baby.panels.Sidebar();
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea1 = new packages.baby.components.TextArea();
 
@@ -185,8 +184,7 @@ public class Ide extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jTextArea1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
-                    .addComponent(sidebar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextArea1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE))
                 .addGap(72, 72, 72))
         );
         pnlCenterLayout.setVerticalGroup(
@@ -194,9 +192,7 @@ public class Ide extends javax.swing.JFrame {
             .addGroup(pnlCenterLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                .addGap(49, 49, 49)
-                .addComponent(sidebar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(134, 134, 134)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(71, 71, 71))
         );
@@ -406,7 +402,6 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlRoot;
     private javax.swing.JPanel pnlSide;
-    private packages.baby.panels.Sidebar sidebar1;
     private packages.baby.components.TextArea textArea1;
     // End of variables declaration//GEN-END:variables
 }
