@@ -1,7 +1,11 @@
 packages/baby/frames/HomeScreen.class
 packages/baby/frames/Ide.class
 packages/baby/frames/HomeScreen$1.class
+packages/baby/components/Home.class
 packages/baby/frames/Ide$6.class
+packages/baby/components/OpenFile.class
+packages/baby/components/SidebarBtn$1.class
+packages/baby/panels/Sidebar.class
 packages/baby/frames/LoadingScreen$1.class
 packages/baby/frames/Ide$1.class
 packages/baby/frames/Ide$9.class
@@ -12,4 +16,7 @@ packages/baby/frames/Ide$7.class
 packages/baby/app/Main.class
 packages/baby/frames/Ide$2.class
 packages/baby/frames/Ide$8.class
+packages/baby/components/SaveAs.class
 packages/baby/frames/Ide$3.class
+packages/baby/components/SidebarBtn.class
+packages/baby/components/Save.class
