@@ -41,7 +41,7 @@ public class TextArea extends JTextArea {
         });
     }
 
-    public boolean isUnsavedChanges() {
+    public boolean hasUnsavedChanges() {
         return unsavedChanges;
     }
 

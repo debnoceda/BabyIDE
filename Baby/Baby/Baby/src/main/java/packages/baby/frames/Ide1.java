@@ -26,27 +26,25 @@ import java.io.IOException;
 
 public class Ide1 extends javax.swing.JFrame {
     
-    private File savedFile = null; // var to get copy file to save
-    private boolean unsavedChanges = false; // var to know if update to txt is present
-
     public Ide1() {
         initComponents();
-        
-        // Add the window-closing event handler
+        WindowClosingHandler();
+    }
+    
+    private void WindowClosingHandler() {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 handleWindowClosing();
             }
         });
-               
-       
+        
+        
     }
-    
-    // Handle the window-closing event
+
     private void handleWindowClosing() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        if (textArea1 != null && textArea1.isUnsavedChanges()) {
+        if (textArea1 != null && textArea1.hasUnsavedChanges()) {
             int choice = JOptionPane.showConfirmDialog(
                 Ide1.this,
                 "You have unsaved changes. Do you want to exit without saving?",
@@ -58,11 +56,12 @@ public class Ide1 extends javax.swing.JFrame {
                 return;
             }
 
-            System.exit(0); // Exit the application if 'YES' is chosen
+            System.exit(0);
         }
 
-        System.exit(0); // If no changes, then exit normally
+        System.exit(0);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.

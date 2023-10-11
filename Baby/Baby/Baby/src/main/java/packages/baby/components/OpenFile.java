@@ -10,6 +10,7 @@ public class OpenFile extends SidebarBtn{
     }
     
     protected void buttonActionPerformed(ActionEvent e) {
+        
     }
     
 }
