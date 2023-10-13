@@ -1,11 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package packages.baby.frames;
-
-//import java.awt.CardLayout;
-//import java.awt.Color;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -13,13 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
+import packages.baby.components.OpenFile;
 
 /** URGENT! Topic: Unsaved Changes
  * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
@@ -32,56 +24,53 @@ import java.io.IOException;
 
 public class Ide extends javax.swing.JFrame {
     
-    private File savedFile = null; // var to get copy file to save
-    private boolean unsavedChanges = false; // var to know if update to txt is present
-
     public Ide() {
         initComponents();
+//        openFile1 = new OpenFile(this);
+        BtnListener();
+        WindowClosingHandler();
         
-        jTextArea1.getDocument().addDocumentListener(new DocumentListener() { // bai wa ko kahibaw asa ni ibutang, diri lang sa hehe :3
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                unsavedChanges = true;
+    }
+    
+    public void BtnListener() {
+        openFile1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                handleWindowClosing();
+                openFile1.actionPerformed(evt);
             }
         });
-               
-        addWindowListener(new WindowAdapter() { 
+    }
+    
+    private void WindowClosingHandler() {
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                if (unsavedChanges) {
-                    int choice = JOptionPane.showConfirmDialog(
-                        Ide.this,
-                        "You have unsaved changes. Do you want to exit without saving?",
-                        "Confirm Exit",
-                        JOptionPane.YES_NO_OPTION
-                    );
-                    
-                    if (choice == JOptionPane.NO_OPTION) {
-                        return;
-                    }
-                    
-                    // debating if option 'CANCEL' is necessary hmmmmmm
-                    // this path connects when 'YES' is chosen
-                    //dispose(); // Close the window // might be unnecessary idunno actually
-                    System.exit(0); // Exit the application
-                }    
+                handleWindowClosing();
                 
-                System.exit(0); // if no changes, then exit normally
             }
         });
+        
+    }
+
+    public void handleWindowClosing() {
+        
+        if (textArea1 != null && textArea1.hasUnsavedChanges()) {
+            int choice = JOptionPane.showConfirmDialog(Ide.this,
+                "You have unsaved changes. Do you want to exit without saving?",
+                "Confirm Exit",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (choice == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
+        
+        System.exit(0);
 
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -92,271 +81,86 @@ public class Ide extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlRoot = new javax.swing.JPanel();
-        pnlSide = new javax.swing.JPanel();
-        btnHome = new javax.swing.JButton();
-        btnOpenFile = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
-        btnSaveAs = new javax.swing.JButton();
-        pnlCenter = new javax.swing.JPanel();
-        jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        idePnl = new javax.swing.JPanel();
+        textAreaScrollPane = new javax.swing.JScrollPane();
         textArea1 = new packages.baby.components.TextArea();
+        sidebarPnl = new javax.swing.JPanel();
+        saveAs1 = new packages.baby.components.SaveAs();
+        save1 = new packages.baby.components.Save();
+        home1 = new packages.baby.components.Home();
+        openFile1 = new packages.baby.components.OpenFile();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(31, 31, 31));
 
-        pnlRoot.setLayout(new java.awt.BorderLayout());
+        idePnl.setBackground(new java.awt.Color(51, 51, 51));
+        idePnl.setForeground(new java.awt.Color(31, 31, 31));
+        idePnl.setToolTipText("");
 
-        pnlSide.setBackground(new java.awt.Color(31, 31, 31));
-        pnlSide.setPreferredSize(new java.awt.Dimension(70, 0));
+        textAreaScrollPane.setViewportView(textArea1);
 
-        btnHome.setBackground(new java.awt.Color(31, 31, 31));
-        btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
-        btnHome.setBorder(null);
-        btnHome.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnHome.setPreferredSize(new java.awt.Dimension(40, 40));
-        btnHome.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHomeMouseClicked(evt);
-            }
-        });
-        btnHome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHomeActionPerformed(evt);
-            }
-        });
-        pnlSide.add(btnHome);
+        sidebarPnl.setBackground(new java.awt.Color(31, 31, 31));
 
-        btnOpenFile.setBackground(new java.awt.Color(31, 31, 31));
-        btnOpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/openFile.png"))); // NOI18N
-        btnOpenFile.setBorder(null);
-        btnOpenFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenFile.setPreferredSize(new java.awt.Dimension(40, 40));
-        btnOpenFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOpenFileActionPerformed(evt);
-            }
-        });
-        pnlSide.add(btnOpenFile);
+        saveAs1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
 
-        btnSave.setBackground(new java.awt.Color(31, 31, 31));
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
-        btnSave.setBorder(null);
-        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSave.setPreferredSize(new java.awt.Dimension(40, 40));
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-        pnlSide.add(btnSave);
+        save1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
 
-        btnSaveAs.setBackground(new java.awt.Color(31, 31, 31));
-        btnSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
-        btnSaveAs.setBorder(null);
-        btnSaveAs.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSaveAs.setPreferredSize(new java.awt.Dimension(40, 40));
-        btnSaveAs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveAsActionPerformed(evt);
-            }
-        });
-        pnlSide.add(btnSaveAs);
+        home1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
 
-        pnlRoot.add(pnlSide, java.awt.BorderLayout.WEST);
+        openFile1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/openFile.png"))); // NOI18N
 
-        pnlCenter.setBackground(new java.awt.Color(51, 51, 51));
-
-        jTextArea1.setBackground(new java.awt.Color(31, 31, 31));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setRows(5);
-        jTextArea1.setBorder(null);
-
-        jScrollPane1.setViewportView(textArea1);
-
-        javax.swing.GroupLayout pnlCenterLayout = new javax.swing.GroupLayout(pnlCenter);
-        pnlCenter.setLayout(pnlCenterLayout);
-        pnlCenterLayout.setHorizontalGroup(
-            pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCenterLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jTextArea1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE))
-                .addGap(72, 72, 72))
+        javax.swing.GroupLayout sidebarPnlLayout = new javax.swing.GroupLayout(sidebarPnl);
+        sidebarPnl.setLayout(sidebarPnlLayout);
+        sidebarPnlLayout.setHorizontalGroup(
+            sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sidebarPnlLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(home1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(openFile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveAs1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
-        pnlCenterLayout.setVerticalGroup(
-            pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCenterLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                .addGap(134, 134, 134)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71))
+        sidebarPnlLayout.setVerticalGroup(
+            sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sidebarPnlLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(home1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(openFile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(saveAs1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnlRoot.add(pnlCenter, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
+        idePnl.setLayout(idePnlLayout);
+        idePnlLayout.setHorizontalGroup(
+            idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(idePnlLayout.createSequentialGroup()
+                .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+                .addGap(266, 266, 266))
+        );
+        idePnlLayout.setVerticalGroup(
+            idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(idePnlLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        getContentPane().add(pnlRoot, java.awt.BorderLayout.CENTER);
+        getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
         
-    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnHomeActionPerformed
-
-    private void btnOpenFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenFileActionPerformed
-        
-        if (unsavedChanges) {
-                    int choice = JOptionPane.showConfirmDialog(
-                        Ide.this,
-                        "You have unsaved changes. Do you want to open another file without saving?",
-                        "Confirm Exit",
-                        JOptionPane.YES_NO_OPTION
-                    );
-                    
-                    if (choice == JOptionPane.NO_OPTION) {
-                        return;
-                    }
-                    
-                    // debating if option 'CANCEL' is necessary hmmmmmm
-                    // this path connects when 'YES' is chosen
-                    //dispose(); // Close the window // might be unnecessary idunno actually
-                    
-        }
-        
-        JFileChooser fileChooser = new JFileChooser();
-
-        // use if you want to filter s.t. only .txt file can be opened
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (.bby)", "bby");
-        fileChooser.setFileFilter(filter);
-        
-        int returnValue = fileChooser.showOpenDialog(null);
-
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
-                StringBuilder content = new StringBuilder();
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    content.append(line).append("\n");
-                }
-
-                jTextArea1.setText(content.toString());
-
-                reader.close();
-                
-                savedFile = fileChooser.getSelectedFile();
-                String fileName = savedFile.getAbsolutePath();
-                if (!fileName.endsWith(".bby")) {
-                    fileName += ".bby";
-                    savedFile = new File(fileName);
-                }
-                
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error opening file: " + e.getMessage());
-            }
-        }
-        
-        unsavedChanges = false; // used so that when opening fresh file, since no changes, it is not unsaved
-        
-    }//GEN-LAST:event_btnOpenFileActionPerformed
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String code = jTextArea1.getText();
-
-        if (savedFile == null) {
-            JFileChooser fileChooser = new JFileChooser();
-
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (.bby)", "bby");
-            fileChooser.setFileFilter(filter);
-
-            int returnValue = fileChooser.showSaveDialog(null);
-
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-
-                // Ensure the file has the ".bby" extension
-                String fileName = selectedFile.getAbsolutePath();
-                if (!fileName.endsWith(".bby")) {
-                    fileName += ".bby";
-                    selectedFile = new File(fileName);
-
-                }
-
-                try {
-                    FileWriter writer = new FileWriter(selectedFile);
-                    writer.write(code);
-                    writer.close();
-                    JOptionPane.showMessageDialog(null, "File saved successfully.");
-                    savedFile = new File(fileName);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
-                }
-            }
-            unsavedChanges = false;
-        }
-
-        if (savedFile != null) {
-            try {
-                FileWriter writer = new FileWriter(savedFile);
-                writer.write(code);
-                writer.close();
-                unsavedChanges = false;
-                JOptionPane.showMessageDialog(null, "File saved successfully.");
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
-            }
-        }
-    }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void btnSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsActionPerformed
-        String code = jTextArea1.getText();
-
-        JFileChooser fileChooser = new JFileChooser();
-
-        // Create a file filter for .txt files
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (.bby)", "bby");
-        fileChooser.setFileFilter(filter);
-
-        int returnValue = fileChooser.showSaveDialog(null);
-
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-
-            // Ensure the file has the ".txt" extension
-            String fileName = selectedFile.getAbsolutePath();
-            if (!fileName.endsWith(".bby")) {
-                fileName += ".bby";
-                selectedFile = new File(fileName);
-                
-            }
-
-            try {
-                FileWriter writer = new FileWriter(selectedFile);
-                writer.write(code);
-                writer.close();
-                JOptionPane.showMessageDialog(null, "File saved successfully.");
-                savedFile = new File(fileName);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
-            }
-        }
-        unsavedChanges = false;
-
-    }//GEN-LAST:event_btnSaveAsActionPerformed
-
     
-    private void btnHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHomeMouseClicked
-//        cardLayout.show(cardPanel, "homeScreen");
-    }//GEN-LAST:event_btnHomeMouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -383,6 +187,9 @@ public class Ide extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Ide.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -393,15 +200,13 @@ public class Ide extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHome;
-    private javax.swing.JButton btnOpenFile;
-    private javax.swing.JButton btnSave;
-    private javax.swing.JButton btnSaveAs;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JPanel pnlCenter;
-    private javax.swing.JPanel pnlRoot;
-    private javax.swing.JPanel pnlSide;
+    private packages.baby.components.Home home1;
+    private javax.swing.JPanel idePnl;
+    private packages.baby.components.OpenFile openFile1;
+    private packages.baby.components.Save save1;
+    private packages.baby.components.SaveAs saveAs1;
+    private javax.swing.JPanel sidebarPnl;
     private packages.baby.components.TextArea textArea1;
+    private javax.swing.JScrollPane textAreaScrollPane;
     // End of variables declaration//GEN-END:variables
 }

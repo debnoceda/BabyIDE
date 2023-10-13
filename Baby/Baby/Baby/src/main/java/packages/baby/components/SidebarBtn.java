@@ -7,6 +7,8 @@ package packages.baby.components;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -52,6 +54,12 @@ public class SidebarBtn extends JButton{
                
             }
         });
+        
+//        this.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent evt) {
+//                
+//            }
+//        });
         
     }
     
