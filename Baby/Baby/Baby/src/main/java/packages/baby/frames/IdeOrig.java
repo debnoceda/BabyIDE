@@ -32,28 +32,28 @@ import java.io.IOException;
 
 public class IdeOrig extends javax.swing.JFrame {
     
-    private File savedFile = null; // var to get copy file to save
+    private File savedFile = null; // Determine if previously saved
     private boolean unsavedChanges = false; // var to know if update to txt is present
 
     public IdeOrig() {
         initComponents();
         
-        jTextArea1.getDocument().addDocumentListener(new DocumentListener() { // bai wa ko kahibaw asa ni ibutang, diri lang sa hehe :3
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                unsavedChanges = true;
-            }
-        });
+//        jTextArea1.getDocument().addDocumentListener(new DocumentListener() { // bai wa ko kahibaw asa ni ibutang, diri lang sa hehe :3
+//            @Override
+//            public void insertUpdate(DocumentEvent e) {
+//                unsavedChanges = true;
+//            }
+//
+//            @Override
+//            public void removeUpdate(DocumentEvent e) {
+//                unsavedChanges = true;
+//            }
+//
+//            @Override
+//            public void changedUpdate(DocumentEvent e) {
+//                unsavedChanges = true;
+//            }
+//        });
                
         addWindowListener(new WindowAdapter() { 
             @Override
@@ -99,8 +99,6 @@ public class IdeOrig extends javax.swing.JFrame {
         btnSaveAs = new javax.swing.JButton();
         pnlCenter = new javax.swing.JPanel();
         jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textArea1 = new packages.baby.components.TextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -173,17 +171,13 @@ public class IdeOrig extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jTextArea1.setBorder(null);
 
-        jScrollPane1.setViewportView(textArea1);
-
         javax.swing.GroupLayout pnlCenterLayout = new javax.swing.GroupLayout(pnlCenter);
         pnlCenter.setLayout(pnlCenterLayout);
         pnlCenterLayout.setHorizontalGroup(
             pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCenterLayout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(pnlCenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jTextArea1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE))
+                .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
                 .addGap(72, 72, 72))
         );
         pnlCenterLayout.setVerticalGroup(
@@ -191,9 +185,7 @@ public class IdeOrig extends javax.swing.JFrame {
             .addGroup(pnlCenterLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(jTextArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                .addGap(134, 134, 134)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71))
+                .addGap(292, 292, 292))
         );
 
         pnlRoot.add(pnlCenter, java.awt.BorderLayout.CENTER);
@@ -396,11 +388,9 @@ public class IdeOrig extends javax.swing.JFrame {
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSaveAs;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel pnlCenter;
     private javax.swing.JPanel pnlRoot;
     private javax.swing.JPanel pnlSide;
-    private packages.baby.components.TextArea textArea1;
     // End of variables declaration//GEN-END:variables
 }

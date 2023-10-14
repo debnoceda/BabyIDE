@@ -4,14 +4,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.IOException;
-import packages.baby.components.OpenFile;
+import packages.baby.components.CodeFile;
+import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import packages.baby.components.TextArea;
 
 /** URGENT! Topic: Unsaved Changes
  * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
@@ -23,23 +20,17 @@ import packages.baby.components.OpenFile;
  */
 
 public class Ide extends javax.swing.JFrame {
+    private CodeFile code;
+//    private String codeContent;
     
-    public Ide() {
+    
+    public Ide(CodeFile code) {
+        this.code = code;
         initComponents();
-//        openFile1 = new OpenFile(this);
-        BtnListener();
+        addDocumentListenerToTextArea();
         WindowClosingHandler();
-        
     }
     
-    public void BtnListener() {
-        openFile1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                handleWindowClosing();
-                openFile1.actionPerformed(evt);
-            }
-        });
-    }
     
     private void WindowClosingHandler() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -55,7 +46,7 @@ public class Ide extends javax.swing.JFrame {
 
     public void handleWindowClosing() {
         
-        if (textArea1 != null && textArea1.hasUnsavedChanges()) {
+        if (code != null && code.hasUnsavedChanges()) {
             int choice = JOptionPane.showConfirmDialog(Ide.this,
                 "You have unsaved changes. Do you want to exit without saving?",
                 "Confirm Exit",
@@ -70,6 +61,43 @@ public class Ide extends javax.swing.JFrame {
         System.exit(0);
 
     }
+    
+//    public void handleCodeFileClosing(){
+//        
+//        int choice = JOptionPane.showConfirmDialog(
+//            Ide.this,
+//            "You have unsaved changes. Do you want to open another file without saving?",
+//            "Confirm Exit",
+//            JOptionPane.YES_NO_OPTION
+//        );
+//
+//        if (choice == JOptionPane.NO_OPTION) {
+//            return;
+//        }
+//
+//        // debating if option 'CANCEL' is necessary hmmmmmm
+//        // this path connects when 'YES' is chosen
+//        //dispose(); // Close the window // might be unnecessary idunno actually
+//    }
+    
+    private void addDocumentListenerToTextArea() {
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                code.setUnsavedChanges(true);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                code.setUnsavedChanges(true);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                code.setUnsavedChanges(true);
+            }
+        });
+    }
 
 
     /**
@@ -82,13 +110,13 @@ public class Ide extends javax.swing.JFrame {
     private void initComponents() {
 
         idePnl = new javax.swing.JPanel();
-        textAreaScrollPane = new javax.swing.JScrollPane();
-        textArea1 = new packages.baby.components.TextArea();
         sidebarPnl = new javax.swing.JPanel();
-        saveAs1 = new packages.baby.components.SaveAs();
-        save1 = new packages.baby.components.Save();
-        home1 = new packages.baby.components.Home();
-        openFile1 = new packages.baby.components.OpenFile();
+        Home = new packages.baby.components.SidebarBtn();
+        Save = new packages.baby.components.SidebarBtn();
+        SaveAs = new packages.baby.components.SidebarBtn();
+        Open = new packages.baby.components.SidebarBtn();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(31, 31, 31));
@@ -97,17 +125,36 @@ public class Ide extends javax.swing.JFrame {
         idePnl.setForeground(new java.awt.Color(31, 31, 31));
         idePnl.setToolTipText("");
 
-        textAreaScrollPane.setViewportView(textArea1);
-
         sidebarPnl.setBackground(new java.awt.Color(31, 31, 31));
 
-        saveAs1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
+        Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
+        Home.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomeActionPerformed(evt);
+            }
+        });
 
-        save1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
+        Save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
+        Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveActionPerformed(evt);
+            }
+        });
 
-        home1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/home.png"))); // NOI18N
+        SaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
+        SaveAs.setToolTipText("");
+        SaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveAsActionPerformed(evt);
+            }
+        });
 
-        openFile1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/openFile.png"))); // NOI18N
+        Open.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/openFile.png"))); // NOI18N
+        Open.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout sidebarPnlLayout = new javax.swing.GroupLayout(sidebarPnl);
         sidebarPnl.setLayout(sidebarPnlLayout);
@@ -115,26 +162,34 @@ public class Ide extends javax.swing.JFrame {
             sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarPnlLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(home1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(openFile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveAs1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Open, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         sidebarPnlLayout.setVerticalGroup(
             sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarPnlLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(home1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(openFile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(save1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(saveAs1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Open, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        textArea.setBackground(new java.awt.Color(31, 31, 31));
+        textArea.setColumns(20);
+        textArea.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        textArea.setForeground(new java.awt.Color(255, 255, 255));
+        textArea.setRows(5);
+        textArea.setBorder(null);
+        jScrollPane1.setViewportView(textArea);
 
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
         idePnl.setLayout(idePnlLayout);
@@ -142,71 +197,82 @@ public class Ide extends javax.swing.JFrame {
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
-                .addGap(266, 266, 266))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         idePnlLayout.setVerticalGroup(
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(textAreaScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(50, 50, 50)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(410, Short.MAX_VALUE))
         );
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HomeActionPerformed
+
+    private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
+        code.save(textArea.getText());
+    }//GEN-LAST:event_SaveActionPerformed
+
+    private void SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsActionPerformed
+        
+        code.saveAs(textArea.getText());
+    }//GEN-LAST:event_SaveAsActionPerformed
+
+    private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
+        if (code.hasUnsavedChanges()){
+            int choice = JOptionPane.showConfirmDialog(
+            Ide.this,
+            "You have unsaved changes. Do you want to open another file without saving?",
+            "Confirm Exit",
+            JOptionPane.YES_NO_OPTION
+            );
+            
+            if (choice == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
+        
+        String codeContent = code.open();
+        if (codeContent != null) {
+            textArea.setText(codeContent);
+        }
+        code.setUnsavedChanges(false);
+    }//GEN-LAST:event_OpenActionPerformed
         
     
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ide.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ide.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ide.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ide.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        /* Create an instance of CodeFile */
+        CodeFile code = new CodeFile();
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ide().setVisible(true);
+                new Ide(code).setVisible(true);               
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private packages.baby.components.Home home1;
+    private packages.baby.components.SidebarBtn Home;
+    private packages.baby.components.SidebarBtn Open;
+    private packages.baby.components.SidebarBtn Save;
+    private packages.baby.components.SidebarBtn SaveAs;
     private javax.swing.JPanel idePnl;
-    private packages.baby.components.OpenFile openFile1;
-    private packages.baby.components.Save save1;
-    private packages.baby.components.SaveAs saveAs1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel sidebarPnl;
-    private packages.baby.components.TextArea textArea1;
-    private javax.swing.JScrollPane textAreaScrollPane;
+    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

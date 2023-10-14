@@ -6,9 +6,10 @@ import javax.swing.event.DocumentListener;
 
 public class TextArea extends JTextArea {
     
-    private boolean unsavedChanges = false;
+    private CodeFile code;
     
-    public TextArea() {
+    public TextArea(CodeFile code) {
+        this.code = code;
         initComponents();
         addDocumentListenerToTextArea();
     }
@@ -26,26 +27,19 @@ public class TextArea extends JTextArea {
         getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                setUnsavedChanges(true);
+                code.setUnsavedChanges(true);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                setUnsavedChanges(true);
+                code.setUnsavedChanges(true);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                setUnsavedChanges(true);
+                code.setUnsavedChanges(true);
             }
         });
     }
 
-    public boolean hasUnsavedChanges() {
-        return unsavedChanges;
-    }
-
-    public void setUnsavedChanges(boolean unsavedChanges) {
-        this.unsavedChanges = unsavedChanges;
-    }
 }
