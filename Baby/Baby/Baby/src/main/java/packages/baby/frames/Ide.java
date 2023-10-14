@@ -118,6 +118,7 @@ public class Ide extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(31, 31, 31));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         idePnl.setBackground(new java.awt.Color(51, 51, 51));
         idePnl.setForeground(new java.awt.Color(31, 31, 31));
@@ -195,8 +196,8 @@ public class Ide extends javax.swing.JFrame {
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
         idePnlLayout.setVerticalGroup(
@@ -204,8 +205,8 @@ public class Ide extends javax.swing.JFrame {
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(410, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addGap(410, 410, 410))
         );
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);

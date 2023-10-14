@@ -33,6 +33,7 @@ public class HomeScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(31, 31, 31));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         jPanel1.setBackground(new java.awt.Color(31, 31, 31));
 
@@ -69,8 +70,8 @@ public class HomeScreen extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(128, 128, 128)
-                .addComponent(babyTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 121, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(babyTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(newFileButton)
                 .addGap(18, 18, 18)
                 .addComponent(openFileButton)
