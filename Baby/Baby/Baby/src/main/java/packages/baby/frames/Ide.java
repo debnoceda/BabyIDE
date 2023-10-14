@@ -224,6 +224,12 @@ public class Ide extends javax.swing.JFrame {
 
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
         // TODO add your handling code here:
+        //opens the home screen
+        HomeScreen home = new HomeScreen ();
+        home.show(); //display homeScreen here
+        
+        dispose(); //close the current frame after opening homeScreen
+        
     }//GEN-LAST:event_HomeActionPerformed
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
