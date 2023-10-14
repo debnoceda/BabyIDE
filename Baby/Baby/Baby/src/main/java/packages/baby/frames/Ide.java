@@ -1,9 +1,16 @@
 package packages.baby.frames;
 
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import packages.baby.components.CodeFile;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -25,6 +32,7 @@ public class Ide extends javax.swing.JFrame {
     public Ide(CodeFile code) {
         this.code = code;
         initComponents();
+        setupKeyboardShortcuts();
         addDocumentListenerToTextArea();
         WindowClosingHandler();
     }
@@ -248,10 +256,40 @@ public class Ide extends javax.swing.JFrame {
         code.setUnsavedChanges(false);
     }//GEN-LAST:event_OpenActionPerformed
         
+    private void setupKeyboardShortcuts() {
+        // Set up the Save keyboard shortcut (Ctrl + S or Cmd + S)
+        setupKeyboardShortcut("Save", KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+
+        // Set up the Save As keyboard shortcut (Shift + Ctrl + S or Shift + Cmd + S)
+        setupKeyboardShortcut("Save As", KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK | Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+    }
+
+    private void setupKeyboardShortcut(String actionName, int keyCode, int modifier) {
+        Action action = new AbstractAction(actionName) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleAction(actionName);
+            }
+        };
+
+        action.putValue(Action.MNEMONIC_KEY, keyCode);
+
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(keyCode, modifier);
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, actionName);
+        getRootPane().getActionMap().put(actionName, action);
+    }
     
-    /**
-     * @param args the command line arguments
-     */
+    private void handleAction(String actionName) {
+        ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, actionName);
+
+        switch (actionName) {
+            case "Save" -> SaveActionPerformed(event);
+            case "Save As" -> SaveAsActionPerformed(event);
+            
+        }
+    }
+    
+    
     public static void main(String args[]) {
         /* Create an instance of CodeFile */
         CodeFile code = new CodeFile();
