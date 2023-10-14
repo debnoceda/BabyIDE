@@ -5,10 +5,8 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import packages.baby.components.CodeFile;
-import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import packages.baby.components.TextArea;
 
 /** URGENT! Topic: Unsaved Changes
  * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
