@@ -11,7 +11,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
-import packages.baby.components.CodeEditor;
 
 /** URGENT! Topic: Unsaved Changes
  * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
@@ -23,13 +22,10 @@ import packages.baby.components.CodeEditor;
  */
 
 public class Ide extends javax.swing.JFrame {
-    private CodeEditor editor;
 //    private String codeContent;
     
-    
-    public Ide(CodeEditor editor) {
+    public Ide() {
         setTitle("Baby");
-        this.editor = editor;
         initComponents();
         setupKeyboardShortcuts();
 //        addDocumentListenerToTextArea();
@@ -120,7 +116,7 @@ public class Ide extends javax.swing.JFrame {
         Save = new packages.baby.components.SidebarBtn();
         SaveAs = new packages.baby.components.SidebarBtn();
         Open = new packages.baby.components.SidebarBtn();
-        codeEditor1 = new packages.baby.components.CodeEditor();
+        editor = new packages.baby.components.CodeEditor();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(31, 31, 31));
@@ -195,7 +191,7 @@ public class Ide extends javax.swing.JFrame {
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(codeEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
+                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
                 .addGap(38, 38, 38))
         );
         idePnlLayout.setVerticalGroup(
@@ -203,7 +199,7 @@ public class Ide extends javax.swing.JFrame {
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(codeEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(342, 342, 342))
         );
 
@@ -302,12 +298,11 @@ public class Ide extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Create an instance of CodeFile */
         
-        CodeEditor editor = new CodeEditor();
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ide(editor).setVisible(true);               
+                new Ide().setVisible(true);               
             }
         });
     }
@@ -317,7 +312,7 @@ public class Ide extends javax.swing.JFrame {
     private packages.baby.components.SidebarBtn Open;
     private packages.baby.components.SidebarBtn Save;
     private packages.baby.components.SidebarBtn SaveAs;
-    private packages.baby.components.CodeEditor codeEditor1;
+    private packages.baby.components.CodeEditor editor;
     private javax.swing.JPanel idePnl;
     private javax.swing.JPanel sidebarPnl;
     // End of variables declaration//GEN-END:variables

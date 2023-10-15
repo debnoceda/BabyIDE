@@ -51,7 +51,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="sidebarPnl" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                  <Component id="codeEditor1" pref="789" max="32767" attributes="0"/>
+                  <Component id="editor" pref="789" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -61,7 +61,7 @@
               <Component id="sidebarPnl" alignment="0" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                  <Component id="codeEditor1" max="32767" attributes="0"/>
+                  <Component id="editor" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="342" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -150,7 +150,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="packages.baby.components.CodeEditor" name="codeEditor1">
+        <Component class="packages.baby.components.CodeEditor" name="editor">
         </Component>
       </SubComponents>
     </Container>

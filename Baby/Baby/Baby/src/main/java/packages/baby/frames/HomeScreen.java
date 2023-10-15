@@ -99,26 +99,22 @@ public class HomeScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newFileButtonActionPerformed
-//        // TODO add your handling code here:
-//        CodeFile code = new CodeFile();
-//        //opens the IDE
-//        Ide ide = new Ide(code);
-//        ide.show(); //displays the ide frame
-//
-//        dispose(); //closes the current frame
+       
+        Ide ide = new Ide();
+        ide.setVisible(true);
+
+        dispose(); //closes the current frame
 
     }//GEN-LAST:event_newFileButtonActionPerformed
 
     private void openFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileButtonActionPerformed
-//        // TODO add your handling code here:
-//        CodeFile code = new CodeFile();
-//        //opens the IDE
-//        Ide ide = new Ide(code);
-//        ide.show(); //displays the ide frame
-//
-//        ide.openAction(evt);
-//
-//        dispose(); //closes the current frame
+        
+        Ide ide = new Ide();
+        ide.setVisible(true);//displays the ide frame
+
+        ide.openAction(evt);
+
+        dispose(); //closes the current frame
     }//GEN-LAST:event_openFileButtonActionPerformed
 
     /**
