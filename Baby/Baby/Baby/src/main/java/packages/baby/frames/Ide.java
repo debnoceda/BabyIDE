@@ -28,6 +28,7 @@ public class Ide extends javax.swing.JFrame {
     
     
     public Ide(CodeEditor editor) {
+        setTitle("Baby");
         this.editor = editor;
         initComponents();
         setupKeyboardShortcuts();
