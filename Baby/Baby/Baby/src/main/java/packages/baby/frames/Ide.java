@@ -1,5 +1,6 @@
 package packages.baby.frames;
 
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -60,6 +61,16 @@ public class Ide extends javax.swing.JFrame {
         
         System.exit(0);
 
+    }
+    
+    private boolean isHomeScreenOpen() {
+        Frame[] frames = Frame.getFrames();
+        for (Frame frame : frames) {
+            if (frame instanceof HomeScreen) {
+                return true;
+            }
+        }
+        return false;
     }
     
 
@@ -172,6 +183,14 @@ public class Ide extends javax.swing.JFrame {
 
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
         
+        if (!isHomeScreenOpen()) {
+            HomeScreen home = new HomeScreen();
+            home.setVisible(true);
+        }
+        
+        else {
+            System.out.println("Failed");
+        }
 //        //opens the home screen
 //        HomeScreen home = new HomeScreen ();
 //        home.show(); //display homeScreen here
