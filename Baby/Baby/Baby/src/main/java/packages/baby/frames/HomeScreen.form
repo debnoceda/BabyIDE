@@ -50,13 +50,13 @@
                   <Component id="babyTitle" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="388" max="-2" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="426" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="newFileButton" max="32767" attributes="0"/>
-                      <Component id="openFileButton" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="openFile" max="32767" attributes="0"/>
+                      <Component id="newFile" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="432" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="414" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -66,10 +66,10 @@
                   <EmptySpace min="-2" pref="289" max="-2" attributes="0"/>
                   <Component id="babyTitle" min="-2" pref="113" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="newFileButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="newFile" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="openFileButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="306" max="32767" attributes="0"/>
+                  <Component id="openFile" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="274" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -91,38 +91,26 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="newFileButton">
+        <Component class="packages.baby.components.HomeBtn" name="newFile">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Consolas" size="20" style="1"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="New File"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
-            </Property>
-            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Default Cursor"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newFileButtonActionPerformed"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="HomeScreen_newFileButton"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="openFileButton">
-          <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Consolas" size="20" style="1"/>
             </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newFileActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="packages.baby.components.HomeBtn" name="openFile">
+          <Properties>
             <Property name="text" type="java.lang.String" value="Open"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Consolas" size="20" style="1"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openFileButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openFileActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
