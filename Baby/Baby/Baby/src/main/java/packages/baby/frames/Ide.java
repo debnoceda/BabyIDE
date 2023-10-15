@@ -224,6 +224,20 @@ public class Ide extends javax.swing.JFrame {
 
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
         // TODO add your handling code here:
+        
+        if (code.hasUnsavedChanges()){
+            int choice = JOptionPane.showConfirmDialog(
+            Ide.this,
+            "You have unsaved changes. Do you want to open another file without saving?",
+            "Confirm Exit",
+            JOptionPane.YES_NO_OPTION
+            );
+            
+            if (choice == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
+        
         //opens the home screen
         HomeScreen home = new HomeScreen ();
         home.show(); //display homeScreen here
@@ -261,7 +275,11 @@ public class Ide extends javax.swing.JFrame {
         }
         code.setUnsavedChanges(false);
     }//GEN-LAST:event_OpenActionPerformed
-        
+
+    public void openAction(java.awt.event.ActionEvent evt) {
+        OpenActionPerformed(evt);
+    }
+    
     private void setupKeyboardShortcuts() {
         // Set up the Save keyboard shortcut (Ctrl + S or Cmd + S)
         setupKeyboardShortcut("Save", KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
