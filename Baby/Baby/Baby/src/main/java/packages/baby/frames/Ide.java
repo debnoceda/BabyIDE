@@ -11,9 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
-import packages.baby.components.CodeFile;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import packages.baby.components.CodeEditor;
 
 /** URGENT! Topic: Unsaved Changes
  * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
@@ -25,15 +23,15 @@ import javax.swing.event.DocumentListener;
  */
 
 public class Ide extends javax.swing.JFrame {
-    private CodeFile code;
+    private CodeEditor editor;
 //    private String codeContent;
     
     
-    public Ide(CodeFile code) {
-        this.code = code;
+    public Ide(CodeEditor editor) {
+        this.editor = editor;
         initComponents();
         setupKeyboardShortcuts();
-        addDocumentListenerToTextArea();
+//        addDocumentListenerToTextArea();
         WindowClosingHandler();
     }
     
@@ -52,7 +50,7 @@ public class Ide extends javax.swing.JFrame {
 
     public void handleWindowClosing() {
         
-        if (code != null && code.hasUnsavedChanges()) {
+        if (editor != null && editor.hasUnsavedChanges()) {
             int choice = JOptionPane.showConfirmDialog(Ide.this,
                 "You have unsaved changes. Do you want to exit without saving?",
                 "Confirm Exit",
@@ -86,24 +84,24 @@ public class Ide extends javax.swing.JFrame {
 //        //dispose(); // Close the window // might be unnecessary idunno actually
 //    }
     
-    private void addDocumentListenerToTextArea() {
-        textArea.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                code.setUnsavedChanges(true);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                code.setUnsavedChanges(true);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                code.setUnsavedChanges(true);
-            }
-        });
-    }
+//    private void addDocumentListenerToTextArea() {
+//        textArea.getDocument().addDocumentListener(new DocumentListener() {
+//            @Override
+//            public void insertUpdate(DocumentEvent e) {
+//                code.setUnsavedChanges(true);
+//            }
+//
+//            @Override
+//            public void removeUpdate(DocumentEvent e) {
+//                code.setUnsavedChanges(true);
+//            }
+//
+//            @Override
+//            public void changedUpdate(DocumentEvent e) {
+//                code.setUnsavedChanges(true);
+//            }
+//        });
+//    }
 
 
     /**
@@ -121,8 +119,7 @@ public class Ide extends javax.swing.JFrame {
         Save = new packages.baby.components.SidebarBtn();
         SaveAs = new packages.baby.components.SidebarBtn();
         Open = new packages.baby.components.SidebarBtn();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textArea = new javax.swing.JTextArea();
+        codeEditor1 = new packages.baby.components.CodeEditor();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(31, 31, 31));
@@ -187,16 +184,8 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(456, Short.MAX_VALUE))
         );
-
-        textArea.setBackground(new java.awt.Color(31, 31, 31));
-        textArea.setColumns(20);
-        textArea.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        textArea.setForeground(new java.awt.Color(255, 255, 255));
-        textArea.setRows(5);
-        textArea.setBorder(null);
-        jScrollPane1.setViewportView(textArea);
 
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
         idePnl.setLayout(idePnlLayout);
@@ -204,17 +193,17 @@ public class Ide extends javax.swing.JFrame {
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
+                .addGap(31, 31, 31)
+                .addComponent(codeEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
+                .addGap(38, 38, 38))
         );
         idePnlLayout.setVerticalGroup(
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                .addGap(410, 410, 410))
+                .addGap(36, 36, 36)
+                .addComponent(codeEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(342, 342, 342))
         );
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
@@ -225,7 +214,7 @@ public class Ide extends javax.swing.JFrame {
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
         // TODO add your handling code here:
         
-        if (code.hasUnsavedChanges()){
+        if (editor.hasUnsavedChanges()){
             int choice = JOptionPane.showConfirmDialog(
             Ide.this,
             "You have unsaved changes. Do you want to open another file without saving?",
@@ -238,25 +227,24 @@ public class Ide extends javax.swing.JFrame {
             }
         }
         
-        //opens the home screen
-        HomeScreen home = new HomeScreen ();
-        home.show(); //display homeScreen here
-        
+//        //opens the home screen
+//        HomeScreen home = new HomeScreen ();
+//        home.show(); //display homeScreen here
+//        
 //        dispose(); //close the current frame after opening homeScreen
         
     }//GEN-LAST:event_HomeActionPerformed
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
-        code.save(textArea.getText());
+        editor.save();
     }//GEN-LAST:event_SaveActionPerformed
 
     private void SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsActionPerformed
-        
-        code.saveAs(textArea.getText());
+        editor.saveAs();
     }//GEN-LAST:event_SaveAsActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
-        if (code.hasUnsavedChanges()){
+        if (editor.hasUnsavedChanges()){
             int choice = JOptionPane.showConfirmDialog(
             Ide.this,
             "You have unsaved changes. Do you want to open another file without saving?",
@@ -269,11 +257,7 @@ public class Ide extends javax.swing.JFrame {
             }
         }
         
-        String codeContent = code.open();
-        if (codeContent != null) {
-            textArea.setText(codeContent);
-        }
-        code.setUnsavedChanges(false);
+        editor.open();
     }//GEN-LAST:event_OpenActionPerformed
 
     public void openAction(java.awt.event.ActionEvent evt) {
@@ -316,12 +300,13 @@ public class Ide extends javax.swing.JFrame {
     
     public static void main(String args[]) {
         /* Create an instance of CodeFile */
-        CodeFile code = new CodeFile();
+        
+        CodeEditor editor = new CodeEditor();
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Ide(code).setVisible(true);               
+                new Ide(editor).setVisible(true);               
             }
         });
     }
@@ -331,9 +316,8 @@ public class Ide extends javax.swing.JFrame {
     private packages.baby.components.SidebarBtn Open;
     private packages.baby.components.SidebarBtn Save;
     private packages.baby.components.SidebarBtn SaveAs;
+    private packages.baby.components.CodeEditor codeEditor1;
     private javax.swing.JPanel idePnl;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel sidebarPnl;
-    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

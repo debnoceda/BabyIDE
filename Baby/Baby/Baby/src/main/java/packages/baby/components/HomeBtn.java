@@ -15,7 +15,8 @@ import java.awt.event.ActionEvent;
  * @author Dave Noceda
  */
 public class HomeBtn extends JButton {
-        public HomeBtn() {
+    
+    public HomeBtn() {
         initComponents();
     }
     
