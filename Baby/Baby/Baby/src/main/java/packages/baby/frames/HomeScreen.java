@@ -110,9 +110,8 @@ public class HomeScreen extends javax.swing.JFrame {
     private void openFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileButtonActionPerformed
         
         Ide ide = new Ide();
-        ide.setVisible(true);//displays the ide frame
-
         ide.openAction(evt);
+        ide.setVisible(true);//displays the ide frame
 
         dispose(); //closes the current frame
     }//GEN-LAST:event_openFileButtonActionPerformed
