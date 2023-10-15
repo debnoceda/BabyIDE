@@ -30,12 +30,11 @@ public class HomeScreen extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         babyTitle = new javax.swing.JLabel();
-        newFileButton = new packages.baby.components.HomeBtn();
-        openFileButton = new packages.baby.components.HomeBtn();
+        newFileButton = new javax.swing.JButton();
+        openFileButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(31, 31, 31));
-        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         jPanel1.setBackground(new java.awt.Color(31, 31, 31));
         jPanel1.setPreferredSize(new java.awt.Dimension(1024, 768));
@@ -49,6 +48,8 @@ public class HomeScreen extends javax.swing.JFrame {
 
         newFileButton.setFont(new java.awt.Font("Consolas", 1, 20)); // NOI18N
         newFileButton.setText("New File");
+        newFileButton.setBorder(null);
+        newFileButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         newFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newFileButtonActionPerformed(evt);
@@ -57,7 +58,7 @@ public class HomeScreen extends javax.swing.JFrame {
 
         openFileButton.setFont(new java.awt.Font("Consolas", 1, 20)); // NOI18N
         openFileButton.setText("Open");
-        openFileButton.setBorderPainted(false);
+        openFileButton.setBorder(null);
         openFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openFileButtonActionPerformed(evt);
@@ -88,12 +89,13 @@ public class HomeScreen extends javax.swing.JFrame {
                 .addComponent(newFileButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(openFileButton)
-                .addContainerGap(292, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        pack();
+        setSize(new java.awt.Dimension(1038, 775));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void newFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newFileButtonActionPerformed
@@ -159,7 +161,7 @@ public class HomeScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel babyTitle;
     private javax.swing.JPanel jPanel1;
-    private packages.baby.components.HomeBtn newFileButton;
-    private packages.baby.components.HomeBtn openFileButton;
+    private javax.swing.JButton newFileButton;
+    private javax.swing.JButton openFileButton;
     // End of variables declaration//GEN-END:variables
 }
