@@ -28,7 +28,6 @@ public class Ide extends javax.swing.JFrame {
         setTitle("Baby");
         initComponents();
         setupKeyboardShortcuts();
-//        addDocumentListenerToTextArea();
         WindowClosingHandler();
     }
     
@@ -63,43 +62,6 @@ public class Ide extends javax.swing.JFrame {
 
     }
     
-//    public void handleCodeFileClosing(){
-//        
-//        int choice = JOptionPane.showConfirmDialog(
-//            Ide.this,
-//            "You have unsaved changes. Do you want to open another file without saving?",
-//            "Confirm Exit",
-//            JOptionPane.YES_NO_OPTION
-//        );
-//
-//        if (choice == JOptionPane.NO_OPTION) {
-//            return;
-//        }
-//
-//        // debating if option 'CANCEL' is necessary hmmmmmm
-//        // this path connects when 'YES' is chosen
-//        //dispose(); // Close the window // might be unnecessary idunno actually
-//    }
-    
-//    private void addDocumentListenerToTextArea() {
-//        textArea.getDocument().addDocumentListener(new DocumentListener() {
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                code.setUnsavedChanges(true);
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                code.setUnsavedChanges(true);
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                code.setUnsavedChanges(true);
-//            }
-//        });
-//    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -209,20 +171,6 @@ public class Ide extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
-        // TODO add your handling code here:
-        
-        if (editor.hasUnsavedChanges()){
-            int choice = JOptionPane.showConfirmDialog(
-            Ide.this,
-            "You have unsaved changes. Do you want to open another file without saving?",
-            "Confirm Exit",
-            JOptionPane.YES_NO_OPTION
-            );
-            
-            if (choice == JOptionPane.NO_OPTION) {
-                return;
-            }
-        }
         
 //        //opens the home screen
 //        HomeScreen home = new HomeScreen ();
@@ -295,17 +243,15 @@ public class Ide extends javax.swing.JFrame {
     }
     
     
-    public static void main(String args[]) {
-        /* Create an instance of CodeFile */
-        
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Ide().setVisible(true);               
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Ide().setVisible(true);               
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private packages.baby.components.SidebarBtn Home;
