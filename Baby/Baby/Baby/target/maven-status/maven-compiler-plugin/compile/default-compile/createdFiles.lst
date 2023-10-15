@@ -1,5 +1,6 @@
 packages\baby\frames\Ide$5.class
 packages\baby\frames\IdeOrig$1.class
+packages\baby\components\HomeBtn$1.class
 packages\baby\frames\LoadingScreen.class
 packages\baby\frames\IdeOrig$6.class
 packages\baby\app\Main.class
@@ -14,6 +15,7 @@ packages\baby\frames\Ide.class
 packages\baby\frames\LoadingScreen$1.class
 packages\baby\frames\IdeOrig$5.class
 packages\baby\app\Main$1.class
+packages\baby\components\HomeBtn.class
 packages\baby\frames\HomeScreen$3.class
 packages\baby\frames\HomeScreen.class
 packages\baby\components\CodeFile.class

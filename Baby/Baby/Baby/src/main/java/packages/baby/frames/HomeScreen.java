@@ -30,14 +30,15 @@ public class HomeScreen extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         babyTitle = new javax.swing.JLabel();
-        newFileButton = new javax.swing.JButton();
-        openFileButton = new javax.swing.JButton();
+        newFileButton = new packages.baby.components.HomeBtn();
+        openFileButton = new packages.baby.components.HomeBtn();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(31, 31, 31));
         setPreferredSize(new java.awt.Dimension(1024, 768));
 
         jPanel1.setBackground(new java.awt.Color(31, 31, 31));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1024, 768));
 
         babyTitle.setFont(new java.awt.Font("Consolas", 1, 112)); // NOI18N
         babyTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -67,27 +68,27 @@ public class HomeScreen extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(256, 256, 256)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(openFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(babyTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(390, 390, 390)
+                .addComponent(babyTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(388, 388, 388))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(426, 426, 426)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(newFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(openFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(432, 432, 432))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(babyTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 109, Short.MAX_VALUE)
+                .addGap(289, 289, 289)
+                .addComponent(babyTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newFileButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(openFileButton)
-                .addGap(83, 83, 83))
+                .addContainerGap(292, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -101,9 +102,9 @@ public class HomeScreen extends javax.swing.JFrame {
         //opens the IDE
         Ide ide = new Ide(code);
         ide.show(); //displays the ide frame
-        
+
         dispose(); //closes the current frame
-        
+
     }//GEN-LAST:event_newFileButtonActionPerformed
 
     private void openFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileButtonActionPerformed
@@ -112,9 +113,9 @@ public class HomeScreen extends javax.swing.JFrame {
         //opens the IDE
         Ide ide = new Ide(code);
         ide.show(); //displays the ide frame
-        
+
         ide.openAction(evt);
-        
+
         dispose(); //closes the current frame
     }//GEN-LAST:event_openFileButtonActionPerformed
 
@@ -158,7 +159,7 @@ public class HomeScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel babyTitle;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton newFileButton;
-    private javax.swing.JButton openFileButton;
+    private packages.baby.components.HomeBtn newFileButton;
+    private packages.baby.components.HomeBtn openFileButton;
     // End of variables declaration//GEN-END:variables
 }

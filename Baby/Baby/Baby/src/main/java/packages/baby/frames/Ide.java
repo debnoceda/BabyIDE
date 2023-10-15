@@ -242,7 +242,7 @@ public class Ide extends javax.swing.JFrame {
         HomeScreen home = new HomeScreen ();
         home.show(); //display homeScreen here
         
-        dispose(); //close the current frame after opening homeScreen
+//        dispose(); //close the current frame after opening homeScreen
         
     }//GEN-LAST:event_HomeActionPerformed
 

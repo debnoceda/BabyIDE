@@ -12,16 +12,15 @@ import java.awt.event.ActionEvent;
 
 /**
  *
- * @author liaminakigillamac
+ * @author Dave Noceda
  */
-public class SidebarBtn extends JButton{
-    
-    public SidebarBtn() {
+public class HomeBtn extends JButton {
+        public HomeBtn() {
         initComponents();
     }
     
     private void initComponents() {
-        setBackground(new java.awt.Color(31, 31, 31));
+        setBackground(new java.awt.Color(255, 255, 255));
         setBorder(null);
         setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         setPreferredSize(new java.awt.Dimension(40, 40));
@@ -51,8 +50,8 @@ public class SidebarBtn extends JButton{
 
             @Override
             public void mouseExited(MouseEvent e) {
-               setBackground(new java.awt.Color(31, 31, 31));
-                setBorder(null);
+               setBackground(new java.awt.Color(255, 255, 255));
+               setBorder(null);
             }
         });
         
@@ -63,5 +62,4 @@ public class SidebarBtn extends JButton{
 //        });
         
     }
-    
 }
