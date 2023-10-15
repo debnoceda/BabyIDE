@@ -124,7 +124,7 @@ public class CodeEditor extends JScrollPane{
     }
 
     private static void customizeTextArea(JTextArea textArea) {
-        textArea.setMargin(new Insets(0, 0, 0, 0));
+        textArea.setMargin(new Insets(-6, 0, 0, 0));
         textArea.setFont(new Font("Arial", Font.PLAIN, 14));
         textArea.setForeground(new Color(255, 255, 255));
         textArea.setBackground(new Color(31, 31, 31));
