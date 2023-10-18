@@ -224,7 +224,7 @@
               <Component id="sidebarPnl" alignment="0" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                  <Component id="editor" max="32767" attributes="0"/>
+                  <Component id="editor" pref="366" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="342" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -248,6 +248,8 @@
                           <Component id="SaveAs" min="-2" max="-2" attributes="0"/>
                           <Component id="Save" min="-2" max="-2" attributes="0"/>
                           <Component id="Home" min="-2" max="-2" attributes="0"/>
+                          <Component id="TempUndo" min="-2" max="-2" attributes="0"/>
+                          <Component id="TempRedo" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="15" max="32767" attributes="0"/>
                   </Group>
@@ -264,7 +266,11 @@
                       <Component id="Save" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="SaveAs" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="519" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="TempUndo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="TempRedo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -309,6 +315,30 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OpenActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="packages.baby.components.SidebarBtn" name="TempUndo">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Undo"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TempUndoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="packages.baby.components.SidebarBtn" name="TempRedo">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Redo"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TempRedoActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

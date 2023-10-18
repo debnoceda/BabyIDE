@@ -11,22 +11,28 @@ import java.awt.*;
 import javax.swing.border.Border;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.JTextComponent;
+import javax.swing.undo.UndoManager;
 
 public class CodeEditor extends JScrollPane{
     
     private CodeFile code;
     private JTextArea textArea;
     private LineNumber lineNumber;
+    private UndoManager undoManager;
     
 
     public CodeEditor(){
         code = new CodeFile();
         textArea = new JTextArea();
         lineNumber = new LineNumber(textArea);
+        undoManager = new UndoManager(); // Create an UndoManager
         
         initComponents();
         
         addDocumentListenerToTextArea();
+        
+        // Attach the UndoManager to the textArea's document
+        textArea.getDocument().addUndoableEditListener(undoManager);
 
     }
     
@@ -48,6 +54,18 @@ public class CodeEditor extends JScrollPane{
         code.setUnsavedChanges(false);
     }
     
+    public void undo() {
+        if (undoManager.canUndo()) {
+            undoManager.undo(); // Perform undo through UndoManager
+        }
+    }
+
+    public void redo() {
+        if (undoManager.canRedo()) {
+            undoManager.redo(); // Perform redo through UndoManager
+        }
+    }
+        
     public boolean hasUnsavedChanges() {
         return code.hasUnsavedChanges();
     }
@@ -79,12 +97,12 @@ public class CodeEditor extends JScrollPane{
             @Override
             public void insertUpdate(DocumentEvent e) {
                 lineNumber.updateLineNumbers();
-                code.setUnsavedChanges(true);
+                code.setUnsavedChanges(true);               
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                lineNumber.updateLineNumbers();
+                lineNumber.updateLineNumbers();               
                 code.setUnsavedChanges(true);
             }
 

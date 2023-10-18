@@ -90,6 +90,8 @@ public class Ide extends javax.swing.JFrame {
         Save = new packages.baby.components.SidebarBtn();
         SaveAs = new packages.baby.components.SidebarBtn();
         Open = new packages.baby.components.SidebarBtn();
+        TempUndo = new packages.baby.components.SidebarBtn();
+        TempRedo = new packages.baby.components.SidebarBtn();
         editor = new packages.baby.components.CodeEditor();
         jMenuBar1 = new javax.swing.JMenuBar();
         Baby = new javax.swing.JMenu();
@@ -151,6 +153,24 @@ public class Ide extends javax.swing.JFrame {
             }
         });
 
+        TempUndo.setForeground(new java.awt.Color(255, 255, 255));
+        TempUndo.setText("Undo");
+        TempUndo.setToolTipText("");
+        TempUndo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TempUndoActionPerformed(evt);
+            }
+        });
+
+        TempRedo.setForeground(new java.awt.Color(255, 255, 255));
+        TempRedo.setText("Redo");
+        TempRedo.setToolTipText("");
+        TempRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TempRedoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout sidebarPnlLayout = new javax.swing.GroupLayout(sidebarPnl);
         sidebarPnl.setLayout(sidebarPnlLayout);
         sidebarPnlLayout.setHorizontalGroup(
@@ -161,7 +181,9 @@ public class Ide extends javax.swing.JFrame {
                     .addComponent(Open, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TempUndo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TempRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         sidebarPnlLayout.setVerticalGroup(
@@ -175,7 +197,11 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(519, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TempUndo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(TempRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
@@ -193,7 +219,7 @@ public class Ide extends javax.swing.JFrame {
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                 .addGap(342, 342, 342))
         );
 
@@ -374,6 +400,14 @@ public class Ide extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_quitBabyActionPerformed
 
+    private void TempUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempUndoActionPerformed
+        editor.undo();
+    }//GEN-LAST:event_TempUndoActionPerformed
+
+    private void TempRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempRedoActionPerformed
+        editor.redo();
+    }//GEN-LAST:event_TempRedoActionPerformed
+
     public void openAction(java.awt.event.ActionEvent evt) {
         OpenActionPerformed(evt);
     }
@@ -412,15 +446,7 @@ public class Ide extends javax.swing.JFrame {
     }
     
     
-//    public static void main(String args[]) {
-//        
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Ide().setVisible(true);               
-//            }
-//        });
-//    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu Baby;
@@ -428,6 +454,8 @@ public class Ide extends javax.swing.JFrame {
     private packages.baby.components.SidebarBtn Open;
     private packages.baby.components.SidebarBtn Save;
     private packages.baby.components.SidebarBtn SaveAs;
+    private packages.baby.components.SidebarBtn TempRedo;
+    private packages.baby.components.SidebarBtn TempUndo;
     private javax.swing.JMenuItem aboutBaby;
     private javax.swing.JMenuItem closeFile;
     private javax.swing.JMenuItem copy;

@@ -17,7 +17,7 @@ public class CodeFile {
 
     private boolean unsavedChanges = false;
     private File savedFile = null; // Determine if previously saved
-
+    
     public CodeFile() {
     }
     
@@ -133,7 +133,7 @@ public class CodeFile {
             
     }
     
-    
+
 
 
 
