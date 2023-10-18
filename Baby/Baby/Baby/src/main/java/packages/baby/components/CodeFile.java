@@ -34,6 +34,7 @@ public class CodeFile {
     public String open() {
         
         StringBuilder content = new StringBuilder();
+        boolean opened = false; // Flag to track whether a file was successfully opened
 
         // Create a file chooser dialog
         JFileChooser fileChooser = new JFileChooser();
@@ -73,6 +74,8 @@ public class CodeFile {
                     savedFile = new File(fileName);
                 }
                 
+                opened = true; // File was successfully opened
+                
                 return content.toString();
                                             
             } catch (IOException e) {
@@ -81,6 +84,9 @@ public class CodeFile {
             }
         }
         
+        if (!opened) {
+            unsavedChanges = true;
+        }
         return null;
     }
     

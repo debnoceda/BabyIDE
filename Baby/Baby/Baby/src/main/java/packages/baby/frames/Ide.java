@@ -1,9 +1,12 @@
 package packages.baby.frames;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -12,11 +15,16 @@ import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -37,6 +45,120 @@ public class Ide extends javax.swing.JFrame {
         this.setIconImage(img);
     }
     
+        public class CustomCloseDialog extends JDialog {
+        private int dialogResult = -1; // Default: Cancel
+
+        public CustomCloseDialog(JFrame parentFrame) {
+            super(parentFrame, "Confirm Exit", true);
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            setLayout(new BorderLayout());
+
+            JPanel messagePanel = new JPanel();
+            JLabel messageLabel = new JLabel("You have unsaved changes. What do you want to do?");
+            messagePanel.add(messageLabel);
+
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            JButton deleteButton = new JButton("Delete");
+            JButton saveButton = new JButton("Save");
+            JButton cancelButton = new JButton("Cancel");
+
+            deleteButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogResult = 0; // Delete
+                    dispose();
+                }
+            });
+
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogResult = 1; // Save
+                    dispose();
+                }
+            });
+
+            cancelButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogResult = 2; // Cancel
+                    dispose();
+                }
+            });
+
+            buttonPanel.add(deleteButton);
+            buttonPanel.add(saveButton);
+            buttonPanel.add(cancelButton);
+
+            add(messagePanel, BorderLayout.CENTER);
+            add(buttonPanel, BorderLayout.SOUTH);
+
+            pack();
+            setLocationRelativeTo(parentFrame);
+        }
+
+        public int getDialogResult() {
+            return dialogResult;
+        }
+    }
+
+    public class CustomOpenDialog extends JDialog {
+        private int dialogResult = -1; // Default: Cancel
+
+        public CustomOpenDialog(JFrame parentFrame) {
+            super(parentFrame, "Confirm Open New File?", true);
+            setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            setLayout(new BorderLayout());
+
+            JPanel messagePanel = new JPanel();
+            JLabel messageLabel = new JLabel("You have unsaved changes. What do you want to do?");
+            messagePanel.add(messageLabel);
+
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            JButton openFileButton = new JButton("Open File");
+            JButton saveButton = new JButton("Save");
+            JButton cancelButton = new JButton("Cancel");
+
+            openFileButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogResult = 0; // Open File
+                    dispose();
+                }
+            });
+
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogResult = 1; // Save
+                    dispose();
+                }
+            });
+
+            cancelButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialogResult = 2; // Cancel
+                    dispose();
+                }
+            });
+
+            buttonPanel.add(openFileButton);
+            buttonPanel.add(saveButton);
+            buttonPanel.add(cancelButton);
+
+            add(messagePanel, BorderLayout.CENTER);
+            add(buttonPanel, BorderLayout.SOUTH);
+
+            pack();
+            setLocationRelativeTo(parentFrame);
+        }
+
+        public int getDialogResult() {
+            return dialogResult;
+        }
+    }
+
     
     private void WindowClosingHandler() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -53,19 +175,24 @@ public class Ide extends javax.swing.JFrame {
     public void handleWindowClosing() {
         
         if (editor != null && editor.hasUnsavedChanges()) {
-            int choice = JOptionPane.showConfirmDialog(Ide.this,
-                "You have unsaved changes. Do you want to exit without saving?",
-                "Confirm Exit",
-                JOptionPane.YES_NO_OPTION
-            );
+            CustomCloseDialog closeDialog = new CustomCloseDialog(this);
+            closeDialog.setVisible(true);
 
-            if (choice == JOptionPane.NO_OPTION) {
+            int choice = closeDialog.getDialogResult();
+
+            if (choice == 0) {
+                // User clicked "Delete"
+                dispose();
+            } else if (choice == 1) {
+                // User clicked "Save"
+                editor.save();
+                return;
+            } else if (choice == 2) {
+                // User clicked "Cancel" or closed the dialog
                 return;
             }
         }
-        
         dispose();
-
     }
     
     //checks if the HomeScreen window is open
@@ -373,14 +500,19 @@ public class Ide extends javax.swing.JFrame {
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
         if (editor.hasUnsavedChanges()){
-            int choice = JOptionPane.showConfirmDialog(
-            Ide.this,
-            "You have unsaved changes. Do you want to open another file without saving?",
-            "Confirm Exit",
-            JOptionPane.YES_NO_OPTION
-            );
-            
-            if (choice == JOptionPane.NO_OPTION) {
+            CustomOpenDialog closeDialog = new CustomOpenDialog(this);
+            closeDialog.setVisible(true);
+
+            int choice = closeDialog.getDialogResult();
+
+            if (choice == 0) {
+                // User clicked "Open File"
+                editor.open();
+            } else if (choice == 1) {
+                // User clicked "Save"
+                editor.save();
+            } else if (choice == 2) {
+                // User clicked "Cancel" or closed the dialog
                 return;
             }
         }
