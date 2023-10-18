@@ -32,6 +32,8 @@ public class CodeEditor extends JScrollPane{
         
         addDocumentListenerToTextArea();
         
+        
+        
         // Attach the UndoManager to the textArea's document
         textArea.getDocument().addUndoableEditListener(undoManager);
         textArea.setTabSize(2);
@@ -66,6 +68,10 @@ public class CodeEditor extends JScrollPane{
         if (undoManager.canRedo()) {
             undoManager.redo(); // Perform redo through UndoManager
         }
+    }
+    
+    public void resetUndoManager(){
+        undoManager.discardAllEdits();
     }
     
     public void close() {

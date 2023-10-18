@@ -643,7 +643,8 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.open();
-        updateFileName();  
+        updateFileName();
+        editor.resetUndoManager();
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
@@ -666,7 +667,8 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.open();
-        updateFileName();  
+        updateFileName();
+        editor.resetUndoManager();
     }//GEN-LAST:event_openFileActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
@@ -700,7 +702,8 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.close();
-        updateFileName();  
+        updateFileName();
+        editor.resetUndoManager();
     }//GEN-LAST:event_closeFileActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
