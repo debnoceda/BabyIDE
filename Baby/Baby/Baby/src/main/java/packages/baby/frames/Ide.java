@@ -63,7 +63,8 @@ public class Ide extends javax.swing.JFrame {
 
     }
     
-    private boolean isHomeScreenOpen() {
+    //checks if the HomeScreen window is open
+    public boolean isHomeScreenOpen() {
         Frame[] frames = Frame.getFrames();
         for (Frame frame : frames) {
             if (frame instanceof HomeScreen) {
@@ -90,8 +91,28 @@ public class Ide extends javax.swing.JFrame {
         SaveAs = new packages.baby.components.SidebarBtn();
         Open = new packages.baby.components.SidebarBtn();
         editor = new packages.baby.components.CodeEditor();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        Baby = new javax.swing.JMenu();
+        aboutBaby = new javax.swing.JMenuItem();
+        quitBaby = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        newWindow = new javax.swing.JMenuItem();
+        newTab = new javax.swing.JMenuItem();
+        openFile = new javax.swing.JMenuItem();
+        closeFile = new javax.swing.JMenuItem();
+        save = new javax.swing.JMenuItem();
+        saveAs = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        undo = new javax.swing.JMenuItem();
+        redo = new javax.swing.JMenuItem();
+        cut = new javax.swing.JMenuItem();
+        copy = new javax.swing.JMenuItem();
+        paste = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        runCode = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Baby");
         setBackground(new java.awt.Color(31, 31, 31));
         setPreferredSize(new java.awt.Dimension(1024, 768));
 
@@ -154,7 +175,7 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(456, Short.MAX_VALUE))
+                .addContainerGap(519, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
@@ -164,7 +185,7 @@ public class Ide extends javax.swing.JFrame {
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
+                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
                 .addGap(38, 38, 38))
         );
         idePnlLayout.setVerticalGroup(
@@ -178,7 +199,111 @@ public class Ide extends javax.swing.JFrame {
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
 
+        Baby.setText("Baby");
+
+        aboutBaby.setText("About Baby");
+        aboutBaby.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutBabyActionPerformed(evt);
+            }
+        });
+        Baby.add(aboutBaby);
+
+        quitBaby.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        quitBaby.setText("Quit Baby");
+        quitBaby.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitBabyActionPerformed(evt);
+            }
+        });
+        Baby.add(quitBaby);
+
+        jMenuBar1.add(Baby);
+
+        jMenu1.setText("File");
+
+        newWindow.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        newWindow.setText("New Window");
+        newWindow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newWindowActionPerformed(evt);
+            }
+        });
+        jMenu1.add(newWindow);
+
+        newTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        newTab.setText("New Tab");
+        newTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTabActionPerformed(evt);
+            }
+        });
+        jMenu1.add(newTab);
+
+        openFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        openFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/openFile.png"))); // NOI18N
+        openFile.setText("Open File");
+        openFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openFileActionPerformed(evt);
+            }
+        });
+        jMenu1.add(openFile);
+
+        closeFile.setText("Close File");
+        jMenu1.add(closeFile);
+
+        save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
+        save.setText("Save");
+        jMenu1.add(save);
+
+        saveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
+        saveAs.setText("Save As");
+        jMenu1.add(saveAs);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+
+        undo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        undo.setText("Undo");
+        undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(undo);
+
+        redo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        redo.setText("Redo");
+        jMenu2.add(redo);
+
+        cut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        cut.setText("Cut");
+        jMenu2.add(cut);
+
+        copy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        copy.setText("Copy");
+        jMenu2.add(copy);
+
+        paste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        paste.setText("Paste");
+        jMenu2.add(paste);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Run");
+
+        runCode.setText("Run Code");
+        jMenu3.add(runCode);
+
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
@@ -223,6 +348,31 @@ public class Ide extends javax.swing.JFrame {
         
         editor.open();
     }//GEN-LAST:event_OpenActionPerformed
+
+    private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newWindowActionPerformed
+
+    private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_openFileActionPerformed
+
+    private void newTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTabActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newTabActionPerformed
+
+    private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_undoActionPerformed
+
+    private void aboutBabyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBabyActionPerformed
+        // TODO add your handling code here:
+        new AboutBaby ().setVisible(true);
+    }//GEN-LAST:event_aboutBabyActionPerformed
+
+    private void quitBabyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBabyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quitBabyActionPerformed
 
     public void openAction(java.awt.event.ActionEvent evt) {
         OpenActionPerformed(evt);
@@ -273,12 +423,31 @@ public class Ide extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Baby;
     private packages.baby.components.SidebarBtn Home;
     private packages.baby.components.SidebarBtn Open;
     private packages.baby.components.SidebarBtn Save;
     private packages.baby.components.SidebarBtn SaveAs;
+    private javax.swing.JMenuItem aboutBaby;
+    private javax.swing.JMenuItem closeFile;
+    private javax.swing.JMenuItem copy;
+    private javax.swing.JMenuItem cut;
     private packages.baby.components.CodeEditor editor;
     private javax.swing.JPanel idePnl;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem newTab;
+    private javax.swing.JMenuItem newWindow;
+    private javax.swing.JMenuItem openFile;
+    private javax.swing.JMenuItem paste;
+    private javax.swing.JMenuItem quitBaby;
+    private javax.swing.JMenuItem redo;
+    private javax.swing.JMenuItem runCode;
+    private javax.swing.JMenuItem save;
+    private javax.swing.JMenuItem saveAs;
     private javax.swing.JPanel sidebarPnl;
+    private javax.swing.JMenuItem undo;
     // End of variables declaration//GEN-END:variables
 }
