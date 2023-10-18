@@ -211,11 +211,11 @@
                   <Component id="sidebarPnl" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="fileNamePanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="704" max="32767" attributes="0"/>
-                      </Group>
                       <Component id="jSplitPane1" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="fileNamePanel" min="-2" pref="161" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="781" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -225,7 +225,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="sidebarPnl" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
-                  <Component id="fileNamePanel" min="-2" max="-2" attributes="0"/>
+                  <Component id="fileNamePanel" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSplitPane1" max="32767" attributes="0"/>
               </Group>
@@ -251,7 +251,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="TempRedo2" min="-2" max="-2" attributes="0"/>
+                          <Component id="Run" min="-2" max="-2" attributes="0"/>
                           <Component id="jSeparator6" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="jSeparator5" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="jSeparator4" min="-2" pref="40" max="-2" attributes="0"/>
@@ -288,7 +288,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jSeparator6" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TempRedo2" min="-2" max="-2" attributes="0"/>
+                      <Component id="Run" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="221" max="32767" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
@@ -385,7 +385,7 @@
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator6">
             </Component>
-            <Component class="packages.baby.components.SidebarBtn" name="TempRedo2">
+            <Component class="packages.baby.components.SidebarBtn" name="Run">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -396,8 +396,8 @@
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
-                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="TempRedo2MouseEntered"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TempRedo2ActionPerformed"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="RunMouseEntered"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RunActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -413,9 +413,9 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="fileName" min="-2" pref="193" max="-2" attributes="0"/>
-                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -424,7 +424,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="fileName" min="-2" pref="31" max="-2" attributes="0"/>
-                      <EmptySpace pref="9" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

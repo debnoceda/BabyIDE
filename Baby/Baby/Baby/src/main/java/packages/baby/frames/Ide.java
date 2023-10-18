@@ -236,7 +236,7 @@ public class Ide extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
-        TempRedo2 = new packages.baby.components.SidebarBtn();
+        Run = new packages.baby.components.SidebarBtn();
         fileNamePanel = new javax.swing.JPanel();
         fileName = new javax.swing.JTextArea();
         jSplitPane1 = new javax.swing.JSplitPane();
@@ -351,17 +351,17 @@ public class Ide extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sidebarLogo.png"))); // NOI18N
 
-        TempRedo2.setForeground(new java.awt.Color(255, 255, 255));
-        TempRedo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.png"))); // NOI18N
-        TempRedo2.setToolTipText("");
-        TempRedo2.addMouseListener(new java.awt.event.MouseAdapter() {
+        Run.setForeground(new java.awt.Color(255, 255, 255));
+        Run.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.png"))); // NOI18N
+        Run.setToolTipText("");
+        Run.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                TempRedo2MouseEntered(evt);
+                RunMouseEntered(evt);
             }
         });
-        TempRedo2.addActionListener(new java.awt.event.ActionListener() {
+        Run.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TempRedo2ActionPerformed(evt);
+                RunActionPerformed(evt);
             }
         });
 
@@ -376,7 +376,7 @@ public class Ide extends javax.swing.JFrame {
             .addGroup(sidebarPnlLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(TempRedo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Run, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -410,7 +410,7 @@ public class Ide extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TempRedo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Run, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(47, 47, 47))
@@ -429,16 +429,16 @@ public class Ide extends javax.swing.JFrame {
         fileNamePanelLayout.setHorizontalGroup(
             fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(fileName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         fileNamePanelLayout.setVerticalGroup(
             fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(fileName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jSplitPane1.setBackground(new java.awt.Color(51, 51, 51));
@@ -458,17 +458,17 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSplitPane1)
                     .addGroup(idePnlLayout.createSequentialGroup()
-                        .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 704, Short.MAX_VALUE))
-                    .addComponent(jSplitPane1))
+                        .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 781, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         idePnlLayout.setVerticalGroup(
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
-                .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1))
         );
@@ -761,13 +761,13 @@ public class Ide extends javax.swing.JFrame {
         redo.setToolTipText("Redo");
     }//GEN-LAST:event_TempRedoMouseEntered
 
-    private void TempRedo2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TempRedo2MouseEntered
+    private void RunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RunMouseEntered
         // TODO add your handling code here:
-    }//GEN-LAST:event_TempRedo2MouseEntered
+    }//GEN-LAST:event_RunMouseEntered
 
-    private void TempRedo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempRedo2ActionPerformed
+    private void RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TempRedo2ActionPerformed
+    }//GEN-LAST:event_RunActionPerformed
           
 
     public void openAction(java.awt.event.ActionEvent evt) {
@@ -835,10 +835,10 @@ public class Ide extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private packages.baby.components.SidebarBtn Home;
     private packages.baby.components.SidebarBtn Open;
+    private packages.baby.components.SidebarBtn Run;
     private packages.baby.components.SidebarBtn Save;
     private packages.baby.components.SidebarBtn SaveAs;
     private packages.baby.components.SidebarBtn TempRedo;
-    private packages.baby.components.SidebarBtn TempRedo2;
     private packages.baby.components.SidebarBtn TempUndo;
     private javax.swing.JMenuItem closeFile;
     private javax.swing.JMenuItem copy;
