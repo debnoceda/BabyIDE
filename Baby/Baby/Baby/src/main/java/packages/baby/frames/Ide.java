@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -14,6 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.text.BadLocationException;
 
 /**
  *
@@ -329,14 +332,29 @@ public class Ide extends javax.swing.JFrame {
 
         cut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         cut.setText("Cut");
+        cut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cutActionPerformed(evt);
+            }
+        });
         jMenu2.add(cut);
 
         copy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         copy.setText("Copy");
+        copy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyActionPerformed(evt);
+            }
+        });
         jMenu2.add(copy);
 
         paste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         paste.setText("Paste");
+        paste.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasteActionPerformed(evt);
+            }
+        });
         jMenu2.add(paste);
 
         jMenuBar1.add(jMenu2);
@@ -470,9 +488,35 @@ public class Ide extends javax.swing.JFrame {
         editor.save();
     }//GEN-LAST:event_saveActionPerformed
 
+
     private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
         editor.saveAs();
     }//GEN-LAST:event_saveAsActionPerformed
+
+
+    private void cutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutActionPerformed
+        try {
+            editor.cut();
+        } catch (BadLocationException ex) {
+            Logger.getLogger(Ide.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cutActionPerformed
+
+    private void copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyActionPerformed
+        System.out.println("Mid");
+        try {
+            editor.copy();
+        } catch (BadLocationException ex) {
+            Logger.getLogger(Ide.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_copyActionPerformed
+
+    private void pasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasteActionPerformed
+        editor.paste();
+
+    }//GEN-LAST:event_pasteActionPerformed
+
+    
 
     public void openAction(java.awt.event.ActionEvent evt) {
         OpenActionPerformed(evt);
@@ -480,7 +524,7 @@ public class Ide extends javax.swing.JFrame {
     
     private void setupKeyboardShortcuts() {
         int menuShortcutKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
-        
+          
         // Set up the Save keyboard shortcut (Ctrl + S or Cmd + S)
         setupKeyboardShortcut("Save", KeyEvent.VK_S, menuShortcutKey);
 
@@ -498,6 +542,9 @@ public class Ide extends javax.swing.JFrame {
         
         // Set up the Open File keyboard shortcut (Ctrl + O) or Cmd + O)
         setupKeyboardShortcut("Open File", KeyEvent.VK_O, menuShortcutKey);
+        
+        // Set up the Open File keyboard shortcut (Ctrl + C) or Cmd + C)
+        setupKeyboardShortcut("Copy", KeyEvent.VK_C, menuShortcutKey);
     }
 
     private void setupKeyboardShortcut(String actionName, int keyCode, int modifier) {
@@ -526,6 +573,7 @@ public class Ide extends javax.swing.JFrame {
             case "Redo" -> TempRedoActionPerformed(event);
             case "New Window" -> newWindowActionPerformed(event);
             case "Open File" -> OpenActionPerformed(event);
+            case "Copy" -> copyActionPerformed(event);
         }
     }
     

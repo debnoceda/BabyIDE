@@ -9,6 +9,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import javax.swing.border.Border;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.JTextComponent;
 import javax.swing.undo.UndoManager;
@@ -33,6 +34,7 @@ public class CodeEditor extends JScrollPane{
         
         // Attach the UndoManager to the textArea's document
         textArea.getDocument().addUndoableEditListener(undoManager);
+        textArea.setTabSize(2);
 
     }
     
@@ -70,6 +72,47 @@ public class CodeEditor extends JScrollPane{
         code.close();
         textArea.setText("");
     }
+    
+    public void copy() throws BadLocationException{
+        if (isSelectionEmpty()){
+            selectLineAtCaretPosition();
+        }
+
+        textArea.copy();
+    }
+    
+    public void paste() {
+        textArea.paste();
+    }
+    
+    public void cut() throws BadLocationException{
+        if (isSelectionEmpty()){
+            selectLineAtCaretPosition();
+        }
+        textArea.cut();
+    }
+    
+    public boolean isSelectionEmpty(){
+        String selectedText = textArea.getSelectedText();
+        return selectedText == null;
+    }
+    
+    public void selectLineAtCaretPosition() throws BadLocationException {
+        int caretPosition = textArea.getCaretPosition();
+        int lineNumberClicked = textArea.getLineOfOffset(caretPosition);
+        int lineStartOffset = textArea.getLineStartOffset(lineNumberClicked);
+        int lineEndOffset = textArea.getLineEndOffset(lineNumberClicked);
+        int lineLength = lineEndOffset - lineStartOffset;
+
+        // Check if the line end includes a line break, and if so, adjust the selection
+        if (lineLength > 0 && textArea.getText().charAt(lineEndOffset - 1) == '\n') {
+            lineEndOffset--;
+        }
+
+        textArea.setSelectionStart(lineStartOffset);
+        textArea.setSelectionEnd(lineEndOffset);
+    }
+
         
     public boolean hasUnsavedChanges() {
         return code.hasUnsavedChanges();

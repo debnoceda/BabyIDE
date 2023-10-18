@@ -140,6 +140,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cut"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cutActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="copy">
               <Properties>
@@ -148,6 +151,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Copy"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copyActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="paste">
               <Properties>
@@ -156,6 +162,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Paste"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pasteActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
