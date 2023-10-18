@@ -55,30 +55,6 @@ public class IdeOrig extends javax.swing.JFrame {
 //            }
 //        });
                
-        addWindowListener(new WindowAdapter() { 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                if (unsavedChanges) {
-                    int choice = JOptionPane.showConfirmDialog(IdeOrig.this,
-                        "You have unsaved changes. Do you want to exit without saving?",
-                        "Confirm Exit",
-                        JOptionPane.YES_NO_OPTION
-                    );
-                    
-                    if (choice == JOptionPane.NO_OPTION) {
-                        return;
-                    }
-                    
-                    // debating if option 'CANCEL' is necessary hmmmmmm
-                    // this path connects when 'YES' is chosen
-                    //dispose(); // Close the window // might be unnecessary idunno actually
-                    System.exit(0); // Exit the application
-                }    
-                
-                System.exit(0); // if no changes, then exit normally
-            }
-        });
 
     }
 
