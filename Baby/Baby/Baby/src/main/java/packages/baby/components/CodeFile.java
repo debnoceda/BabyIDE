@@ -134,7 +134,13 @@ public class CodeFile {
     }
     
 
+    public void close(){
+        // Clear references to the current file
+        savedFile = null;
 
+        // Mark that there are no unsaved changes
+        unsavedChanges = false;
+    }
 
 
 }

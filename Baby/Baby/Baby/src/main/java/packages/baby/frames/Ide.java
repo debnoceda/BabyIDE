@@ -283,6 +283,11 @@ public class Ide extends javax.swing.JFrame {
         jMenu1.add(openFile);
 
         closeFile.setText("Close File");
+        closeFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeFileActionPerformed(evt);
+            }
+        });
         jMenu1.add(closeFile);
 
         save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -423,6 +428,23 @@ public class Ide extends javax.swing.JFrame {
     private void redoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoActionPerformed
         editor.redo();
     }//GEN-LAST:event_redoActionPerformed
+
+    private void closeFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeFileActionPerformed
+        if (editor.hasUnsavedChanges()){
+            int choice = JOptionPane.showConfirmDialog(
+            Ide.this,
+            "You have unsaved changes. Do you want to open another file without saving?",
+            "Confirm Exit",
+            JOptionPane.YES_NO_OPTION
+            );
+            
+            if (choice == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
+        
+        editor.close();
+    }//GEN-LAST:event_closeFileActionPerformed
 
     public void openAction(java.awt.event.ActionEvent evt) {
         OpenActionPerformed(evt);

@@ -65,6 +65,11 @@ public class CodeEditor extends JScrollPane{
             undoManager.redo(); // Perform redo through UndoManager
         }
     }
+    
+    public void close() {
+        code.close();
+        textArea.setText("");
+    }
         
     public boolean hasUnsavedChanges() {
         return code.hasUnsavedChanges();
