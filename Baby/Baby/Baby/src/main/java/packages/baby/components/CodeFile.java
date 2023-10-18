@@ -113,6 +113,18 @@ public class CodeFile {
                 selectedFile = new File(fileName);
                 
             }
+            
+            if (selectedFile.exists()) {
+                int result = JOptionPane.showConfirmDialog(null,
+                        "A file with the same name already exists. Do you want to overwrite it?",
+                        "File Overwrite Confirmation", JOptionPane.YES_NO_OPTION);
+
+                if (result != JOptionPane.YES_OPTION) {
+                    // User chose not to overwrite the existing file
+                    return;
+                }
+            }   
+
 
             try {
                 FileWriter writer = new FileWriter(selectedFile);
