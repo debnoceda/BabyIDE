@@ -380,7 +380,8 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
-        // TODO add your handling code here:
+        Ide ide = new Ide();
+        ide.setVisible(true);
     }//GEN-LAST:event_newWindowActionPerformed
 
     private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
@@ -430,6 +431,9 @@ public class Ide extends javax.swing.JFrame {
         
         // Set up the Save As keyboard shortcut (Shift + Ctrl + Z or Shift + Cmd + Z)
         setupKeyboardShortcut("Redo", KeyEvent.VK_Z, KeyEvent.SHIFT_DOWN_MASK | menuShortcutKey);
+        
+        // Set up the New Window keyboard shortcut (Ctrl + N or Cmd + N)
+        setupKeyboardShortcut("New Window", KeyEvent.VK_N, menuShortcutKey);
     }
 
     private void setupKeyboardShortcut(String actionName, int keyCode, int modifier) {
@@ -456,7 +460,7 @@ public class Ide extends javax.swing.JFrame {
             case "Save As" -> SaveAsActionPerformed(event);
             case "Undo" -> TempUndoActionPerformed(event);
             case "Redo" -> TempRedoActionPerformed(event);
-            
+            case "New Window" -> newWindowActionPerformed(event);
         }
     }
     
