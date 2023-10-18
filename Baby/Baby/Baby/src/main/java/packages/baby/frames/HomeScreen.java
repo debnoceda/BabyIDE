@@ -4,6 +4,8 @@
  */
 package packages.baby.frames;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import packages.baby.components.CodeFile;
 
@@ -19,6 +21,8 @@ public class HomeScreen extends javax.swing.JFrame {
     public HomeScreen() {
         setTitle("Baby");
         initComponents();
+        Image img = new ImageIcon(this.getClass().getResource("/icons/Logo.png")).getImage();
+        this.setIconImage(img);
     }
 
     /**

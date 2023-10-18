@@ -1,6 +1,7 @@
 package packages.baby.frames;
 
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -8,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -30,6 +32,8 @@ public class Ide extends javax.swing.JFrame {
         initComponents();
         setupKeyboardShortcuts();
         WindowClosingHandler();
+        Image img = new ImageIcon(this.getClass().getResource("/icons/Logo.png")).getImage();
+        this.setIconImage(img);
     }
     
     
