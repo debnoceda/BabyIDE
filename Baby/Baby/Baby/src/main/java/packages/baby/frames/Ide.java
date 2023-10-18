@@ -420,6 +420,12 @@ public class Ide extends javax.swing.JFrame {
 
         // Set up the Save As keyboard shortcut (Shift + Ctrl + S or Shift + Cmd + S)
         setupKeyboardShortcut("Save As", KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK | menuShortcutKey);
+        
+        // Set up the Save As keyboard shortcut (Ctrl + S or Cmd + Z)
+        setupKeyboardShortcut("Undo", KeyEvent.VK_Z, menuShortcutKey);
+        
+        // Set up the Save As keyboard shortcut (Shift + Ctrl + Z or Shift + Cmd + Z)
+        setupKeyboardShortcut("Redo", KeyEvent.VK_Z, KeyEvent.SHIFT_DOWN_MASK | menuShortcutKey);
     }
 
     private void setupKeyboardShortcut(String actionName, int keyCode, int modifier) {
@@ -444,6 +450,8 @@ public class Ide extends javax.swing.JFrame {
         switch (actionName) {
             case "Save" -> SaveActionPerformed(event);
             case "Save As" -> SaveAsActionPerformed(event);
+            case "Undo" -> TempUndoActionPerformed(event);
+            case "Redo" -> TempRedoActionPerformed(event);
             
         }
     }
