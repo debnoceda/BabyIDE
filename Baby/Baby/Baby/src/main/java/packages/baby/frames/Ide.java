@@ -225,17 +225,20 @@ public class Ide extends javax.swing.JFrame {
         TempUndo = new packages.baby.components.SidebarBtn();
         TempRedo = new packages.baby.components.SidebarBtn();
         editor = new packages.baby.components.CodeEditor();
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newWindow = new javax.swing.JMenuItem();
-        newTab = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         openFile = new javax.swing.JMenuItem();
         closeFile = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         save = new javax.swing.JMenuItem();
         saveAs = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         undo = new javax.swing.JMenuItem();
         redo = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         cut = new javax.swing.JMenuItem();
         copy = new javax.swing.JMenuItem();
         paste = new javax.swing.JMenuItem();
@@ -333,6 +336,17 @@ public class Ide extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 27, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
         idePnl.setLayout(idePnlLayout);
         idePnlLayout.setHorizontalGroup(
@@ -340,19 +354,31 @@ public class Ide extends javax.swing.JFrame {
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
-                .addGap(38, 38, 38))
+                .addGroup(idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(idePnlLayout.createSequentialGroup()
+                        .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
+                        .addGap(38, 38, 38))
+                    .addGroup(idePnlLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         idePnlLayout.setVerticalGroup(
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
-                .addGap(342, 342, 342))
+                .addGap(30, 30, 30)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                .addGap(315, 315, 315))
         );
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
+
+        jMenuBar1.setBackground(new java.awt.Color(31, 31, 31));
+        jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuBar1.setBorderPainted(false);
+        jMenuBar1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         jMenu1.setText("File");
 
@@ -364,17 +390,9 @@ public class Ide extends javax.swing.JFrame {
             }
         });
         jMenu1.add(newWindow);
+        jMenu1.add(jSeparator1);
 
-        newTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        newTab.setText("New Tab");
-        newTab.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newTabActionPerformed(evt);
-            }
-        });
-        jMenu1.add(newTab);
-
-        openFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         openFile.setText("Open File");
         openFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -390,8 +408,9 @@ public class Ide extends javax.swing.JFrame {
             }
         });
         jMenu1.add(closeFile);
+        jMenu1.add(jSeparator2);
 
-        save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         save.setText("Save");
         save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,6 +419,7 @@ public class Ide extends javax.swing.JFrame {
         });
         jMenu1.add(save);
 
+        saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK | Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         saveAs.setText("Save As");
         saveAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -412,7 +432,7 @@ public class Ide extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
-        undo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         undo.setText("Undo");
         undo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -421,7 +441,7 @@ public class Ide extends javax.swing.JFrame {
         });
         jMenu2.add(undo);
 
-        redo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.SHIFT_DOWN_MASK | Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         redo.setText("Redo");
         redo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -429,8 +449,9 @@ public class Ide extends javax.swing.JFrame {
             }
         });
         jMenu2.add(redo);
+        jMenu2.add(jSeparator3);
 
-        cut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        cut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         cut.setText("Cut");
         cut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -439,7 +460,7 @@ public class Ide extends javax.swing.JFrame {
         });
         jMenu2.add(cut);
 
-        copy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        copy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         copy.setText("Copy");
         copy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -448,7 +469,7 @@ public class Ide extends javax.swing.JFrame {
         });
         jMenu2.add(copy);
 
-        paste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        paste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         paste.setText("Paste");
         paste.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -607,10 +628,6 @@ public class Ide extends javax.swing.JFrame {
 
     }//GEN-LAST:event_pasteActionPerformed
 
-    private void newTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTabActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_newTabActionPerformed
-
     
 
     public void openAction(java.awt.event.ActionEvent evt) {
@@ -691,7 +708,10 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem newTab;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuItem newWindow;
     private javax.swing.JMenuItem openFile;
     private javax.swing.JMenuItem paste;
