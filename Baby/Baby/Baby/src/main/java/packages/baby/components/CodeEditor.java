@@ -40,6 +40,14 @@ public class CodeEditor extends JScrollPane{
 
     }
     
+    public JTextArea getTextArea(){
+        return this.textArea;
+    }
+    
+    public UndoManager getUndoManager(){
+        return this.undoManager;
+    }
+    
     public void save(){
         code.save(textArea.getText());
     }

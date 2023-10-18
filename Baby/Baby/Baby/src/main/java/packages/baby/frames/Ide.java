@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
 import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -37,6 +39,8 @@ public class Ide extends javax.swing.JFrame {
     public Ide() {
         setTitle("Baby");
         initComponents();
+        initButtonActivity();
+        setupButtonActivity();
         setupKeyboardShortcuts();
         WindowClosingHandler();
         Image img = new ImageIcon(this.getClass().getResource("/icons/Logo.png")).getImage();
@@ -214,7 +218,56 @@ public class Ide extends javax.swing.JFrame {
         return false;
     }
     
+    public void setupButtonActivity(){
+        editor.getTextArea().getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateButtonActivity();
+            }
 
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateButtonActivity();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateButtonActivity();
+            }
+        });
+    }
+    
+    public void initButtonActivity(){
+        Save.setEnabled(false);
+        save.setEnabled(false);
+        
+        Redo.setEnabled(false);
+        redo.setEnabled(false);
+        
+        Undo.setEnabled(false);
+        undo.setEnabled(false);
+        
+        closeFile.setEnabled(false);
+    }
+    
+    public void updateButtonActivity(){
+        boolean canUndo = editor.getUndoManager().canUndo();
+        boolean canRedo = editor.getUndoManager().canRedo();
+        boolean hasUnsavedChanges = editor.hasUnsavedChanges();
+        
+        Save.setEnabled(hasUnsavedChanges);
+        save.setEnabled(hasUnsavedChanges);
+        
+        Redo.setEnabled(canRedo);
+        redo.setEnabled(canRedo);
+        
+        Undo.setEnabled(canUndo);
+        undo.setEnabled(canUndo);
+        
+        closeFile.setEnabled(true);
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -230,8 +283,8 @@ public class Ide extends javax.swing.JFrame {
         Save = new packages.baby.components.SidebarBtn();
         SaveAs = new packages.baby.components.SidebarBtn();
         Open = new packages.baby.components.SidebarBtn();
-        TempUndo = new packages.baby.components.SidebarBtn();
-        TempRedo = new packages.baby.components.SidebarBtn();
+        Undo = new packages.baby.components.SidebarBtn();
+        Redo = new packages.baby.components.SidebarBtn();
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
@@ -321,31 +374,31 @@ public class Ide extends javax.swing.JFrame {
             }
         });
 
-        TempUndo.setForeground(new java.awt.Color(255, 255, 255));
-        TempUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/undo.png"))); // NOI18N
-        TempUndo.setToolTipText("");
-        TempUndo.addMouseListener(new java.awt.event.MouseAdapter() {
+        Undo.setForeground(new java.awt.Color(255, 255, 255));
+        Undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/undo.png"))); // NOI18N
+        Undo.setToolTipText("");
+        Undo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                TempUndoMouseEntered(evt);
+                UndoMouseEntered(evt);
             }
         });
-        TempUndo.addActionListener(new java.awt.event.ActionListener() {
+        Undo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TempUndoActionPerformed(evt);
+                UndoActionPerformed(evt);
             }
         });
 
-        TempRedo.setForeground(new java.awt.Color(255, 255, 255));
-        TempRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/redo.png"))); // NOI18N
-        TempRedo.setToolTipText("");
-        TempRedo.addMouseListener(new java.awt.event.MouseAdapter() {
+        Redo.setForeground(new java.awt.Color(255, 255, 255));
+        Redo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/redo.png"))); // NOI18N
+        Redo.setToolTipText("");
+        Redo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                TempRedoMouseEntered(evt);
+                RedoMouseEntered(evt);
             }
         });
-        TempRedo.addActionListener(new java.awt.event.ActionListener() {
+        Redo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TempRedoActionPerformed(evt);
+                RedoActionPerformed(evt);
             }
         });
 
@@ -384,8 +437,8 @@ public class Ide extends javax.swing.JFrame {
                     .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TempUndo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TempRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Undo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Redo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidebarPnlLayout.setVerticalGroup(
@@ -404,9 +457,9 @@ public class Ide extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TempUndo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Undo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TempRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Redo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -613,12 +666,14 @@ public class Ide extends javax.swing.JFrame {
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
         editor.save();
-        updateFileName();  
+        updateFileName();
+        updateButtonActivity();
     }//GEN-LAST:event_SaveActionPerformed
 
     private void SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsActionPerformed
         editor.saveAs();
-        updateFileName();  
+        updateFileName();
+        updateButtonActivity();
     }//GEN-LAST:event_SaveAsActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
@@ -645,6 +700,7 @@ public class Ide extends javax.swing.JFrame {
         editor.open();
         updateFileName();
         editor.resetUndoManager();
+        updateButtonActivity();
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
@@ -669,19 +725,20 @@ public class Ide extends javax.swing.JFrame {
         editor.open();
         updateFileName();
         editor.resetUndoManager();
+        updateButtonActivity();
     }//GEN-LAST:event_openFileActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
         editor.undo();
     }//GEN-LAST:event_undoActionPerformed
 
-    private void TempUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempUndoActionPerformed
+    private void UndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UndoActionPerformed
         editor.undo();
-    }//GEN-LAST:event_TempUndoActionPerformed
+    }//GEN-LAST:event_UndoActionPerformed
 
-    private void TempRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempRedoActionPerformed
+    private void RedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RedoActionPerformed
         editor.redo();
-    }//GEN-LAST:event_TempRedoActionPerformed
+    }//GEN-LAST:event_RedoActionPerformed
 
     private void redoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoActionPerformed
         editor.redo();
@@ -709,12 +766,14 @@ public class Ide extends javax.swing.JFrame {
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         editor.save();
         updateFileName();  
+        updateButtonActivity();
     }//GEN-LAST:event_saveActionPerformed
 
 
     private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
         editor.saveAs();
         updateFileName();  
+        updateButtonActivity();
     }//GEN-LAST:event_saveAsActionPerformed
 
 
@@ -756,13 +815,13 @@ public class Ide extends javax.swing.JFrame {
         Save.setToolTipText("Save");
     }//GEN-LAST:event_SaveMouseEntered
 
-    private void TempUndoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TempUndoMouseEntered
-        TempUndo.setToolTipText("Undo");
-    }//GEN-LAST:event_TempUndoMouseEntered
+    private void UndoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UndoMouseEntered
+        Undo.setToolTipText("Undo");
+    }//GEN-LAST:event_UndoMouseEntered
 
-    private void TempRedoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TempRedoMouseEntered
-        TempRedo.setToolTipText("Redo");
-    }//GEN-LAST:event_TempRedoMouseEntered
+    private void RedoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RedoMouseEntered
+        Redo.setToolTipText("Redo");
+    }//GEN-LAST:event_RedoMouseEntered
 
     private void RunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RunMouseEntered
         Run.setToolTipText("Run");
@@ -807,6 +866,10 @@ public class Ide extends javax.swing.JFrame {
         Action action = new AbstractAction(actionName) {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (actionName.equals("Save") && !editor.hasUnsavedChanges()) {
+                    // If there are no unsaved changes, don't perform the action
+                    return;
+                }
                 handleAction(actionName);
             }
         };
@@ -824,8 +887,8 @@ public class Ide extends javax.swing.JFrame {
         switch (actionName) {
             case "Save" -> SaveActionPerformed(event);
             case "Save As" -> SaveAsActionPerformed(event);
-            case "Undo" -> TempUndoActionPerformed(event);
-            case "Redo" -> TempRedoActionPerformed(event);
+            case "Undo" -> UndoActionPerformed(event);
+            case "Redo" -> RedoActionPerformed(event);
             case "New Window" -> newWindowActionPerformed(event);
             case "Open File" -> OpenActionPerformed(event);
             case "Copy" -> copyActionPerformed(event);
@@ -838,11 +901,11 @@ public class Ide extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private packages.baby.components.SidebarBtn Home;
     private packages.baby.components.SidebarBtn Open;
+    private packages.baby.components.SidebarBtn Redo;
     private packages.baby.components.SidebarBtn Run;
     private packages.baby.components.SidebarBtn Save;
     private packages.baby.components.SidebarBtn SaveAs;
-    private packages.baby.components.SidebarBtn TempRedo;
-    private packages.baby.components.SidebarBtn TempUndo;
+    private packages.baby.components.SidebarBtn Undo;
     private javax.swing.JMenuItem closeFile;
     private javax.swing.JMenuItem copy;
     private javax.swing.JMenuItem cut;

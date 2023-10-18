@@ -132,6 +132,7 @@ public class CodeFile {
                 currentFileName = selectedFile.getName(); // Set the currentFileName to be used in getFileName()
                 currentPath = selectedFile.getAbsolutePath(); // Set the currentPath to be used in getFilePath()
                 savedFile = new File(fileName);
+                unsavedChanges = false;
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
             }
