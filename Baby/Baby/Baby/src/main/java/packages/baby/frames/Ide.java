@@ -545,9 +545,11 @@ public class Ide extends javax.swing.JFrame {
             if (choice == 0) {
                 // User clicked "Open File"
                 editor.open();
+                return;
             } else if (choice == 1) {
                 // User clicked "Save"
                 editor.save();
+                return;
             } else if (choice == 2) {
                 // User clicked "Cancel" or closed the dialog
                 return;
