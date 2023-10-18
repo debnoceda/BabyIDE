@@ -17,6 +17,8 @@ public class CodeFile {
 
     private boolean unsavedChanges = false;
     private File savedFile = null; // Determine if previously saved
+    private String currentFileName;
+    private String currentPath;
     
     public CodeFile() {
     }
@@ -48,7 +50,8 @@ public class CodeFile {
             // Get the selected file
 
             File selectedFile = fileChooser.getSelectedFile();
-
+            currentFileName = selectedFile.getName(); // Set the currentFileName to be used in getFileName()
+            currentPath = selectedFile.getAbsolutePath(); // Set the currentPath to be used in getFilePath()
             try {
 
                 // Read and display the contents of the selected file
@@ -97,6 +100,8 @@ public class CodeFile {
 
             // Ensure the file has the ".txt" extension
             String fileName = selectedFile.getAbsolutePath();
+            currentFileName = selectedFile.getName(); // Set the currentFileName to be used in getFileName()
+            currentPath = selectedFile.getAbsolutePath(); // Set the currentPath to be used in getFilePath()
             if (!fileName.endsWith(".bby")) {
                 fileName += ".bby";
                 selectedFile = new File(fileName);
@@ -133,13 +138,42 @@ public class CodeFile {
             
     }
     
-
     public void close(){
         // Clear references to the current file
         savedFile = null;
 
         // Mark that there are no unsaved changes
         unsavedChanges = false;
+    }
+    
+    public String getDefaultName(){
+        
+        String defaultName = "Baby1";
+        //if in tab, there exists, another tab with the name "BabyI" where I defaults to 1 and increments if it finds a tab with same name
+        //else-
+        
+        return defaultName;
+    }
+    
+    public String getFileName(){
+         
+        if (currentFileName == null){
+            return getDefaultName();
+        }
+        else {
+            return currentFileName;
+        }
+    }
+    
+    public String getFilePath(){
+        
+        if (currentPath == null){
+            return null;
+        }
+        else {
+            return currentPath;
+        }
+ 
     }
 
 

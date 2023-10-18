@@ -15,10 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-/** URGENT! Topic: Unsaved Changes
- * MIKO HERE. Working on the process regarding unsaved changes especially during opening new file and exiting application
- * work has been done in the event of exiting application and opening another file when there are unsaved changes
- */
 /**
  *
  * @author liaminakigillamac
@@ -293,6 +289,11 @@ public class Ide extends javax.swing.JFrame {
         save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
         save.setText("Save");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
         jMenu1.add(save);
 
         saveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
@@ -397,7 +398,20 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_newWindowActionPerformed
 
     private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
-        // TODO add your handling code here:
+        if (editor.hasUnsavedChanges()){
+            int choice = JOptionPane.showConfirmDialog(
+            Ide.this,
+            "You have unsaved changes. Do you want to open another file without saving?",
+            "Confirm Exit",
+            JOptionPane.YES_NO_OPTION
+            );
+            
+            if (choice == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
+        
+        editor.open();
     }//GEN-LAST:event_openFileActionPerformed
 
     private void newTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTabActionPerformed
@@ -415,6 +429,7 @@ public class Ide extends javax.swing.JFrame {
 
     private void quitBabyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBabyActionPerformed
         // TODO add your handling code here:
+        System.exit(0); //not finished
     }//GEN-LAST:event_quitBabyActionPerformed
 
     private void TempUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempUndoActionPerformed
@@ -445,6 +460,10 @@ public class Ide extends javax.swing.JFrame {
         
         editor.close();
     }//GEN-LAST:event_closeFileActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        editor.save();
+    }//GEN-LAST:event_saveActionPerformed
 
     public void openAction(java.awt.event.ActionEvent evt) {
         OpenActionPerformed(evt);
