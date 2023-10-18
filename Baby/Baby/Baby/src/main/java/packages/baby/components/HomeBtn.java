@@ -30,7 +30,7 @@ public class HomeBtn extends JButton {
             
             @Override
             public void mouseClicked(MouseEvent e) {
-                setBackground(new java.awt.Color(62, 62, 62));
+                setBackground(new java.awt.Color(50, 50, 50));
                 setBorder(null);
             }
 
@@ -47,7 +47,7 @@ public class HomeBtn extends JButton {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(new java.awt.Color(124, 124, 124));
+                setBackground(new java.awt.Color(230, 230, 230));
                 setBorder(null);
             }
 

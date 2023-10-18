@@ -30,13 +30,13 @@ public class SidebarBtn extends JButton{
             
             @Override
             public void mouseClicked(MouseEvent e) {
-                setBackground(new java.awt.Color(14, 14, 14));
+                setBackground(new java.awt.Color(50, 50, 50));
                 setBorder(null);
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                setBackground(new java.awt.Color(14, 14, 14));
+                setBackground(new java.awt.Color(62, 62, 62));
                 setBorder(null);
             }
 
