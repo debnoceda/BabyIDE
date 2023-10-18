@@ -199,7 +199,7 @@ public class Ide extends javax.swing.JFrame {
     public boolean isHomeScreenOpen() {
         Frame[] frames = Frame.getFrames();
         for (Frame frame : frames) {
-            if (frame instanceof HomeScreen) {
+            if (frame instanceof HomeScreen && frame.isVisible()) {
                 return true;
             }
         }
