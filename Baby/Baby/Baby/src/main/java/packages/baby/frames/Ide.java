@@ -32,10 +32,8 @@ import javax.swing.WindowConstants;
  */
 
 public class Ide extends javax.swing.JFrame {
-//    private String codeContent;
-    
-    
-    
+    private String afileName;
+
     public Ide() {
         setTitle("Baby");
         initComponents();
@@ -43,9 +41,19 @@ public class Ide extends javax.swing.JFrame {
         WindowClosingHandler();
         Image img = new ImageIcon(this.getClass().getResource("/icons/Logo.png")).getImage();
         this.setIconImage(img);
+        updateFileName();  
+        setTitle(afileName);
     }
     
-        public class CustomCloseDialog extends JDialog {
+    public void updateFileName() {
+        afileName = editor.getFileName();
+        fileName.setText(afileName);
+        setTitle(afileName);
+    }
+   
+    
+    
+    public class CustomCloseDialog extends JDialog {
         private int dialogResult = -1; // Default: Cancel
 
         public CustomCloseDialog(JFrame parentFrame) {
@@ -227,7 +235,8 @@ public class Ide extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        fileNamePanel = new javax.swing.JPanel();
+        fileName = new javax.swing.JTextArea();
         jSplitPane1 = new javax.swing.JSplitPane();
         editor = new packages.baby.components.CodeEditor();
         jTextField1 = new javax.swing.JTextField();
@@ -355,15 +364,29 @@ public class Ide extends javax.swing.JFrame {
                 .addGap(47, 47, 47))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+        fileNamePanel.setBackground(new java.awt.Color(31, 31, 31));
+
+        fileName.setEditable(false);
+        fileName.setBackground(new java.awt.Color(31, 31, 31));
+        fileName.setColumns(20);
+        fileName.setForeground(new java.awt.Color(255, 255, 255));
+        fileName.setRows(5);
+
+        javax.swing.GroupLayout fileNamePanelLayout = new javax.swing.GroupLayout(fileNamePanel);
+        fileNamePanel.setLayout(fileNamePanelLayout);
+        fileNamePanelLayout.setHorizontalGroup(
+            fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(fileName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 27, Short.MAX_VALUE)
+        fileNamePanelLayout.setVerticalGroup(
+            fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fileName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jSplitPane1.setBackground(new java.awt.Color(51, 51, 51));
@@ -372,6 +395,7 @@ public class Ide extends javax.swing.JFrame {
         jSplitPane1.setTopComponent(editor);
 
         jTextField1.setBackground(new java.awt.Color(31, 31, 31));
+        jTextField1.setBorder(null);
         jSplitPane1.setRightComponent(jTextField1);
 
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
@@ -383,7 +407,7 @@ public class Ide extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(idePnlLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(idePnlLayout.createSequentialGroup()
                         .addComponent(jSplitPane1)
@@ -394,7 +418,7 @@ public class Ide extends javax.swing.JFrame {
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1))
         );
@@ -539,10 +563,12 @@ public class Ide extends javax.swing.JFrame {
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
         editor.save();
+        updateFileName();  
     }//GEN-LAST:event_SaveActionPerformed
 
     private void SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsActionPerformed
         editor.saveAs();
+        updateFileName();  
     }//GEN-LAST:event_SaveAsActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
@@ -567,6 +593,7 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.open();
+        updateFileName();  
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
@@ -589,6 +616,7 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.open();
+        updateFileName();  
     }//GEN-LAST:event_openFileActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
@@ -622,15 +650,18 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.close();
+        updateFileName();  
     }//GEN-LAST:event_closeFileActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         editor.save();
+        updateFileName();  
     }//GEN-LAST:event_saveActionPerformed
 
 
     private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
         editor.saveAs();
+        updateFileName();  
     }//GEN-LAST:event_saveAsActionPerformed
 
 
@@ -731,13 +762,14 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JMenuItem copy;
     private javax.swing.JMenuItem cut;
     private packages.baby.components.CodeEditor editor;
+    private javax.swing.JTextArea fileName;
+    private javax.swing.JPanel fileNamePanel;
     private javax.swing.JPanel idePnl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;

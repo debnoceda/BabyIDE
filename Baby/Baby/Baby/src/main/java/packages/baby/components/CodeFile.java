@@ -169,11 +169,13 @@ public class CodeFile {
 
         // Mark that there are no unsaved changes
         unsavedChanges = false;
+        currentFileName = getDefaultName();
+        currentPath = "";
     }
     
     public String getDefaultName(){
         
-        String defaultName = "Baby1";
+        String defaultName = "Untitled.bby";
         //if in tab, there exists, another tab with the name "BabyI" where I defaults to 1 and increments if it finds a tab with same name
         //else-
         
