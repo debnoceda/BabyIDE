@@ -27,6 +27,8 @@ import javax.swing.KeyStroke;
 public class Ide extends javax.swing.JFrame {
 //    private String codeContent;
     
+    
+    
     public Ide() {
         setTitle("Baby");
         initComponents();
@@ -307,6 +309,11 @@ public class Ide extends javax.swing.JFrame {
 
         redo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         redo.setText("Redo");
+        redo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                redoActionPerformed(evt);
+            }
+        });
         jMenu2.add(redo);
 
         cut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -393,7 +400,7 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_newTabActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
-        // TODO add your handling code here:
+        editor.undo();
     }//GEN-LAST:event_undoActionPerformed
 
     private void aboutBabyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBabyActionPerformed
@@ -412,6 +419,10 @@ public class Ide extends javax.swing.JFrame {
     private void TempRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempRedoActionPerformed
         editor.redo();
     }//GEN-LAST:event_TempRedoActionPerformed
+
+    private void redoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoActionPerformed
+        editor.redo();
+    }//GEN-LAST:event_redoActionPerformed
 
     public void openAction(java.awt.event.ActionEvent evt) {
         OpenActionPerformed(evt);
