@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
 import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -33,23 +32,20 @@ import javax.swing.border.EmptyBorder;
  */
 
 public class Ide extends javax.swing.JFrame {
-//  private String codeContent;
-    private String afileName;
+//    private String codeContent;
+    
     
     
     public Ide() {
-        
+        setTitle("Baby");
         initComponents();
         setupKeyboardShortcuts();
         WindowClosingHandler();
         Image img = new ImageIcon(this.getClass().getResource("/icons/Logo.png")).getImage();
         this.setIconImage(img);
-        
-        updateFileName();  
-        setTitle(afileName);
     }
     
-    public class CustomCloseDialog extends JDialog {
+        public class CustomCloseDialog extends JDialog {
         private int dialogResult = -1; // Default: Cancel
 
         public CustomCloseDialog(JFrame parentFrame) {
@@ -210,12 +206,6 @@ public class Ide extends javax.swing.JFrame {
         return false;
     }
     
-    public void updateFileName() {
-        afileName = editor.getFileName();
-        fileName.setText(afileName);
-        setTitle(afileName);
-    }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -234,7 +224,6 @@ public class Ide extends javax.swing.JFrame {
         Open = new packages.baby.components.SidebarBtn();
         TempUndo = new packages.baby.components.SidebarBtn();
         TempRedo = new packages.baby.components.SidebarBtn();
-<<<<<<< Updated upstream
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
@@ -242,11 +231,6 @@ public class Ide extends javax.swing.JFrame {
         jSplitPane1 = new javax.swing.JSplitPane();
         editor = new packages.baby.components.CodeEditor();
         jTextField1 = new javax.swing.JTextField();
-=======
-        editor = new packages.baby.components.CodeEditor();
-        fileNamePanel = new javax.swing.JPanel();
-        fileName = new javax.swing.JTextArea();
->>>>>>> Stashed changes
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newWindow = new javax.swing.JMenuItem();
@@ -371,31 +355,15 @@ public class Ide extends javax.swing.JFrame {
                 .addGap(47, 47, 47))
         );
 
-        fileNamePanel.setBackground(new java.awt.Color(31, 31, 31));
-
-        fileName.setEditable(false);
-        fileName.setBackground(new java.awt.Color(31, 31, 31));
-        fileName.setColumns(20);
-        fileName.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        fileName.setForeground(new java.awt.Color(255, 255, 255));
-        fileName.setRows(5);
-        fileName.setText("wtrebe.bby");
-
-        javax.swing.GroupLayout fileNamePanelLayout = new javax.swing.GroupLayout(fileNamePanel);
-        fileNamePanel.setLayout(fileNamePanelLayout);
-        fileNamePanelLayout.setHorizontalGroup(
-            fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(fileName, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                .addContainerGap())
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
         );
-        fileNamePanelLayout.setVerticalGroup(
-            fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addComponent(fileName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 27, Short.MAX_VALUE)
         );
 
         jSplitPane1.setBackground(new java.awt.Color(51, 51, 51));
@@ -414,32 +382,21 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-<<<<<<< Updated upstream
                     .addGroup(idePnlLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(idePnlLayout.createSequentialGroup()
                         .addComponent(jSplitPane1)
                         .addGap(38, 38, 38))))
-=======
-                    .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editor, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
->>>>>>> Stashed changes
         );
         idePnlLayout.setVerticalGroup(
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-<<<<<<< Updated upstream
                 .addComponent(jSplitPane1))
-=======
-                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
-                .addGap(378, 378, 378))
->>>>>>> Stashed changes
         );
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
@@ -582,12 +539,10 @@ public class Ide extends javax.swing.JFrame {
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
         editor.save();
-        updateFileName();
     }//GEN-LAST:event_SaveActionPerformed
 
     private void SaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveAsActionPerformed
         editor.saveAs();
-        updateFileName();
     }//GEN-LAST:event_SaveAsActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
@@ -612,7 +567,6 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.open();
-        updateFileName();
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
@@ -635,7 +589,6 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.open();
-        updateFileName();
     }//GEN-LAST:event_openFileActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
@@ -669,7 +622,6 @@ public class Ide extends javax.swing.JFrame {
         }
         
         editor.close();
-        updateFileName();
     }//GEN-LAST:event_closeFileActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
@@ -779,14 +731,13 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JMenuItem copy;
     private javax.swing.JMenuItem cut;
     private packages.baby.components.CodeEditor editor;
-    private javax.swing.JTextArea fileName;
-    private javax.swing.JPanel fileNamePanel;
     private javax.swing.JPanel idePnl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;

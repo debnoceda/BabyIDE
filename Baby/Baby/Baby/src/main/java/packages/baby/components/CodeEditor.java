@@ -122,11 +122,6 @@ public class CodeEditor extends JScrollPane{
         code.setUnsavedChanges(unsavedChanges);
     }
     
-    @SuppressWarnings("empty-statement")
-    public String getFileName() {
-        return code.getFileName();
-    }
-    
     public void initComponents(){
         
         // Create a scroll pane to contain both textArea and lineNumber
