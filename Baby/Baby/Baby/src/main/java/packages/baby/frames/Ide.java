@@ -61,7 +61,7 @@ public class Ide extends javax.swing.JFrame {
             }
         }
         
-        System.exit(0);
+        dispose();
 
     }
     
