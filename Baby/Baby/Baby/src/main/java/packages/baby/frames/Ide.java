@@ -227,8 +227,10 @@ public class Ide extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        editor = new packages.baby.components.CodeEditor();
         jPanel1 = new javax.swing.JPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        editor = new packages.baby.components.CodeEditor();
+        jTextField1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newWindow = new javax.swing.JMenuItem();
@@ -251,6 +253,7 @@ public class Ide extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Baby");
         setBackground(new java.awt.Color(31, 31, 31));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         idePnl.setBackground(new java.awt.Color(51, 51, 51));
         idePnl.setForeground(new java.awt.Color(31, 31, 31));
@@ -347,7 +350,7 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(TempUndo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TempRedo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(47, 47, 47))
         );
@@ -363,6 +366,14 @@ public class Ide extends javax.swing.JFrame {
             .addGap(0, 27, Short.MAX_VALUE)
         );
 
+        jSplitPane1.setBackground(new java.awt.Color(51, 51, 51));
+        jSplitPane1.setDividerLocation(500);
+        jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+        jSplitPane1.setTopComponent(editor);
+
+        jTextField1.setBackground(new java.awt.Color(31, 31, 31));
+        jSplitPane1.setRightComponent(jTextField1);
+
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
         idePnl.setLayout(idePnlLayout);
         idePnlLayout.setHorizontalGroup(
@@ -372,11 +383,11 @@ public class Ide extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(idePnlLayout.createSequentialGroup()
-                        .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
-                        .addGap(38, 38, 38))
-                    .addGroup(idePnlLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(idePnlLayout.createSequentialGroup()
+                        .addComponent(jSplitPane1)
+                        .addGap(38, 38, 38))))
         );
         idePnlLayout.setVerticalGroup(
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -385,8 +396,7 @@ public class Ide extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editor, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
-                .addGap(315, 315, 315))
+                .addComponent(jSplitPane1))
         );
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
@@ -733,6 +743,8 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuItem newWindow;
     private javax.swing.JMenuItem openFile;
     private javax.swing.JMenuItem paste;
