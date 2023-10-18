@@ -434,6 +434,9 @@ public class Ide extends javax.swing.JFrame {
         
         // Set up the New Window keyboard shortcut (Ctrl + N or Cmd + N)
         setupKeyboardShortcut("New Window", KeyEvent.VK_N, menuShortcutKey);
+        
+        // Set up the Open File keyboard shortcut (Ctrl + O) or Cmd + O)
+        setupKeyboardShortcut("Open File", KeyEvent.VK_O, menuShortcutKey);
     }
 
     private void setupKeyboardShortcut(String actionName, int keyCode, int modifier) {
@@ -461,6 +464,7 @@ public class Ide extends javax.swing.JFrame {
             case "Undo" -> TempUndoActionPerformed(event);
             case "Redo" -> TempRedoActionPerformed(event);
             case "New Window" -> newWindowActionPerformed(event);
+            case "Open File" -> OpenActionPerformed(event);
         }
     }
     
