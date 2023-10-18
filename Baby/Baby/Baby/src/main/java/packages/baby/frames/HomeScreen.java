@@ -4,6 +4,7 @@
  */
 package packages.baby.frames;
 
+import javax.swing.UIManager;
 import packages.baby.components.CodeFile;
 
 /**
@@ -149,7 +150,20 @@ public class HomeScreen extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // Check if the operating system is macOS
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            
+        }
+              
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

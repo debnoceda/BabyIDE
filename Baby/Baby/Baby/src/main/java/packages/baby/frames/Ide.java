@@ -413,14 +413,17 @@ public class Ide extends javax.swing.JFrame {
     }
     
     private void setupKeyboardShortcuts() {
+        int menuShortcutKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+        
         // Set up the Save keyboard shortcut (Ctrl + S or Cmd + S)
-        setupKeyboardShortcut("Save", KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+        setupKeyboardShortcut("Save", KeyEvent.VK_S, menuShortcutKey);
 
         // Set up the Save As keyboard shortcut (Shift + Ctrl + S or Shift + Cmd + S)
-        setupKeyboardShortcut("Save As", KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK | Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+        setupKeyboardShortcut("Save As", KeyEvent.VK_S, KeyEvent.SHIFT_DOWN_MASK | menuShortcutKey);
     }
 
     private void setupKeyboardShortcut(String actionName, int keyCode, int modifier) {
+        
         Action action = new AbstractAction(actionName) {
             @Override
             public void actionPerformed(ActionEvent e) {
