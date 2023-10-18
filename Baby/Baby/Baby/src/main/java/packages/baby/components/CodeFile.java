@@ -51,8 +51,6 @@ public class CodeFile {
             // Get the selected file
 
             File selectedFile = fileChooser.getSelectedFile();
-            currentFileName = selectedFile.getName(); // Set the currentFileName to be used in getFileName()
-            currentPath = selectedFile.getAbsolutePath(); // Set the currentPath to be used in getFilePath()
             try {
 
                 // Read and display the contents of the selected file
@@ -75,6 +73,8 @@ public class CodeFile {
                 }
                 
                 opened = true; // File was successfully opened
+                currentFileName = selectedFile.getName(); // Set the currentFileName to be used in getFileName()
+                currentPath = selectedFile.getAbsolutePath(); // Set the currentPath to be used in getFilePath()
                 
                 return content.toString();
                                             
@@ -106,8 +106,6 @@ public class CodeFile {
 
             // Ensure the file has the ".txt" extension
             String fileName = selectedFile.getAbsolutePath();
-            currentFileName = selectedFile.getName(); // Set the currentFileName to be used in getFileName()
-            currentPath = selectedFile.getAbsolutePath(); // Set the currentPath to be used in getFilePath()
             if (!fileName.endsWith(".bby")) {
                 fileName += ".bby";
                 selectedFile = new File(fileName);
@@ -131,6 +129,8 @@ public class CodeFile {
                 writer.write(codeContent);
                 writer.close();
                 JOptionPane.showMessageDialog(null, "File saved successfully.");
+                currentFileName = selectedFile.getName(); // Set the currentFileName to be used in getFileName()
+                currentPath = selectedFile.getAbsolutePath(); // Set the currentPath to be used in getFilePath()
                 savedFile = new File(fileName);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
