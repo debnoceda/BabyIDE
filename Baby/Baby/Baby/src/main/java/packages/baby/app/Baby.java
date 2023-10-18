@@ -4,6 +4,8 @@
  */
 package packages.baby.app;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import packages.baby.components.CodeFile;
@@ -16,6 +18,12 @@ import packages.baby.frames.Ide;
  */
 public class Baby {
     public static void main (String[] args){
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Baby.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
