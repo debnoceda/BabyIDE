@@ -19,7 +19,7 @@ import packages.baby.frames.Ide;
 public class Baby {
     public static void main (String[] args){
         try {
-            Thread.sleep(4000);
+            Thread.sleep(3350);
         } catch (InterruptedException ex) {
             Logger.getLogger(Baby.class.getName()).log(Level.SEVERE, null, ex);
         }
