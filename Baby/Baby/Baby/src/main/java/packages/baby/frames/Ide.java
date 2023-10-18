@@ -99,9 +99,6 @@ public class Ide extends javax.swing.JFrame {
         TempRedo = new packages.baby.components.SidebarBtn();
         editor = new packages.baby.components.CodeEditor();
         jMenuBar1 = new javax.swing.JMenuBar();
-        Baby = new javax.swing.JMenu();
-        aboutBaby = new javax.swing.JMenuItem();
-        quitBaby = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         newWindow = new javax.swing.JMenuItem();
         newTab = new javax.swing.JMenuItem();
@@ -230,30 +227,9 @@ public class Ide extends javax.swing.JFrame {
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
 
-        Baby.setText("Baby");
-
-        aboutBaby.setText("About Baby");
-        aboutBaby.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aboutBabyActionPerformed(evt);
-            }
-        });
-        Baby.add(aboutBaby);
-
-        quitBaby.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        quitBaby.setText("Quit Baby");
-        quitBaby.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quitBabyActionPerformed(evt);
-            }
-        });
-        Baby.add(quitBaby);
-
-        jMenuBar1.add(Baby);
-
         jMenu1.setText("File");
 
-        newWindow.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        newWindow.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         newWindow.setText("New Window");
         newWindow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,7 +248,6 @@ public class Ide extends javax.swing.JFrame {
         jMenu1.add(newTab);
 
         openFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        openFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/openFile.png"))); // NOI18N
         openFile.setText("Open File");
         openFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,7 +265,6 @@ public class Ide extends javax.swing.JFrame {
         jMenu1.add(closeFile);
 
         save.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
         save.setText("Save");
         save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,7 +273,6 @@ public class Ide extends javax.swing.JFrame {
         });
         jMenu1.add(save);
 
-        saveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
         saveAs.setText("Save As");
         saveAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -437,23 +410,9 @@ public class Ide extends javax.swing.JFrame {
         editor.open();
     }//GEN-LAST:event_openFileActionPerformed
 
-    private void newTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTabActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_newTabActionPerformed
-
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
         editor.undo();
     }//GEN-LAST:event_undoActionPerformed
-
-    private void aboutBabyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBabyActionPerformed
-        // TODO add your handling code here:
-        new AboutBaby ().setVisible(true);
-    }//GEN-LAST:event_aboutBabyActionPerformed
-
-    private void quitBabyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBabyActionPerformed
-        // TODO add your handling code here:
-        System.exit(0); //not finished
-    }//GEN-LAST:event_quitBabyActionPerformed
 
     private void TempUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TempUndoActionPerformed
         editor.undo();
@@ -515,6 +474,10 @@ public class Ide extends javax.swing.JFrame {
         editor.paste();
 
     }//GEN-LAST:event_pasteActionPerformed
+
+    private void newTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTabActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newTabActionPerformed
 
     
 
@@ -581,14 +544,12 @@ public class Ide extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu Baby;
     private packages.baby.components.SidebarBtn Home;
     private packages.baby.components.SidebarBtn Open;
     private packages.baby.components.SidebarBtn Save;
     private packages.baby.components.SidebarBtn SaveAs;
     private packages.baby.components.SidebarBtn TempRedo;
     private packages.baby.components.SidebarBtn TempUndo;
-    private javax.swing.JMenuItem aboutBaby;
     private javax.swing.JMenuItem closeFile;
     private javax.swing.JMenuItem copy;
     private javax.swing.JMenuItem cut;
@@ -602,7 +563,6 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JMenuItem newWindow;
     private javax.swing.JMenuItem openFile;
     private javax.swing.JMenuItem paste;
-    private javax.swing.JMenuItem quitBaby;
     private javax.swing.JMenuItem redo;
     private javax.swing.JMenuItem runCode;
     private javax.swing.JMenuItem save;
