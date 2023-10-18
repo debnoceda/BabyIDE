@@ -141,7 +141,6 @@ public class CodeFile {
     }
     
     public void save(String codeContent){
-        boolean isSaved = false;
         
         if(savedFile == null)
             saveAs(codeContent);
@@ -152,16 +151,14 @@ public class CodeFile {
                 writer.close();
                 unsavedChanges = false;
                 JOptionPane.showMessageDialog(null, "File saved successfully.");
-                isSaved = true;
+                
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
             }
         }
         
-        if (!isSaved) {
-            unsavedChanges = true;
-        }
-            
+        unsavedChanges = false;
+
     }
     
     public void close(){
