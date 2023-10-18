@@ -298,6 +298,11 @@ public class Ide extends javax.swing.JFrame {
 
         saveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveAs.png"))); // NOI18N
         saveAs.setText("Save As");
+        saveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsActionPerformed(evt);
+            }
+        });
         jMenu1.add(saveAs);
 
         jMenuBar1.add(jMenu1);
@@ -464,6 +469,10 @@ public class Ide extends javax.swing.JFrame {
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         editor.save();
     }//GEN-LAST:event_saveActionPerformed
+
+    private void saveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsActionPerformed
+        editor.saveAs();
+    }//GEN-LAST:event_saveAsActionPerformed
 
     public void openAction(java.awt.event.ActionEvent evt) {
         OpenActionPerformed(evt);
