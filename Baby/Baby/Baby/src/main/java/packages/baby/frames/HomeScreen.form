@@ -46,13 +46,8 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="390" max="-2" attributes="0"/>
-                  <Component id="babyTitle" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="388" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="412" max="-2" attributes="0"/>
-                  <Component id="Logo" max="32767" attributes="0"/>
+                  <Component id="Logo" pref="214" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="412" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
@@ -63,16 +58,21 @@
                   </Group>
                   <EmptySpace min="-2" pref="414" max="-2" attributes="0"/>
               </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="261" max="-2" attributes="0"/>
+                  <Component id="babyTitle" min="-2" pref="515" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="267" max="32767" attributes="0"/>
+                  <EmptySpace pref="240" max="32767" attributes="0"/>
                   <Component id="Logo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="babyTitle" min="-2" pref="113" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="newFile" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="openFile" min="-2" max="-2" attributes="0"/>
