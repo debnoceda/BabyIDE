@@ -754,15 +754,15 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveMouseEntered
 
     private void TempUndoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TempUndoMouseEntered
-        undo.setToolTipText("Undo");
+        TempUndo.setToolTipText("Undo");
     }//GEN-LAST:event_TempUndoMouseEntered
 
     private void TempRedoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TempRedoMouseEntered
-        redo.setToolTipText("Redo");
+        TempRedo.setToolTipText("Redo");
     }//GEN-LAST:event_TempRedoMouseEntered
 
     private void RunMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RunMouseEntered
-        // TODO add your handling code here:
+        Run.setToolTipText("Run");
     }//GEN-LAST:event_RunMouseEntered
 
     private void RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunActionPerformed
