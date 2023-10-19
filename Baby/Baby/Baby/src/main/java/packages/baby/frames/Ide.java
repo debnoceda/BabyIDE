@@ -221,6 +221,16 @@ public class Ide extends javax.swing.JFrame {
         return false;
     }
     
+    public HomeScreen getOpenHomeScreen() {
+        Frame[] frames = Frame.getFrames();
+        for (Frame frame : frames) {
+            if (frame instanceof HomeScreen && frame.isVisible()) {
+                return (HomeScreen) frame;
+            }
+        }
+        return null; // No open HomeScreen found
+    }
+    
     public void setupButtonActivity(){
         editor.getTextArea().getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -628,7 +638,7 @@ public class Ide extends javax.swing.JFrame {
         }
         
         else {
-            System.out.println("Failed");
+            getOpenHomeScreen().toFront();
         }
 //        //opens the home screen
 //        HomeScreen home = new HomeScreen ();
