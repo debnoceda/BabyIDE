@@ -114,13 +114,16 @@ public class CodeFile {
             
             if (selectedFile.exists()) {
                 int result = JOptionPane.showConfirmDialog(null,
-                        "A file with the same name already exists. Do you want to overwrite it?",
+                        "A file with the same name already exists. Do you want to replace it?",
                         "File Overwrite Confirmation", JOptionPane.YES_NO_OPTION);
 
-                if (result != JOptionPane.YES_OPTION) {
+                if (result == JOptionPane.NO_OPTION) {
+                    unsavedChanges = true;
+                    
                     // User chose not to overwrite the existing file
                     return;
                 }
+
             }   
 
 
@@ -137,7 +140,7 @@ public class CodeFile {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
             }
         }
-        unsavedChanges = false;
+        
     }
     
     public void save(String codeContent){
@@ -155,10 +158,9 @@ public class CodeFile {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + e.getMessage());
             }
+            
         }
         
-        unsavedChanges = false;
-
     }
     
     public void close(){
