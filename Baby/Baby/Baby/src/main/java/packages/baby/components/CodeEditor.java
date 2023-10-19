@@ -30,7 +30,7 @@ public class CodeEditor extends JScrollPane{
         
         initComponents();
         
-        addDocumentListenerToTextArea();
+//        addDocumentListenerToTextArea();
         
         
         
@@ -46,6 +46,10 @@ public class CodeEditor extends JScrollPane{
     
     public UndoManager getUndoManager(){
         return this.undoManager;
+    }
+    
+    public LineNumber getLineNumber(){
+        return this.lineNumber;
     }
     
     public void save(){
@@ -159,28 +163,31 @@ public class CodeEditor extends JScrollPane{
         textArea.setCaret(customCaret);
     }
     
-    private void addDocumentListenerToTextArea(){
-        textArea.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                lineNumber.updateLineNumbers();
-                code.setUnsavedChanges(true);               
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                lineNumber.updateLineNumbers();               
-                code.setUnsavedChanges(true);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                lineNumber.updateLineNumbers();
-                code.setUnsavedChanges(true);
-            }
-        });
-    }
-    
+//    private void addDocumentListenerToTextArea(){
+//        textArea.getDocument().addDocumentListener(new DocumentListener() {
+//            @Override
+//            public void insertUpdate(DocumentEvent e) {
+//                lineNumber.updateLineNumbers();
+//                code.setUnsavedChanges(true);
+//                System.out.println("2");
+//            }
+//
+//            @Override
+//            public void removeUpdate(DocumentEvent e) {
+//                lineNumber.updateLineNumbers();               
+//                code.setUnsavedChanges(true);
+//                System.out.println("2");
+//            }
+//
+//            @Override
+//            public void changedUpdate(DocumentEvent e) {
+//                lineNumber.updateLineNumbers();
+//                code.setUnsavedChanges(true);
+//                System.out.println("2");
+//            }
+//        });
+//    }
+//    
     private static void customizeScrollPane(JScrollPane scrollPane) {
         // Set a custom border with increased width and RGB color
         int borderWidth = 20; // Set the desired width of the border
@@ -214,31 +221,6 @@ public class CodeEditor extends JScrollPane{
         textArea.setForeground(new Color(255, 255, 255));
         textArea.setBackground(new Color(31, 31, 31));
         
-    }
-    
-    class LineNumber extends JTextArea {
-        private JTextArea textArea;
-        private int lineCount;
-
-        public LineNumber(JTextArea textArea) {
-            this.textArea = textArea;
-        }
-
-        public void updateLineNumbers() {
-            String text = textArea.getText();
-            String[] lines = text.split("\n", -1);
-            lineCount = lines.length;
-
-            StringBuilder lineNumbers = new StringBuilder();
-
-            for (int i = 1; i <= lineCount; i++) {
-                lineNumbers.append(i).append("\n");
-            }
-
-            setText(lineNumbers.toString());
-        }
-
-
     }
 
     class CustomCaret extends DefaultCaret {

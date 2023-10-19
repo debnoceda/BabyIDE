@@ -27,6 +27,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import packages.baby.components.LineNumber;
 
 /**
  *
@@ -46,7 +47,7 @@ public class Ide extends javax.swing.JFrame {
         Image img = new ImageIcon(this.getClass().getResource("/icons/Logo.png")).getImage();
         this.setIconImage(img);
         updateFileName();  
-        setTitle(afileName);
+        setTitle(afileName);     
     }
     
     public void updateFileName() {
@@ -236,27 +237,42 @@ public class Ide extends javax.swing.JFrame {
     }
     
     public void setupButtonActivity(){
+        LineNumber lineNumber = editor.getLineNumber();
+        
+        
         editor.getTextArea().getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
+                lineNumber.updateLineNumbers();
+                editor.setUnsavedChanges(true);
                 updateButtonActivity();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
+                lineNumber.updateLineNumbers();
+                editor.setUnsavedChanges(true);
                 updateButtonActivity();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
+                lineNumber.updateLineNumbers();
+                editor.setUnsavedChanges(true);
                 updateButtonActivity();
             }
         });
     }
     
     public void initButtonActivity(){
-        Save.setEnabled(false);
-        save.setEnabled(false);
+        if(!editor.hasUnsavedChanges()){
+            Save.setEnabled(false);
+            save.setEnabled(false);
+            System.out.println("3");
+        }
+        else{
+            System.out.println("1");
+        }
         
         Redo.setEnabled(false);
         redo.setEnabled(false);
@@ -274,6 +290,7 @@ public class Ide extends javax.swing.JFrame {
         
         Save.setEnabled(hasUnsavedChanges);
         save.setEnabled(hasUnsavedChanges);
+        System.out.println("Ey");
         
         Redo.setEnabled(canRedo);
         redo.setEnabled(canRedo);
