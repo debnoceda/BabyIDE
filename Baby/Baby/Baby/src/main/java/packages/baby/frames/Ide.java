@@ -204,6 +204,10 @@ public class Ide extends javax.swing.JFrame {
                 //return; // I don't know why but by commenting this out, the program works :)
             }
         }
+        
+        else {
+            dispose();
+        }
         //dispose(); // when this exists, if you close the program and close the confirm dialog, the frame exits regardless
                      // when this disappears, if you close the program and close the confirm dialog, the next instance of closing the program will not occur
         
