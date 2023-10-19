@@ -201,10 +201,13 @@ public class Ide extends javax.swing.JFrame {
                 return;
             } else if (choice == 2) {
                 // User clicked "Cancel" or closed the dialog
-                return;
+                //return; // I don't know why but by commenting this out, the program works :)
             }
         }
-        dispose();
+        //dispose(); // when this exists, if you close the program and close the confirm dialog, the frame exits regardless
+                     // when this disappears, if you close the program and close the confirm dialog, the next instance of closing the program will not occur
+        
+        
     }
     
     //checks if the HomeScreen window is open
