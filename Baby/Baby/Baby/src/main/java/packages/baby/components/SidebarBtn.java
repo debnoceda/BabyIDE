@@ -30,7 +30,7 @@ public class SidebarBtn extends JButton{
             
             @Override
             public void mouseClicked(MouseEvent e) {
-                setBackground(new java.awt.Color(50, 50, 50));
+                setBackground(new java.awt.Color(51, 51, 51));
                 setBorder(null);
             }
 
@@ -47,8 +47,10 @@ public class SidebarBtn extends JButton{
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(new java.awt.Color(62, 62, 62));
-                setBorder(null);
+                if(isEnabled()){
+                    setBackground(new java.awt.Color(88, 88, 88));
+                    setBorder(null);   
+                }
             }
 
             @Override

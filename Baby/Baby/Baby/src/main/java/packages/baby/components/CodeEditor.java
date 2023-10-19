@@ -60,14 +60,16 @@ public class CodeEditor extends JScrollPane{
         code.saveAs(textArea.getText());
     }
     
-    public void open(){
+    public boolean open(){
         
         String codeContent = code.open();
         if (codeContent != null) {
             textArea.setText(codeContent);
+            return true;
         }
         
         code.setUnsavedChanges(false);
+        return false;
     }
     
     public void undo() {

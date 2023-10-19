@@ -837,8 +837,8 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_RunActionPerformed
           
 
-    public void openAction(java.awt.event.ActionEvent evt) {
-        OpenActionPerformed(evt);
+    public boolean openAction(java.awt.event.ActionEvent evt) {
+        return editor.open();
     }
     
     private void setupKeyboardShortcuts() {

@@ -122,10 +122,11 @@ public class HomeScreen extends javax.swing.JFrame {
     private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
         // TODO add your handling code here:
         Ide ide = new Ide();
-        ide.openAction(evt);
-        ide.setVisible(true);//displays the ide frame
-
-        dispose(); //closes the current frame
+        boolean fileOpened = ide.openAction(evt);
+        if(fileOpened){
+            ide.setVisible(true);//displays the ide frame
+            dispose(); //closes the current frame   
+        }
     }//GEN-LAST:event_openFileActionPerformed
 
 
