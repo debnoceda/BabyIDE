@@ -213,6 +213,7 @@ public class CodeEditor extends JScrollPane{
         textArea.setFont(new Font("Arial", Font.PLAIN, 14));
         textArea.setForeground(new Color(255, 255, 255));
         textArea.setBackground(new Color(31, 31, 31));
+        
     }
     
     class LineNumber extends JTextArea {

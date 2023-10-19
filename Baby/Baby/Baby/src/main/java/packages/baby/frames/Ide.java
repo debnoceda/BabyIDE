@@ -51,7 +51,7 @@ public class Ide extends javax.swing.JFrame {
     
     public void updateFileName() {
         afileName = editor.getFileName();
-        fileName.setText(afileName);
+//        fileName.setText(afileName);
         setTitle(afileName);
     }
    
@@ -290,8 +290,6 @@ public class Ide extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         Run = new packages.baby.components.SidebarBtn();
-        fileNamePanel = new javax.swing.JPanel();
-        fileName = new javax.swing.JTextArea();
         jSplitPane1 = new javax.swing.JSplitPane();
         editor = new packages.baby.components.CodeEditor();
         jTextField1 = new javax.swing.JTextField();
@@ -317,7 +315,6 @@ public class Ide extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Baby");
         setBackground(new java.awt.Color(31, 31, 31));
-        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         idePnl.setBackground(new java.awt.Color(51, 51, 51));
         idePnl.setForeground(new java.awt.Color(31, 31, 31));
@@ -402,7 +399,13 @@ public class Ide extends javax.swing.JFrame {
             }
         });
 
+        jSeparator4.setForeground(new java.awt.Color(51, 51, 51));
+
+        jSeparator5.setForeground(new java.awt.Color(51, 51, 51));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sidebarLogo.png"))); // NOI18N
+
+        jSeparator6.setForeground(new java.awt.Color(51, 51, 51));
 
         Run.setForeground(new java.awt.Color(255, 255, 255));
         Run.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.png"))); // NOI18N
@@ -444,17 +447,17 @@ public class Ide extends javax.swing.JFrame {
         sidebarPnlLayout.setVerticalGroup(
             sidebarPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarPnlLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(24, 24, 24)
                 .addComponent(Home, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Open, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Undo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -464,34 +467,9 @@ public class Ide extends javax.swing.JFrame {
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Run, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(47, 47, 47))
-        );
-
-        fileNamePanel.setBackground(new java.awt.Color(31, 31, 31));
-
-        fileName.setEditable(false);
-        fileName.setBackground(new java.awt.Color(31, 31, 31));
-        fileName.setColumns(20);
-        fileName.setForeground(new java.awt.Color(255, 255, 255));
-        fileName.setRows(5);
-
-        javax.swing.GroupLayout fileNamePanelLayout = new javax.swing.GroupLayout(fileNamePanel);
-        fileNamePanel.setLayout(fileNamePanelLayout);
-        fileNamePanelLayout.setHorizontalGroup(
-            fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(fileName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        fileNamePanelLayout.setVerticalGroup(
-            fileNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileNamePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(fileName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         jSplitPane1.setBackground(new java.awt.Color(51, 51, 51));
@@ -510,20 +488,13 @@ public class Ide extends javax.swing.JFrame {
             .addGroup(idePnlLayout.createSequentialGroup()
                 .addComponent(sidebarPnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSplitPane1)
-                    .addGroup(idePnlLayout.createSequentialGroup()
-                        .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 781, Short.MAX_VALUE)))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE)
                 .addContainerGap())
         );
         idePnlLayout.setVerticalGroup(
             idePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sidebarPnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(idePnlLayout.createSequentialGroup()
-                .addComponent(fileNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1))
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         getContentPane().add(idePnl, java.awt.BorderLayout.CENTER);
@@ -910,8 +881,6 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JMenuItem copy;
     private javax.swing.JMenuItem cut;
     private packages.baby.components.CodeEditor editor;
-    private javax.swing.JTextArea fileName;
-    private javax.swing.JPanel fileNamePanel;
     private javax.swing.JPanel idePnl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
