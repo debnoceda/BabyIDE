@@ -34,9 +34,11 @@ public class CodeEditor extends JScrollPane{
         
         
         
-        // Attach the UndoManager to the textArea's document
-        textArea.getDocument().addUndoableEditListener(undoManager);
+//        // Attach the UndoManager to the textArea's document
+//        textArea.getDocument().addUndoableEditListener(undoManager);
         textArea.setTabSize(2);
+        
+        System.out.println("izza wyea?");
 
     }
     

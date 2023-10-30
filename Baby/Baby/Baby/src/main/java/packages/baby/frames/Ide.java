@@ -27,6 +27,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import packages.baby.components.LineNumber;
 
 /**
@@ -238,7 +240,14 @@ public class Ide extends javax.swing.JFrame {
     
     public void setupButtonActivity(){
         LineNumber lineNumber = editor.getLineNumber();
-        
+
+        editor.getTextArea().getDocument().addUndoableEditListener(new UndoableEditListener() {
+            @Override
+            public void undoableEditHappened(UndoableEditEvent evt) {
+                editor.getUndoManager().addEdit(evt.getEdit());
+                updateButtonActivity();
+            }
+        });
         
         editor.getTextArea().getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -265,14 +274,8 @@ public class Ide extends javax.swing.JFrame {
     }
     
     public void initButtonActivity(){
-        if(!editor.hasUnsavedChanges()){
-            Save.setEnabled(false);
-            save.setEnabled(false);
-            System.out.println("3");
-        }
-        else{
-            System.out.println("1");
-        }
+        Save.setEnabled(false);
+        save.setEnabled(false);
         
         Redo.setEnabled(false);
         redo.setEnabled(false);
@@ -287,10 +290,9 @@ public class Ide extends javax.swing.JFrame {
         boolean canUndo = editor.getUndoManager().canUndo();
         boolean canRedo = editor.getUndoManager().canRedo();
         boolean hasUnsavedChanges = editor.hasUnsavedChanges();
-        
+                
         Save.setEnabled(hasUnsavedChanges);
         save.setEnabled(hasUnsavedChanges);
-        System.out.println("Ey");
         
         Redo.setEnabled(canRedo);
         redo.setEnabled(canRedo);
@@ -691,7 +693,9 @@ public class Ide extends javax.swing.JFrame {
             if (choice == 0) {
                 // User clicked "Open File"
                 editor.open();
-                return;
+                updateFileName();
+                editor.resetUndoManager();
+                updateButtonActivity();
             } else if (choice == 1) {
                 // User clicked "Save"
                 editor.save();
@@ -702,10 +706,7 @@ public class Ide extends javax.swing.JFrame {
             }
         }
         
-        editor.open();
-        updateFileName();
-        editor.resetUndoManager();
-        updateButtonActivity();
+
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
@@ -714,23 +715,7 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_newWindowActionPerformed
 
     private void openFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileActionPerformed
-        if (editor.hasUnsavedChanges()){
-            int choice = JOptionPane.showConfirmDialog(
-            Ide.this,
-            "You have unsaved changes. Do you want to open another file without saving?",
-            "Confirm Exit",
-            JOptionPane.YES_NO_OPTION
-            );
-            
-            if (choice == JOptionPane.NO_OPTION) {
-                return;
-            }
-        }
-        
-        editor.open();
-        updateFileName();
-        editor.resetUndoManager();
-        updateButtonActivity();
+        OpenActionPerformed(evt);
     }//GEN-LAST:event_openFileActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
