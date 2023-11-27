@@ -40,6 +40,10 @@ public class CodeEditor extends JScrollPane{
 
     }
     
+    public String getCode(){
+        return textArea.getText();
+    }
+    
     public JTextArea getTextArea(){
         return this.textArea;
     }

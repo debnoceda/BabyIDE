@@ -33,6 +33,10 @@ public class Terminal extends JScrollPane{
         initComponents();
     }
     
+    public void setText(String output){
+        textArea.setText(output);
+    }
+    
     public void initComponents(){
         
        

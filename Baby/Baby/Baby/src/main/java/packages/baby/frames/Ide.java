@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
@@ -29,6 +30,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
+import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.components.LineNumber;
 
 /**
@@ -328,7 +331,7 @@ public class Ide extends javax.swing.JFrame {
         Run = new packages.baby.components.SidebarBtn();
         jSplitPane1 = new javax.swing.JSplitPane();
         editor = new packages.baby.components.CodeEditor();
-        terminal1 = new packages.baby.components.Terminal();
+        terminal = new packages.baby.components.Terminal();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newWindow = new javax.swing.JMenuItem();
@@ -512,7 +515,7 @@ public class Ide extends javax.swing.JFrame {
         jSplitPane1.setDividerLocation(500);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setTopComponent(editor);
-        jSplitPane1.setRightComponent(terminal1);
+        jSplitPane1.setRightComponent(terminal);
 
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
         idePnl.setLayout(idePnlLayout);
@@ -820,11 +823,19 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_RunMouseEntered
 
     private void RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunActionPerformed
-        System.out.println("Hello");
+        String code = editor.getCode();
+        String[] lines = code.split("\n");
+
+        // Start Lexical Analysis of code
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
+        List<Token> tokens = lexicalAnalyzer.analyze(lines);
+        
+        // System.out.println(lexicalAnalyzer.getCh());
+        terminal.setText(getTokens(tokens));
     }//GEN-LAST:event_RunActionPerformed
 
     private void runCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCodeActionPerformed
-        // TODO add your handling code here:
+        RunActionPerformed(evt);
     }//GEN-LAST:event_runCodeActionPerformed
           
 
@@ -891,7 +902,18 @@ public class Ide extends javax.swing.JFrame {
         }
     }
     
-    
+    public String getTokens(List<Token> tokens){
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        for(int i = 0; i < tokens.size(); i++){
+            Token token = tokens.get(i);
+            stringBuilder.append("Line Number: " + token.getNLine() + "\t" + "Value: " +  token.getValue() + "\t" + "Token Type: " + token.getTokenType() + "\n");
+        }
+        
+        String tokensTable = stringBuilder.toString();
+        
+        return tokensTable;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -927,7 +949,7 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JMenuItem save;
     private javax.swing.JMenuItem saveAs;
     private javax.swing.JPanel sidebarPnl;
-    private packages.baby.components.Terminal terminal1;
+    private packages.baby.components.Terminal terminal;
     private javax.swing.JMenuItem undo;
     // End of variables declaration//GEN-END:variables
 }
