@@ -643,6 +643,11 @@ public class Ide extends javax.swing.JFrame {
         jMenu3.setText("Run");
 
         runCode.setText("Run Code");
+        runCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runCodeActionPerformed(evt);
+            }
+        });
         jMenu3.add(runCode);
 
         jMenuBar1.add(jMenu3);
@@ -818,8 +823,12 @@ public class Ide extends javax.swing.JFrame {
     }//GEN-LAST:event_RunMouseEntered
 
     private void RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunActionPerformed
-        // TODO add your handling code here:
+        System.out.println("Hello");
     }//GEN-LAST:event_RunActionPerformed
+
+    private void runCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runCodeActionPerformed
           
 
     public boolean openAction(java.awt.event.ActionEvent evt) {
