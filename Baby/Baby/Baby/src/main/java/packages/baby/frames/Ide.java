@@ -328,7 +328,7 @@ public class Ide extends javax.swing.JFrame {
         Run = new packages.baby.components.SidebarBtn();
         jSplitPane1 = new javax.swing.JSplitPane();
         editor = new packages.baby.components.CodeEditor();
-        jTextField1 = new javax.swing.JTextField();
+        terminal1 = new packages.baby.components.Terminal();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newWindow = new javax.swing.JMenuItem();
@@ -512,10 +512,7 @@ public class Ide extends javax.swing.JFrame {
         jSplitPane1.setDividerLocation(500);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setTopComponent(editor);
-
-        jTextField1.setBackground(new java.awt.Color(31, 31, 31));
-        jTextField1.setBorder(null);
-        jSplitPane1.setRightComponent(jTextField1);
+        jSplitPane1.setRightComponent(terminal1);
 
         javax.swing.GroupLayout idePnlLayout = new javax.swing.GroupLayout(idePnl);
         idePnl.setLayout(idePnlLayout);
@@ -922,7 +919,6 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuItem newWindow;
     private javax.swing.JMenuItem openFile;
     private javax.swing.JMenuItem paste;
@@ -931,6 +927,7 @@ public class Ide extends javax.swing.JFrame {
     private javax.swing.JMenuItem save;
     private javax.swing.JMenuItem saveAs;
     private javax.swing.JPanel sidebarPnl;
+    private packages.baby.components.Terminal terminal1;
     private javax.swing.JMenuItem undo;
     // End of variables declaration//GEN-END:variables
 }
