@@ -36,8 +36,11 @@ public class LexicalAnalyzer {
         typeWithFixedLex.put("be",TokenType.BE);
         typeWithFixedLex.put("word",TokenType.DATATYPE);
         typeWithFixedLex.put("num",TokenType.DATATYPE);
-        typeWithFixedLex.put("enter",TokenType.FUNC);
-        typeWithFixedLex.put("show",TokenType.FUNC);
+        typeWithFixedLex.put("enter",TokenType.ENTER);
+        typeWithFixedLex.put("show",TokenType.SHOW);
+        typeWithFixedLex.put("showline",TokenType.SHOWLINE);
+        typeWithFixedLex.put("$",TokenType.EOF);
+        typeWithFixedLex.put("=",TokenType.EQUAL);
         // Might add for printing with new line
 
     }

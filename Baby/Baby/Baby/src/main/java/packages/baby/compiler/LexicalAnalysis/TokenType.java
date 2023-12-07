@@ -6,10 +6,10 @@ public enum TokenType {
     ID, STR, CHAR, INT, DEC,
 
     // Special characters
-    PLUS, MINUS, TIMES, DIVIDE, SEMICOLON, LPAREN, RPAREN, COM,
+    PLUS, MINUS, TIMES, DIVIDE, SEMICOLON, LPAREN, RPAREN, COM, EQUAL,
 
     // Keywords
-    DATATYPE, FUNC, LET, BE,
+    DATATYPE, LET, BE, ENTER, SHOW, SHOWLINE, EOF,
     
     // Invalid
     INVALID

@@ -18,23 +18,27 @@ public class Compiler {
     String code = "";
     Terminal terminal;
     
+    List<Token> tokens;
+    
     public Compiler(String code, Terminal terminal){
         this.code = code;
         this.terminal = terminal;
     }
     
     public void run(){
-        String[] lines = code.split("\n");
+        code = code + "\n$";
+        
+        String[] lines = code.split("\n");           
 
         // Start Lexical Analysis of code
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
-        List<Token> tokens = lexicalAnalyzer.analyze(lines);
+        tokens = lexicalAnalyzer.analyze(lines);
         
         // System.out.println(lexicalAnalyzer.getCh());
-        terminal.setText(getTokens(tokens));
+        terminal.setText(printTokens(tokens));
     }
     
-    public String getTokens(List<Token> tokens){
+    public String printTokens(List<Token> tokens){
         StringBuilder stringBuilder = new StringBuilder();
         
         for(int i = 0; i < tokens.size(); i++){
@@ -45,6 +49,10 @@ public class Compiler {
         String tokensTable = stringBuilder.toString();
         
         return tokensTable;
+    }
+    
+    public List<Token> getTokens(){
+        return tokens;
     }
     
 }
