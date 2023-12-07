@@ -26,7 +26,23 @@ public class Compiler {
     }
     
     public void run(){
+        // Append $
         code = code + "\n$";
+        
+        /*
+        * Lexemes must be separated by at least one space to be recognized as separate things.
+        * Hence, to handle cases where there are no spaces before and after symbols, we need to
+        * add white space before and after particular symbols , ; ( ) + - * /
+        */
+
+        // Add white space before and after particular symbols
+        code = code.replaceAll("([,;()\\+\\-*/])", " $1 "); // !! Issue: will also replace symbols inside quote marks
+
+        // Remove comments
+        code = code.replaceAll("#.*\n", ""); // !! Issue: will also remove those in quote marks
+
+        // Handle numbers with signs
+        code.replaceAll("([+-/*])\\s*([+-])\\s*([0-9]+)", "$1 $2$3"); 
         
         String[] lines = code.split("\n");           
 

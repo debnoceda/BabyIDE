@@ -1,11 +1,14 @@
 packages/baby/frames/Ide$29.class
-packages/baby/components/Terminal$CustomCaret.class
 packages/baby/compiler/LexicalAnalysis/Token.class
-packages/baby/components/Terminal.class
-packages/baby/compiler/LexicalAnalysis/State.class
 packages/baby/compiler/Compiler.class
 packages/baby/compiler/LexicalAnalysis/Automaton.class
 packages/baby/compiler/LexicalAnalysis/Automaton$1.class
 packages/baby/compiler/LexicalAnalysis/TokenType.class
 packages/baby/frames/Ide$28.class
+packages/baby/components/Terminal$CustomCaret.class
+packages/baby/components/Terminal.class
+packages/baby/compiler/LexicalAnalysis/State.class
+packages/baby/compiler/SymbolTable.class
 packages/baby/compiler/LexicalAnalysis/LexicalAnalyzer.class
+packages/baby/compiler/SyntaxAnalysis/Parser.class
+packages/baby/compiler/Symbol.class

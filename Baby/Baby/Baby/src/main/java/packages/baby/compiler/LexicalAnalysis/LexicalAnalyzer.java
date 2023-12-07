@@ -58,10 +58,10 @@ public class LexicalAnalyzer {
              *  We handle it using the regex.
              */
 
-            // Handle space and exclude those inside double quotes
-            // String regex = "\\s+(?=\"[^\"]*\")";
+            // Handle space and exclude those inside double and single quotes
+            String regex = "\\s+(?=(?:[^'\"]*['\"][^'\"]*['\"])*(?![^'\"]*['\"]))";
 
-            for(String str : lines[i].split(" ")){
+            for(String str : lines[i].split(regex)){
                 
                 TokenType aTokenType;
 
