@@ -3,6 +3,7 @@ packages/baby/components/Terminal$CustomCaret.class
 packages/baby/compiler/LexicalAnalysis/Token.class
 packages/baby/components/Terminal.class
 packages/baby/compiler/LexicalAnalysis/State.class
+packages/baby/compiler/Compiler.class
 packages/baby/compiler/LexicalAnalysis/Automaton.class
 packages/baby/compiler/LexicalAnalysis/Automaton$1.class
 packages/baby/compiler/LexicalAnalysis/TokenType.class

@@ -32,6 +32,7 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
+import packages.baby.compiler.Compiler;
 import packages.baby.components.LineNumber;
 
 /**
@@ -824,14 +825,18 @@ public class Ide extends javax.swing.JFrame {
 
     private void RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunActionPerformed
         String code = editor.getCode();
-        String[] lines = code.split("\n");
-
-        // Start Lexical Analysis of code
-        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
-        List<Token> tokens = lexicalAnalyzer.analyze(lines);
         
-        // System.out.println(lexicalAnalyzer.getCh());
-        terminal.setText(getTokens(tokens));
+        Compiler compiler = new Compiler(code, terminal);
+        compiler.run();
+        
+//        String[] lines = code.split("\n");
+//
+//        // Start Lexical Analysis of code
+//        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
+//        List<Token> tokens = lexicalAnalyzer.analyze(lines);
+//        
+//        // System.out.println(lexicalAnalyzer.getCh());
+//        terminal.setText(getTokens(tokens));
     }//GEN-LAST:event_RunActionPerformed
 
     private void runCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCodeActionPerformed
