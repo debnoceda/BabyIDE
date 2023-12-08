@@ -62,6 +62,10 @@ public class Ide extends javax.swing.JFrame {
         setTitle(afileName);
     }
     
+    public String getFileName(){
+        return editor.getFileName();
+    }
+    
     
    
     
