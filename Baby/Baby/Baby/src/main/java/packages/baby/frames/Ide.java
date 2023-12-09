@@ -34,6 +34,7 @@ import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.Compiler;
 import packages.baby.components.LineNumber;
+import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 
 /**
  *
@@ -53,22 +54,15 @@ public class Ide extends javax.swing.JFrame {
         Image img = new ImageIcon(this.getClass().getResource("/icons/Logo.png")).getImage();
         this.setIconImage(img);
         updateFileName();  
-        setTitle(afileName);     
-    }
-    
-    public void updateFileName() {
-        afileName = editor.getFileName();
-//        fileName.setText(afileName);
         setTitle(afileName);
     }
     
-    public String getFileName(){
-        return editor.getFileName();
+    public String updateFileName() {
+        afileName = editor.getFileName();
+//        fileName.setText(afileName);
+        setTitle(afileName);
+        return afileName;
     }
-    
-    
-   
-    
     
     public class CustomCloseDialog extends JDialog {
         private int dialogResult = -1; // Default: Cancel
