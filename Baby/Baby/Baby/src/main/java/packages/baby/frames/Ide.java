@@ -34,7 +34,6 @@ import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.Compiler;
 import packages.baby.components.LineNumber;
-import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 
 /**
  *
@@ -827,7 +826,7 @@ public class Ide extends javax.swing.JFrame {
         String code = editor.getCode();
         
         Compiler compiler = new Compiler(code, terminal);
-        compiler.run();
+        compiler.run(afileName);
         
 //        String[] lines = code.split("\n");
 //

@@ -9,6 +9,8 @@ import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.SyntaxAnalysis.Parser;
 import packages.baby.components.Terminal;
+import packages.baby.compiler.CodeGenerator.MIPSAssembly;
+import packages.baby.frames.Ide;
 
 /**
  *
@@ -26,7 +28,7 @@ public class Compiler {
         this.terminal = terminal;
     }
     
-    public void run(){
+    public void run(String afileName){
         // Append $
         code = code + " $";
         
@@ -52,7 +54,7 @@ public class Compiler {
         tokens = lexicalAnalyzer.analyze(lines);
         
         // Start Syntax Analysis of Code
-        Parser parser = new Parser(tokens);
+        Parser parser = new Parser(tokens, afileName);
         //String successState = "Parse Success State: " + parser.getSuccess();
         
         // System.out.println(lexicalAnalyzer.getCh());

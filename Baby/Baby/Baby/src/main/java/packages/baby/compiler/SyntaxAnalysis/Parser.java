@@ -3,17 +3,37 @@ package packages.baby.compiler.SyntaxAnalysis;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.LexicalAnalysis.TokenType;
 import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 
 public class Parser {
     List<Token> tokens;
     Token lookahead;
     StringBuilder message = new StringBuilder();
     boolean success = true;
+    private String fileName;
+    String mipsCode;
 
-    public Parser(List<Token> tokens) {
+    public Parser(List<Token> tokens, String afileName) {
         this.tokens = tokens;
         lookahead = getToken();
+        setFileName(afileName);
+        writeToFile(fileName, mipsCode);
+        System.out.println("MIPS code has been written in the file: " + fileName);
         Program();
+    }
+    
+    private void setFileName(String afileName){
+        fileName = afileName.replace(".bby", ".s");
+    }
+    
+    private static void writeToFile(String filename, String content) {
+        try (FileWriter writer = new FileWriter(filename, false)) {
+            writer.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     private Token getToken() {
@@ -43,14 +63,14 @@ public class Parser {
     }
 
     private void Error(String lexeme) { // may need other messages if data type is wrong
-        message.append("Error at line " +  lookahead.getNLine()+ ": '" + lexeme + "' expected.\n\n") ;
+        message.append("Error at line " +  lookahead.getNLine()+ ": " + lexeme + " expected.\n\n") ;
         setSuccess(false);
     }
 
     public String printParseError() {
         return message.toString();
     }
-    
+
     private void Program() {
         StmtList();
         if (success && match(TokenType.EOF)) { // EOF == $
@@ -60,7 +80,7 @@ public class Parser {
     
     private void StmtList() {
     	Stmt();
-        if (!match(TokenType.SEMICOLON)) {Error(";");} // SEMICOLON == ;
+        if (!match(TokenType.SEMICOLON)) {Error("';'");} // SEMICOLON == ;
         StmtList_();
     }
     
@@ -85,9 +105,9 @@ public class Parser {
 
     private void Declare() {
         if (lookahead.getTokenType() == TokenType.LET) { // LET == let
-            if (!match(TokenType.LET)) {Error("let");} // LET == let
+            match(TokenType.LET); // LET == let
             DeclareList();
-            if (!match(TokenType.BE)) {Error("be");} // BE == be
+            if (!match(TokenType.BE)) {Error("'be'");} // BE == be
             Type();
         }
     }
@@ -99,7 +119,7 @@ public class Parser {
 
     private void DeclareList_() {
         if (lookahead.getTokenType() == TokenType.COM) {
-            if (!match(TokenType.COM)) {Error(",");}
+            match(TokenType.COM);
             DeclareList();
         }
     }
@@ -113,23 +133,23 @@ public class Parser {
 
     private void DeclareType_() {
         if (lookahead.getTokenType() == TokenType.EQUAL) {
-            if (!match(TokenType.EQUAL)) {Error("=");} //////////// ehhhhhhh
+           match(TokenType.EQUAL);
             Value(); 
         }
     }
 
     private void Type() {
         if (lookahead.getTokenType() == TokenType.DATATYPE) {
-            match(TokenType.DATATYPE); ////////////// ehhhhhh
+            match(TokenType.DATATYPE); 
         }
         else {
-            Error("Data type");   ////////////// ehhhhhh
+            Error("Data type");
         }
     }
 
     private void Assignment() {
         Var();
-        if (!match(TokenType.EQUAL)) {Error("equal");} /////////// ehhhh
+        if (!match(TokenType.EQUAL)) {Error("'='");}
         Value();
     }
 
@@ -141,14 +161,17 @@ public class Parser {
                  lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
             Expr();
         }
+        else {
+            Error("Value after '='");
+        }
     }
 
     private void Get() {
         if (lookahead.getTokenType() ==  TokenType.ENTER) {
-            if (!match(TokenType.ENTER)) {Error("enter");} ////// ehhhhhh
-            if (!match(TokenType.LPAREN)) {Error("(");}
+            match(TokenType.ENTER);
+            if (!match(TokenType.LPAREN)) {Error("'('");}
             Prompt();
-            if (!match(TokenType.RPAREN)) {Error("}");}
+            if (!match(TokenType.RPAREN)) {Error("')'");}
         }
     }
 
@@ -165,12 +188,12 @@ public class Parser {
 
     private void Expr_() {
         if (lookahead.getTokenType() == TokenType.PLUS) {
-            if (!match(TokenType.PLUS)) {Error("Operator");} /// eeeehhhhhhhh
+            match(TokenType.PLUS);
             Term();
             Expr_();
         }
         else if (lookahead.getTokenType() == TokenType.MINUS) {
-            if (!match(TokenType.MINUS)) {Error("Operator");} /// eeeehhhhhhhh
+            match(TokenType.MINUS);
             Term();
             Expr_();
         }
@@ -183,12 +206,12 @@ public class Parser {
 
     private void Term_() {
         if (lookahead.getTokenType() == TokenType.TIMES) {
-            if (!match(TokenType.TIMES)) {Error("Operator");} /// eeeehhhhhhhh
+            match(TokenType.TIMES);
             Factor();
             Term_();
         }
         else if (lookahead.getTokenType() == TokenType.DIVIDE) {
-            if (!match(TokenType.DIVIDE)) {Error("Operator");} /// eeeehhhhhhhh
+            match(TokenType.DIVIDE);
             Factor();
             Term_();
         }
@@ -196,9 +219,9 @@ public class Parser {
 
     private void Factor() {
         if (lookahead.getTokenType() == TokenType.LPAREN) {
-            if (!match(TokenType.LPAREN)) {Error("(");} 
+            match(TokenType.LPAREN); 
             Expr();
-            if (!match(TokenType.RPAREN)) {Error(")");}
+            if (!match(TokenType.RPAREN)) {Error("')'");}
         }
         else if (lookahead.getTokenType() == TokenType.ID) {
             Var();
@@ -210,17 +233,17 @@ public class Parser {
 
     private void Print() {
         PrintKeyword();
-        if (!match(TokenType.LPAREN)) {Error("(");}
+        if (!match(TokenType.LPAREN)) {Error("'('");}
         Output();
-        if (!match(TokenType.LPAREN)) {Error(")");}
+        if (!match(TokenType.LPAREN)) {Error("')'");}
     }
 
     private void PrintKeyword() {
         if (lookahead.getTokenType() == TokenType.SHOW) {
-            if (!match(TokenType.SHOW)) {Error("show");}
+            match(TokenType.SHOW);
         }
         else if (lookahead.getTokenType() == TokenType.SHOWLINE) {
-            if (!match(TokenType.SHOWLINE)) {Error("showline");}
+            match(TokenType.SHOWLINE);
         }
 
     }
@@ -237,25 +260,25 @@ public class Parser {
 
     private void Num() {
         if (lookahead.getTokenType() == TokenType.INT) {
-            if(!match(TokenType.INT)) {Error("Numeric");} ////////// ehhhhhhhhhhhhhh
+            match(TokenType.INT); 
         }
         else if (lookahead.getTokenType() == TokenType.DEC) {
-            if (!match(TokenType.DEC)) {Error("Numeric");} ///////////// ehhhhhh
+            match(TokenType.DEC);
         }
     }
 
     private void Word() {
         if (lookahead.getTokenType() == TokenType.STR ) {
-            if(!match(TokenType.STR)) {Error("Word");} ////////// ehhhhhhhhhhhhhh
+            match(TokenType.STR); 
         }
         else if (lookahead.getTokenType() == TokenType.CHAR) {
-            if (!match(TokenType.CHAR)) {Error("Word");} ///////////// ehhhhhh
+            match(TokenType.CHAR); 
         }
     }
 
     private void Var() {
         if (lookahead.getTokenType() == TokenType.ID) {
-            if (!match(TokenType.ID)) {Error("Variable");} ////// ehhhhhhh
+            match(TokenType.ID);
         }
     }
 }
