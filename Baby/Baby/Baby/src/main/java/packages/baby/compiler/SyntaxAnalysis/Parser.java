@@ -6,6 +6,7 @@ import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
+import java.io.BufferedWriter;
 
 public class Parser {
     List<Token> tokens;
@@ -14,25 +15,39 @@ public class Parser {
     boolean success = true;
     private String fileName;
     String mipsCode;
+    String filePath;
+    String statement;
 
-    public Parser(List<Token> tokens, String afileName) {
+    public Parser(List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.tokens = tokens;
         lookahead = getToken();
         setFileName(afileName);
-        writeToFile(fileName, mipsCode);
+        mipsCode = mips.generateMIPS();
+        filePath = writeToFile(fileName, mipsCode);
         System.out.println("MIPS code has been written in the file: " + fileName);
-        Program();
+        Program(mips);
     }
     
     private void setFileName(String afileName){
         fileName = afileName.replace(".bby", ".s");
     }
     
-    private static void writeToFile(String filename, String content) {
+    private String writeToFile(String filename, String content) {
         try (FileWriter writer = new FileWriter(filename, false)) {
             writer.write(content);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return filename;
+    }   
+
+    public static void appendLineToFile(String filePath, String line) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(line);
+            writer.newLine(); // Append a new line
+            System.out.println("Line appended to the file.");
+        } catch (IOException e) {
+            System.err.println("Error appending line to the file: " + e.getMessage());
         }
     }
     
@@ -71,11 +86,15 @@ public class Parser {
         return message.toString();
     }
 
-    private void Program() {
+    private void Program(MIPSAssembly mips) {
         StmtList();
         if (success && match(TokenType.EOF)) { // EOF == $
+            appendLineToFile(filePath, mips.exitProgram());
             message.append("Parsing successful!");
         }
+        else {
+            message.append("Parsing Unsuccessful!"); // ehhhhhhhhhhhhh
+        }                                             
     }
     
     private void StmtList() {
@@ -126,6 +145,7 @@ public class Parser {
 
     private void DeclareType() { 
         if (lookahead.getTokenType() == TokenType.ID) {
+            
             Var();
             DeclareType_();
         }
@@ -160,6 +180,9 @@ public class Parser {
         else if (lookahead.getTokenType() == TokenType.LPAREN || lookahead.getTokenType() == TokenType.ID || 
                  lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
             Expr();
+        }
+        else if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
+            Word();
         }
         else {
             Error("Value after '='");
@@ -235,7 +258,7 @@ public class Parser {
         PrintKeyword();
         if (!match(TokenType.LPAREN)) {Error("'('");}
         Output();
-        if (!match(TokenType.LPAREN)) {Error("')'");}
+        if (!match(TokenType.RPAREN)) {Error("')'");}
     }
 
     private void PrintKeyword() {
@@ -254,6 +277,7 @@ public class Parser {
             Expr();
         }
         else if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
+            statement = lookahead.getValue();
             Prompt();
         }
     }

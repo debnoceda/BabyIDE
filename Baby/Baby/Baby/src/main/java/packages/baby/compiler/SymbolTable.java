@@ -1,5 +1,7 @@
 package packages.baby.compiler;
 
+import packages.baby.compiler.LexicalAnalysis.Token;
+import packages.baby.compiler.LexicalAnalysis.TokenType;
 import java.util.*;
         
 public class SymbolTable {
@@ -11,8 +13,8 @@ public class SymbolTable {
     }
 
     // Method to insert a symbol into the table
-    public void insertSymbol(String identifier, String type, int declarationLine, int usageLine) {
-        Symbol symbol = new Symbol(identifier, type, declarationLine, usageLine);
+    public void insertSymbol(String identifier, String value, TokenType type) {
+        Symbol symbol = new Symbol(identifier, value, type);
         symbolTable.put(identifier, symbol);
     }
 
@@ -23,14 +25,25 @@ public class SymbolTable {
     }
 
     // Method to set attributes for an existing symbol
-    public void setSymbolAttributes(String identifier, String type, int size, int declarationLine, int usageLine, String address) {
+    public void setSymbolAttributes(String identifier, String value, TokenType type) {
         if (symbolTable.containsKey(identifier)) {
             Symbol symbol = symbolTable.get(identifier);
+            symbol.setName(identifier);
+            symbol.setValue(value);
             symbol.setType(type);
-            symbol.setLineOfDeclaration(declarationLine);
-            symbol.setLineOfUsage(usageLine);
         } else {
-            System.out.println("Symbol '" + identifier + "' not found in the symbol table.");
+            System.out.println("'" + identifier + "' not found in the symbol table.");
+        }
+    }
+
+    public void setSymbolValue(String identifier, String value) {
+        if (symbolTable.containsKey(identifier)) {
+            Symbol symbol = symbolTable.get(identifier); {
+                symbol.setValue(value);
+            }
+        }
+        else {
+            System.out.println("'" + identifier + "' not found in the symbol table.");
         }
     }
 
@@ -38,12 +51,11 @@ public class SymbolTable {
     public void resetSymbolAttributes(String identifier) {
         if (symbolTable.containsKey(identifier)) {
             Symbol symbol = symbolTable.get(identifier);
-            // Resetting attributes, you can customize this based on your requirements
-            symbol.setType("");
-            symbol.setLineOfDeclaration(0);
-            symbol.setLineOfUsage(0);
+            // Resetting attributes
+            symbol.setValue("");
+            symbol.setType(null);
         } else {
-            System.out.println("Symbol '" + identifier + "' not found in the symbol table.");
+            System.out.println("'" + identifier + "' not found in the symbol table.");
         }
     }
 
@@ -65,10 +77,10 @@ public class SymbolTable {
         SymbolTable symbolTable = new SymbolTable();
 
         // Inserting symbols into the table
-        symbolTable.insertSymbol("int", "type", 5, 10);
-        symbolTable.insertSymbol("float", "type", 8, 15);
-        symbolTable.insertSymbol("x", "variable", 12, 20);
-        symbolTable.insertSymbol("print", "function", 25, 30);
+        symbolTable.insertSymbol("x", "1", TokenType.INT);
+        symbolTable.insertSymbol("y", "1.8", TokenType.DEC);
+        symbolTable.insertSymbol("error", "this is an error", TokenType.STR);
+        symbolTable.insertSymbol("ch", "a", TokenType.CHAR);
 
         // Displaying the symbol table
         symbolTable.displayTable();
@@ -78,7 +90,11 @@ public class SymbolTable {
         System.out.println("Looked Up Symbol: " + lookedUpSymbol.toString());
 
         // Setting attributes for an existing symbol
-        symbolTable.setSymbolAttributes("x", "newType", 8, 15, 25, "0x5000");
+        symbolTable.setSymbolAttributes("x", "2", TokenType.INT);
+        symbolTable.displayTable();
+
+        // Setting attributes for an existing symbol
+        symbolTable.setSymbolValue("x", "3");
         symbolTable.displayTable();
 
         // Resetting attributes for an existing symbol

@@ -10,7 +10,6 @@ import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.SyntaxAnalysis.Parser;
 import packages.baby.components.Terminal;
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
-import packages.baby.frames.Ide;
 
 /**
  *
@@ -52,9 +51,11 @@ public class Compiler {
         // Start Lexical Analysis of code
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
         tokens = lexicalAnalyzer.analyze(lines);
+
+        MIPSAssembly mips = new MIPSAssembly();
         
         // Start Syntax Analysis of Code
-        Parser parser = new Parser(tokens, afileName);
+        Parser parser = new Parser(tokens, afileName, mips);
         //String successState = "Parse Success State: " + parser.getSuccess();
         
         // System.out.println(lexicalAnalyzer.getCh());
