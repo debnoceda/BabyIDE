@@ -14,9 +14,8 @@ public class Parser {
     StringBuilder message = new StringBuilder();
     boolean success = true;
     private String fileName;
-    String mipsCode;
-    String filePath;
-    String statement;
+    String mipsCode, filePath, statement;
+    boolean isShowLine = false;
 
     public Parser(List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.tokens = tokens;
@@ -45,7 +44,6 @@ public class Parser {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(line);
             writer.newLine(); // Append a new line
-            System.out.println("Line appended to the file.");
         } catch (IOException e) {
             System.err.println("Error appending line to the file: " + e.getMessage());
         }
@@ -87,7 +85,7 @@ public class Parser {
     }
 
     private void Program(MIPSAssembly mips) {
-        StmtList();
+        StmtList(mips);
         if (success && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
             message.append("Parsing successful!");
@@ -97,20 +95,20 @@ public class Parser {
         }                                             
     }
     
-    private void StmtList() {
-    	Stmt();
+    private void StmtList(MIPSAssembly mips) {
+    	Stmt(mips);
         if (!match(TokenType.SEMICOLON)) {Error("';'");} // SEMICOLON == ;
-        StmtList_();
+        StmtList_(mips);
     }
     
-    private void StmtList_() {
+    private void StmtList_(MIPSAssembly mips) {
         if (lookahead.getTokenType() == TokenType.LET || lookahead.getTokenType() == TokenType.ID ||
             lookahead.getTokenType() == TokenType.SHOW || lookahead.getTokenType() == TokenType.SHOWLINE) { // LET == let || ID == Variable names || SHOW == show || SHOWLINE == showline
-            StmtList();
+            StmtList(mips);
         }
     }
 
-    private void Stmt() {
+    private void Stmt(MIPSAssembly mips) {
         if (lookahead.getTokenType() == TokenType.LET) { // LET == let
             Declare();
         }
@@ -118,7 +116,7 @@ public class Parser {
             Assignment();
         }
         else if (lookahead.getTokenType() == TokenType.SHOW || lookahead.getTokenType() == TokenType.SHOWLINE) { // SHOW == show || SHOWLINE == showline
-            Print();
+            Print(mips);
         }
     }
 
@@ -145,7 +143,7 @@ public class Parser {
 
     private void DeclareType() { 
         if (lookahead.getTokenType() == TokenType.ID) {
-            
+            // identfier = lookahead.getValue()
             Var();
             DeclareType_();
         }
@@ -153,7 +151,7 @@ public class Parser {
 
     private void DeclareType_() {
         if (lookahead.getTokenType() == TokenType.EQUAL) {
-           match(TokenType.EQUAL);
+            match(TokenType.EQUAL);
             Value(); 
         }
     }
@@ -254,19 +252,30 @@ public class Parser {
         }
     }
 
-    private void Print() {
+    private void Print(MIPSAssembly mips) {
         PrintKeyword();
         if (!match(TokenType.LPAREN)) {Error("'('");}
         Output();
+        if(isShowLine){
+            if(statement != null)
+                appendLineToFile(filePath, mips.printStatements(statement));
+            appendLineToFile(filePath, mips.printNewLine());
+        }
+        else{
+            if(statement != null)
+                mips.printStatements(statement);
+        }
         if (!match(TokenType.RPAREN)) {Error("')'");}
     }
 
     private void PrintKeyword() {
         if (lookahead.getTokenType() == TokenType.SHOW) {
             match(TokenType.SHOW);
+            isShowLine = false;
         }
         else if (lookahead.getTokenType() == TokenType.SHOWLINE) {
             match(TokenType.SHOWLINE);
+            isShowLine = true;
         }
 
     }

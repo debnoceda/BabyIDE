@@ -1,19 +1,19 @@
 package packages.baby.compiler;
 
+import packages.baby.compiler.LexicalAnalysis.TokenType;
 import java.util.*;
 
 public class Symbol {
     private String name;
-    private String type; // make token
-    private int lineOfDeclaration;
-    private int lineOfUsage;
+    private String value;
+    private TokenType type;
 
-    public Symbol(String name, String type, int lineOfDeclaration, int lineOfUsage) {
+
+    public Symbol(String name, String value, TokenType type) {
         this.name = name;
+        this.value = value;
         this.type = type;
-        this.lineOfDeclaration = lineOfDeclaration;
-        this.lineOfUsage = lineOfUsage;
-    }
+    }   
 
     // Getters and Setters for the Symbol attributes
     // Getters
@@ -21,38 +21,31 @@ public class Symbol {
         return name;
     }
 
-    public String getType() {
+    public String getValue() {
+        return value;
+    }
+
+    public TokenType getType() { //// review return type
         return type;
     }
 
-    public int getLineOfDeclaration() {
-        return lineOfDeclaration;
-    }
-
-    public int getLineOfUsage() {
-        return lineOfUsage;
-    }
 
     // Setters
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setType(String type) {
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setType(TokenType type) {
         this.type = type;
     }
 
-    public void setLineOfDeclaration(int lineOfDeclaration) {
-        this.lineOfDeclaration = lineOfDeclaration;
-    }
-
-    public void setLineOfUsage(int lineOfUsage) {
-        this.lineOfUsage = lineOfUsage;
-    }
 
     @Override
     public String toString() {
-        return "Type: " + type + ", Declaration Line: " + lineOfDeclaration + 
-                ", Usage Line: " + lineOfUsage;
+        return "Variable Name: " + name + " Value: " + value + " Type: " + type + "\n";
     }
 }
