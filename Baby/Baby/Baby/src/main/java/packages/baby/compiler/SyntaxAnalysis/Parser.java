@@ -1,22 +1,26 @@
 package packages.baby.compiler.SyntaxAnalysis;
 
+import packages.baby.compiler.LexicalAnalysis.Token;
+import packages.baby.compiler.LexicalAnalysis.TokenType;
 import java.util.*;
 
 public class Parser {
     List<Token> tokens;
-	Token lookahead;
+    Token lookahead;
+    String errorMessage;
+    boolean success;
 
     public Parser(List<Token> tokens) {
         this.tokens = tokens;
         lookahead = getToken();
-        Program();   
+        Program();
     }
     
     private Token getToken() {
         return tokens.remove(0);
     }
     
-    private boolean match(TokennType type){
+    private boolean match(TokenType type){
         if (lookahead.getTokenType() == type) {
             lookahead = getToken();
             return true;
@@ -26,46 +30,64 @@ public class Parser {
         }
     }
 
+    private void setSuccess(boolean SuccessState) {
+        this.success = SuccessState;
+    }
+
+    public boolean getSuccess() {
+        return this.success;
+    }
+
     private void Error(String lexeme) { // may need other messages if data type is wrong
-        System.out.println("Error at line " + lookahead.getNLine() + ". '" + lexeme + "' expected.");
+        errorMessage = "Error at line " + lookahead.getNLine() + ". '" + lexeme + "' expected.";
+        setSuccess(false);
+    }
+
+    public String printParseError() {
+        return errorMessage;
     }
     
     private void Program() {
         StmtList();
-        match(EOF); // EOF == $
+        if (match(TokenType.EOF)) { // EOF == $
+            setSuccess(true);
+        }
+        else {
+            setSuccess(false);
+        }
     }
     
     private void StmtList() {
     	Stmt();
-        if (!match(SEMICOLON)) {Error(";");} // SEMICOLON == ;
+        if (!match(TokenType.SEMICOLON)) {Error(";");} // SEMICOLON == ;
         StmtList_();
     }
     
     private void StmtList_() {
-        if (lookahead.getTokenType == LET || lookahead.getTokenType() == ID ||
-            lookahead.getTokenType() == SHOW || lookahead.getTokenType() == SHOWLINE) { // LET == let || ID == Variable names || SHOW == show || SHOWLINE == showline
+        if (lookahead.getTokenType() == TokenType.LET || lookahead.getTokenType() == TokenType.ID ||
+            lookahead.getTokenType() == TokenType.SHOW || lookahead.getTokenType() == TokenType.SHOWLINE) { // LET == let || ID == Variable names || SHOW == show || SHOWLINE == showline
             StmtList();
         }
         else return; // ϵ // check logic
     }
 
     private void Stmt() {
-        if (lookahead.getTokenType() == LET) { // LET == let
+        if (lookahead.getTokenType() == TokenType.LET) { // LET == let
             Declare();
         }
-        else if (lookahead.getTokenType() == ID) { // ID == Variable names
+        else if (lookahead.getTokenType() == TokenType.ID) { // ID == Variable names
             Assignment();
         }
-        else if (lookahead.getTokenType() == SHOW || lookahead.getTokenType() == SHOWLINE) { // SHOW == show || SHOWLINE == showline
+        else if (lookahead.getTokenType() == TokenType.SHOW || lookahead.getTokenType() == TokenType.SHOWLINE) { // SHOW == show || SHOWLINE == showline
             Print();
         }
     }
 
     private void Declare() {
-        if (lookahead.getTokenType() == LET) { // LET == let
-            if (!match(LET)) {Error("let");} // LET == let
+        if (lookahead.getTokenType() == TokenType.LET) { // LET == let
+            if (!match(TokenType.LET)) {Error("let");} // LET == let
             DeclareList();
-            if (!match(BE)) {Error("be");} // BE == be
+            if (!match(TokenType.BE)) {Error("be");} // BE == be
             Type();
         }
     }
@@ -76,63 +98,63 @@ public class Parser {
     }
 
     private void DeclareList_() {
-        if (lookahead.getTokenType() == COM) {
-            if (!match(COM)) {Error(",");}
+        if (lookahead.getTokenType() == TokenType.COM) {
+            if (!match(TokenType.COM)) {Error(",");}
             DeclareList();
         }
         else return; // ϵ // check logic
     }
 
     private void DeclareType() { 
-        if (lookahead.getTokenType() == ID) {
+        if (lookahead.getTokenType() == TokenType.ID) {
             Var();
             DeclareType_();
         }
     }
 
     private void DeclareType_() {
-        if (lookahead.getTokenType == EQUAL) {
-            if (match(EQUAL)) {Error("=");} //////////// ehhhhhhh
+        if (lookahead.getTokenType() == TokenType.EQUAL) {
+            if (match(TokenType.EQUAL)) {Error("=");} //////////// ehhhhhhh
             Value(); 
         }
     }
 
     private void Type() {
-        if (lookahead.getTokenType() == NUMTYPE) {
-            if (!match(NUMTYPE)) {Error("Numeric type");} ////////////// ehhhhhh
+        if (lookahead.getTokenType() == TokenType.DATATYPE) {
+            if (!match(TokenType.DATATYPE)) {Error("Numeric type");} ////////////// ehhhhhh
         }
-        else if (lookahead.getTokenType() == WORDTYPE) {
-            if (!match(WORDTYPE)) {Error("Word Type");}   ////////////// ehhhhhh
+        else if (lookahead.getTokenType() == TokenType.DATATYPE) {
+            if (!match(TokenType.DATATYPE)) {Error("Word Type");}   ////////////// ehhhhhh
         }
     }
 
     private void Assignment() {
         Var();
-        if (!match(EQUAL)) {Error("equal");} /////////// ehhhh
+        if (!match(TokenType.EQUAL)) {Error("equal");} /////////// ehhhh
         Value();
     }
 
     private void Value() {
-        if (lookahead.getTokenType() == ENTER) {
+        if (lookahead.getTokenType() == TokenType.ENTER) {
             Get();
         }
-        else if (lookahead.getTokenType() == LPAREN || lookahead.getTokenType() == ID || 
-                 lookahead.getTokenType() == INT || lookahead.getTokenType() == DEC) {
+        else if (lookahead.getTokenType() == TokenType.LPAREN || lookahead.getTokenType() == TokenType.ID || 
+                 lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
             Expr();
         }
     }
 
     private void Get() {
-        if (lookahead.getTokenType() ==  ENTER) {
-            if (!match(ENTER)) {Error("enter");} ////// ehhhhhh
-            if (!match(LPAREN)) {Error("(");}
+        if (lookahead.getTokenType() ==  TokenType.ENTER) {
+            if (!match(TokenType.ENTER)) {Error("enter");} ////// ehhhhhh
+            if (!match(TokenType.LPAREN)) {Error("(");}
             Prompt();
-            if (!march(RPAREN)) {Error("}");}
+            if (!match(TokenType.RPAREN)) {Error("}");}
         }
     }
 
     private void Prompt() {
-        if (lookahead.getTokenType() == STR || lookahead.getTokenType() == CHAR) {
+        if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
             Word();
         }
         else return; // ϵ // check logic
@@ -144,13 +166,13 @@ public class Parser {
     }
 
     private void Expr_() {
-        if (lookahead.getTokenType() == PLUS) {
-            if (!match(PLUS)) {Error("Operator");} /// eeeehhhhhhhh
+        if (lookahead.getTokenType() == TokenType.PLUS) {
+            if (!match(TokenType.PLUS)) {Error("Operator");} /// eeeehhhhhhhh
             Term();
             Expr();
         }
-        else if (lookahead.getTokenType() == MINUS) {
-            if (!match(MINUS)) {Error("Operator");} /// eeeehhhhhhhh
+        else if (lookahead.getTokenType() == TokenType.MINUS) {
+            if (!match(TokenType.MINUS)) {Error("Operator");} /// eeeehhhhhhhh
             Term();
             Expr();
         }
@@ -163,13 +185,13 @@ public class Parser {
     }
 
     private void Term_() {
-        if (lookahead.getTokenType() == TIMES) {
-            if (!match(TIMES)) {Error("Operator");} /// eeeehhhhhhhh
+        if (lookahead.getTokenType() == TokenType.TIMES) {
+            if (!match(TokenType.TIMES)) {Error("Operator");} /// eeeehhhhhhhh
             Factor();
             Term_();
         }
-        else if (lookahead.getTokenType() == DIVIDE) {
-            if (!match(DIVIDE)) {Error("Operator");} /// eeeehhhhhhhh
+        else if (lookahead.getTokenType() == TokenType.DIVIDE) {
+            if (!match(TokenType.DIVIDE)) {Error("Operator");} /// eeeehhhhhhhh
             Factor();
             Term_();
         }
@@ -177,68 +199,68 @@ public class Parser {
     }
 
     private void Factor() {
-        if (lookahead.getTokenType() == LPAREN) {
-            if (!match(LPAREN)) {Error("(");} 
+        if (lookahead.getTokenType() == TokenType.LPAREN) {
+            if (!match(TokenType.LPAREN)) {Error("(");} 
             Expr();
-            if (!match(RPAREN)) {Error(")");}
+            if (!match(TokenType.RPAREN)) {Error(")");}
         }
-        else if (lookahead.getTokenType() == ID) {
+        else if (lookahead.getTokenType() == TokenType.ID) {
             Var();
         }
-        else if (lookahead.getTokenType() == INT || lookahead.getTokenType() == DEC) {
+        else if (lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
             Num();
         }
     }
 
     private void Print() {
         PrintKeyword();
-        if (!match(LPAREN)) {Error("(");}
+        if (!match(TokenType.LPAREN)) {Error("(");}
         Output();
-        if (!match(LPAREN)) {Error(")");}
+        if (!match(TokenType.LPAREN)) {Error(")");}
     }
 
     private void PrintKeyword() {
-        if (lookahead.getTokenType() == SHOW) {
-            if (!match(SHOW)) {Error("show");}
+        if (lookahead.getTokenType() == TokenType.SHOW) {
+            if (!match(TokenType.SHOW)) {Error("show");}
         }
-        else if (lookahead.getTokenType() == SHOWLINE) {
-            if (!match(SHOWLINE)) {Error("showline");}
+        else if (lookahead.getTokenType() == TokenType.SHOWLINE) {
+            if (!match(TokenType.SHOWLINE)) {Error("showline");}
         }
 
     }
 
     private void Output() {
-        if (lookahead.getTokenType() == LPAREN || lookahead.getTokenType() == ID || 
-            lookahead.getTokenType() == INT || lookahead.getTokenType() == DEC) {
+        if (lookahead.getTokenType() == TokenType.LPAREN || lookahead.getTokenType() == TokenType.ID || 
+            lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
             Expr();
         }
-        else if (lookahead.getTokenType() == STR || lookahead.getTokenType() == CHAR) {
+        else if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
             Prompt();
         }
     }
 
     private void Num() {
-        if (lookahead.getTokenType() == INT) {
-            if(!match(INT)) {Error("Numeric");} ////////// ehhhhhhhhhhhhhh
+        if (lookahead.getTokenType() == TokenType.INT) {
+            if(!match(TokenType.INT)) {Error("Numeric");} ////////// ehhhhhhhhhhhhhh
         }
-        else if (lookahead.getTokenType() == DEC) {
-            if (!match(DEC)) {Error("Numeric");} ///////////// ehhhhhh
+        else if (lookahead.getTokenType() == TokenType.DEC) {
+            if (!match(TokenType.DEC)) {Error("Numeric");} ///////////// ehhhhhh
         }
     }
 
     private void Word() {
-        if (lookahead.getTokenType() == STR ) {
-            if(!match(STR)) {Error("Word");} ////////// ehhhhhhhhhhhhhh
+        if (lookahead.getTokenType() == TokenType.STR ) {
+            if(!match(TokenType.STR)) {Error("Word");} ////////// ehhhhhhhhhhhhhh
         }
-        else if (lookahead.getTokenType() == CHAR) {
-            if (!match(CHAR)) {Error("Word");} ///////////// ehhhhhh
+        else if (lookahead.getTokenType() == TokenType.CHAR) {
+            if (!match(TokenType.CHAR)) {Error("Word");} ///////////// ehhhhhh
         }
     }
 
     private void Var() {
-        if (lookahead.getTokenType() == ID) {
-            if (!match(ID)) {Error("Variable");} ////// ehhhhhhh
+        if (lookahead.getTokenType() == TokenType.ID) {
+            if (!match(TokenType.ID)) {Error("Variable");} ////// ehhhhhhh
         }
-    }    
+    }
 }
 

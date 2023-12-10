@@ -7,6 +7,7 @@ package packages.baby.compiler;
 import java.util.List;
 import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
+import packages.baby.compiler.SyntaxAnalysis.Parser;
 import packages.baby.components.Terminal;
 
 /**
@@ -50,8 +51,14 @@ public class Compiler {
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
         tokens = lexicalAnalyzer.analyze(lines);
         
+        // Start Syntax Analysis of Code
+        Parser parser = new Parser(tokens);
+        //String successState = "Parse Success State: " + parser.getSuccess();
+        
         // System.out.println(lexicalAnalyzer.getCh());
+        //terminal.setText(printTokens(tokens) + "\n" + successState);
         terminal.setText(printTokens(tokens));
+        
     }
     
     public String printTokens(List<Token> tokens){
