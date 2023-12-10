@@ -7,8 +7,8 @@ import java.util.*;
 public class Parser {
     List<Token> tokens;
     Token lookahead;
-    String errorMessage;
-    boolean success;
+    StringBuilder message = new StringBuilder();
+    boolean success = true;
 
     public Parser(List<Token> tokens) {
         this.tokens = tokens;
@@ -17,7 +17,11 @@ public class Parser {
     }
     
     private Token getToken() {
-        return tokens.remove(0);
+        
+        if (tokens.size() > 1)
+            return tokens.remove(0);
+        else
+            return tokens.get(0);
     }
     
     private boolean match(TokenType type){
@@ -39,21 +43,18 @@ public class Parser {
     }
 
     private void Error(String lexeme) { // may need other messages if data type is wrong
-        errorMessage = "Error at line " + lookahead.getNLine() + ". '" + lexeme + "' expected.";
+        message.append("Error at line " +  lookahead.getNLine()+ ": '" + lexeme + "' expected.\n\n") ;
         setSuccess(false);
     }
 
     public String printParseError() {
-        return errorMessage;
+        return message.toString();
     }
     
     private void Program() {
         StmtList();
-        if (match(TokenType.EOF)) { // EOF == $
-            setSuccess(true);
-        }
-        else {
-            setSuccess(false);
+        if (success && match(TokenType.EOF)) { // EOF == $
+            message.append("Parsing successful!");
         }
     }
     
@@ -68,7 +69,6 @@ public class Parser {
             lookahead.getTokenType() == TokenType.SHOW || lookahead.getTokenType() == TokenType.SHOWLINE) { // LET == let || ID == Variable names || SHOW == show || SHOWLINE == showline
             StmtList();
         }
-        else return; // ϵ // check logic
     }
 
     private void Stmt() {
@@ -102,7 +102,6 @@ public class Parser {
             if (!match(TokenType.COM)) {Error(",");}
             DeclareList();
         }
-        else return; // ϵ // check logic
     }
 
     private void DeclareType() { 
@@ -114,17 +113,17 @@ public class Parser {
 
     private void DeclareType_() {
         if (lookahead.getTokenType() == TokenType.EQUAL) {
-            if (match(TokenType.EQUAL)) {Error("=");} //////////// ehhhhhhh
+            if (!match(TokenType.EQUAL)) {Error("=");} //////////// ehhhhhhh
             Value(); 
         }
     }
 
     private void Type() {
         if (lookahead.getTokenType() == TokenType.DATATYPE) {
-            if (!match(TokenType.DATATYPE)) {Error("Numeric type");} ////////////// ehhhhhh
+            match(TokenType.DATATYPE); ////////////// ehhhhhh
         }
-        else if (lookahead.getTokenType() == TokenType.DATATYPE) {
-            if (!match(TokenType.DATATYPE)) {Error("Word Type");}   ////////////// ehhhhhh
+        else {
+            Error("Data type");   ////////////// ehhhhhh
         }
     }
 
@@ -157,7 +156,6 @@ public class Parser {
         if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
             Word();
         }
-        else return; // ϵ // check logic
     }
 
     private void Expr() {
@@ -169,19 +167,18 @@ public class Parser {
         if (lookahead.getTokenType() == TokenType.PLUS) {
             if (!match(TokenType.PLUS)) {Error("Operator");} /// eeeehhhhhhhh
             Term();
-            Expr();
+            Expr_();
         }
         else if (lookahead.getTokenType() == TokenType.MINUS) {
             if (!match(TokenType.MINUS)) {Error("Operator");} /// eeeehhhhhhhh
             Term();
-            Expr();
+            Expr_();
         }
-        else return; // ϵ // check logic 
     }
 
     private void Term() {
         Factor();
-        Term();
+        Term_();
     }
 
     private void Term_() {
@@ -195,7 +192,6 @@ public class Parser {
             Factor();
             Term_();
         }
-        else return; // ϵ // check logic 
     }
 
     private void Factor() {

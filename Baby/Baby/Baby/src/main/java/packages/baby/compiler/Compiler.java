@@ -28,7 +28,7 @@ public class Compiler {
     
     public void run(){
         // Append $
-        code = code + "\n$";
+        code = code + " $";
         
         /*
         * Lexemes must be separated by at least one space to be recognized as separate things.
@@ -57,7 +57,8 @@ public class Compiler {
         
         // System.out.println(lexicalAnalyzer.getCh());
         //terminal.setText(printTokens(tokens) + "\n" + successState);
-        terminal.setText(printTokens(tokens));
+//        terminal.setText(printTokens(tokens));
+        terminal.setText(parser.printParseError());
         
     }
     
