@@ -98,11 +98,11 @@ public class Parser {
     }
 
     private void Type() {
-        if (lookahead.getTokenType() == INT || lookahead.getTokenType() == DEC) {
-            if (!match(NUM)) {Error("Numeric type");} ////////////// ehhhhhh
+        if (lookahead.getTokenType() == NUMTYPE) {
+            if (!match(NUMTYPE)) {Error("Numeric type");} ////////////// ehhhhhh
         }
-        else if (lookahead.getTokenType() == STR || lookahead.getTokenType(CHAR)) {
-            if (!match(WORD)) {Error("Word Type");}   ////////////// ehhhhhh
+        else if (lookahead.getTokenType() == WORDTYPE) {
+            if (!match(WORDTYPE)) {Error("Word Type");}   ////////////// ehhhhhh
         }
     }
 
