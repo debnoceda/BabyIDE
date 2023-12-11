@@ -19,6 +19,7 @@ public class Compiler {
     
     String code = "";
     Terminal terminal;
+    StringBuilder message = new StringBuilder();
     
     List<Token> tokens;
     
@@ -55,13 +56,13 @@ public class Compiler {
         MIPSAssembly mips = new MIPSAssembly();
         
         // Start Syntax Analysis of Code
-        Parser parser = new Parser(tokens, afileName, mips);
+        Parser parser = new Parser(message, tokens, afileName, mips);
         //String successState = "Parse Success State: " + parser.getSuccess();
         
         // System.out.println(lexicalAnalyzer.getCh());
         //terminal.setText(printTokens(tokens) + "\n" + successState);
 //        terminal.setText(printTokens(tokens));
-        terminal.setText(parser.printParseError());
+        terminal.setText(getTerminalMessage());
         
     }
     
@@ -80,6 +81,10 @@ public class Compiler {
     
     public List<Token> getTokens(){
         return tokens;
+    }
+
+    public String getTerminalMessage() {
+        return message.toString();
     }
     
 }

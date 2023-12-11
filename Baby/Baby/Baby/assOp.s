@@ -18,8 +18,13 @@ move $t1, $t0
 sw $t1, ans
 
 
+li $v0, 1
+lw $a0, ans
+syscall
+
+
 li $v0, 4
-la $a0, ans
+la $a0, newline
 syscall
 
 

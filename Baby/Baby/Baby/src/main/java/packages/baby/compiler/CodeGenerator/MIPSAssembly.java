@@ -127,7 +127,7 @@ public class MIPSAssembly {
         return mipsCode.toString();
     }
 
-    public String printStatements(String value, Boolean isExpr, Boolean isID){
+    public String printStatements(String value, Boolean isExpr, Boolean isID, Boolean isNum, Boolean isIDNum){
         StringBuilder mipsCode = new StringBuilder();
         if (!isExpr){
             String varName = "statement_" + stringCounter++;
@@ -140,9 +140,16 @@ public class MIPSAssembly {
         }
         else{
             if (isID){
-                mipsCode.append("\n");
-                mipsCode.append("li $v0, 4\n");
-                mipsCode.append("la $a0, ").append(value).append("\n");
+                if (isNum || isIDNum){
+                    mipsCode.append("\n");
+                    mipsCode.append("li $v0, 1\n");
+                    mipsCode.append("lw $a0, ").append(value).append("\n");
+                }
+                else if(!isNum){
+                    mipsCode.append("\n");
+                    mipsCode.append("li $v0, 4\n");
+                    mipsCode.append("la $a0, ").append(value).append("\n");
+                }
             }
         }
         mipsCode.append("syscall\n");

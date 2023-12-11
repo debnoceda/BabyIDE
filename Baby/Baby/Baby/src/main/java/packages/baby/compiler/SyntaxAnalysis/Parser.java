@@ -15,17 +15,18 @@ import java.io.BufferedWriter;
 public class Parser {
     List<Token> tokens;
     Token lookahead;
-    StringBuilder message = new StringBuilder();
+    StringBuilder message;
     boolean success = true;
     private String fileName;
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
     boolean hasOperators = false;
     boolean isWord = false, isAdd = false, isSub = false, isMul = false, isDiv = false;
+    boolean isIDNum = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
 
     List<Symbol> symbolsToAdd;
-    SymbolTable symbolTable = new SymbolTable();
+    SymbolTable symbolTable;
 
     // Attributes that contains values to add in symbol
     String identifier;
@@ -35,8 +36,10 @@ public class Parser {
     // Track number of variables declared in one let statement
     int varCount = 0;
 
-    public Parser(List<Token> tokens, String afileName, MIPSAssembly mips) {
+    public Parser(StringBuilder message, List<Token> tokens, String afileName, MIPSAssembly mips) {
+        this.message = message;
         this.tokens = tokens;
+        symbolTable = new SymbolTable(message);
         lookahead = getToken();
         this.mips = mips;
         setFileName(afileName);
@@ -193,6 +196,7 @@ public class Parser {
             Var();
             DeclareType_();
             symbolTable.insertSymbol(identifier,tokenType, dataType);
+            varCount++;
             resetSymbolValues();
         }
     }
@@ -228,7 +232,7 @@ public class Parser {
         if(isExpr){
             appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum, hasOperators));
             if(hasOperators){
-
+                
             }
         }
     }
@@ -238,14 +242,11 @@ public class Parser {
             Get();
         }
         else if (lookahead.getTokenType() == TokenType.LPAREN || lookahead.getTokenType() == TokenType.ID || 
-                 lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
-            // Assuming we will only be able to handle INT values
-            tokenType = TokenType.INT;
+                 lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {            
             Expr();
             isExpr = true;
         }
         else if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
-            tokenType = lookahead.getTokenType();
             Word();
             isWord = true;
         }
@@ -331,12 +332,12 @@ public class Parser {
         Output();
         if(isShowLine){
             if(statement != null)
-                appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID));
+                appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID, isNum, isIDNum));
             appendLineToFile(filePath, mips.printNewLine());
         }
         else{
             if(statement != null)
-                appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID));
+                appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID, isNum, isIDNum));
         }
         if (!match(TokenType.RPAREN)) {Error("')'");}
     }
@@ -372,6 +373,7 @@ public class Parser {
     }
 
     private void Num() {
+        tokenType = lookahead.getTokenType();
         if (lookahead.getTokenType() == TokenType.INT) {
             match(TokenType.INT);
             isNum = true;
@@ -383,6 +385,7 @@ public class Parser {
     }
 
     private void Word() {
+        tokenType = lookahead.getTokenType();
         if (lookahead.getTokenType() == TokenType.STR ) {
             match(TokenType.STR);
             isNum = false;
@@ -395,21 +398,13 @@ public class Parser {
 
     private void Var() {
         if (lookahead.getTokenType() == TokenType.ID) {
+            String varDataType = symbolTable.getKeyDataType(lookahead.getValue());
+            if(varDataType.equals("num")){      
+                isIDNum = true;
+            }
             match(TokenType.ID);
             isID = true;
         }
-    }
-
-    private boolean isDataTypeConsistent(){
-        return isNumTypeConsistent() || isWordTypeConsistent();
-    }
-
-    private boolean isNumTypeConsistent(){
-        return dataType.equals("num") && (tokenType != TokenType.INT || tokenType != TokenType.INT);
-    }
-
-    private boolean isWordTypeConsistent(){
-        return dataType.equals("word") && (tokenType != TokenType.STR || tokenType != TokenType.CHAR);
     }
 
 }

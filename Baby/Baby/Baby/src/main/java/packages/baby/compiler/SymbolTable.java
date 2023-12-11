@@ -6,15 +6,31 @@ import java.util.*;
 public class SymbolTable {
 
     private Map<String, Symbol> symbolTable;
+    StringBuilder message;
 
-    public SymbolTable() {
+    public SymbolTable(StringBuilder message) {
+        this.message = message;
         this.symbolTable = new LinkedHashMap<>();
     }
 
     // Method to insert a symbol into the table
     public void insertSymbol(String identifier,TokenType tokenType, String dataType) {
-        Symbol symbol = new Symbol(identifier, tokenType, dataType);
-        symbolTable.put(identifier, symbol);
+
+        // Handle here if identifier already exists in symbol table
+        if(!symbolTable.containsKey(identifier)){
+            Symbol symbol = new Symbol(identifier, tokenType, dataType);
+            symbolTable.put(identifier, symbol);
+        }
+
+        else{
+            message.append(DuplicateVarDeclareError(identifier));
+        }
+
+        
+    }
+
+    private String DuplicateVarDeclareError(String var){
+        return "Error: Variable '" + var + "' declared multiple times.";
     }
 
 
@@ -96,6 +112,14 @@ public class SymbolTable {
         }
     }
 
+    public Symbol get(String key){
+        return symbolTable.containsKey(key) ? symbolTable.get(key) : null;
+    }
+
+    public String getKeyDataType(String key){
+        return symbolTable.containsKey(key) ? symbolTable.get(key).getDataType() : "";
+    }
+
     public void printSymbolTable(){
         
         System.out.println("Traversing using Iterator:");
@@ -122,6 +146,9 @@ public class SymbolTable {
         for (String key : keys) {
             Symbol symbol = symbolTable.get(key);
 
+            // Handle inconsistencies in data type
+
+
             // Set the dataType for the current symbol
             symbol.setDataType(dataType);
                     
@@ -132,32 +159,44 @@ public class SymbolTable {
         }
     }
 
-    public static void main(String[] args) {
-        SymbolTable symbolTable = new SymbolTable();
-
-        // Inserting symbols into the table
-        symbolTable.insertSymbol("x", TokenType.INT, "num");
-        symbolTable.insertSymbol("y", TokenType.DEC, "num");
-        symbolTable.insertSymbol("error", TokenType.STR, "word");
-        symbolTable.insertSymbol("ch", TokenType.CHAR, "word");
-
-        // Displaying the symbol table
-        symbolTable.displayTable();
-
-        // Looking up and displaying a specific symbol
-        Symbol lookedUpSymbol = symbolTable.lookupSymbol("x");
-        System.out.println("Looked Up Symbol: " + lookedUpSymbol.toString());
-
-        // Setting attributes for an existing symbol
-        symbolTable.setSymbolAttributes("x", TokenType.INT, "num");
-        symbolTable.displayTable();
-
-        // // Setting attributes for an existing symbol
-        // symbolTable.setSymbolValue("x", "3");
-        // symbolTable.displayTable();
-
-        // Resetting attributes for an existing symbol
-        symbolTable.resetSymbolAttributes("x");
-        symbolTable.displayTable();
+    private boolean isDataTypeConsistent(String dataType, TokenType tokenType){
+        return isNumTypeConsistent(dataType, tokenType) || isWordTypeConsistent(dataType, tokenType);
     }
+
+    private boolean isNumTypeConsistent(String dataType, TokenType tokenType){
+        return dataType.equals("num") && (tokenType != TokenType.INT || tokenType != TokenType.DEC || tokenType != null);
+    }
+
+    private boolean isWordTypeConsistent(String dataType, TokenType tokenType){
+        return dataType.equals("word") && (tokenType != TokenType.STR || tokenType != TokenType.CHAR || tokenType != null);
+    }
+
+    // public static void main(String[] args) {
+    //     SymbolTable symbolTable = new SymbolTable();
+
+    //     // Inserting symbols into the table
+    //     symbolTable.insertSymbol("x", TokenType.INT, "num");
+    //     symbolTable.insertSymbol("y", TokenType.DEC, "num");
+    //     symbolTable.insertSymbol("error", TokenType.STR, "word");
+    //     symbolTable.insertSymbol("ch", TokenType.CHAR, "word");
+
+    //     // Displaying the symbol table
+    //     symbolTable.displayTable();
+
+    //     // Looking up and displaying a specific symbol
+    //     Symbol lookedUpSymbol = symbolTable.lookupSymbol("x");
+    //     System.out.println("Looked Up Symbol: " + lookedUpSymbol.toString());
+
+    //     // Setting attributes for an existing symbol
+    //     symbolTable.setSymbolAttributes("x", TokenType.INT, "num");
+    //     symbolTable.displayTable();
+
+    //     // // Setting attributes for an existing symbol
+    //     // symbolTable.setSymbolValue("x", "3");
+    //     // symbolTable.displayTable();
+
+    //     // Resetting attributes for an existing symbol
+    //     symbolTable.resetSymbolAttributes("x");
+    //     symbolTable.displayTable();
+    // }
 }
