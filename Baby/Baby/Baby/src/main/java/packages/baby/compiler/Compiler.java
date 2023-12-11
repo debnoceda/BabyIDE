@@ -29,7 +29,7 @@ public class Compiler {
     
     public void run(String afileName){
         // Append $
-        code = code + " $";
+        code = code + "$";
         
         /*
         * Lexemes must be separated by at least one space to be recognized as separate things.
