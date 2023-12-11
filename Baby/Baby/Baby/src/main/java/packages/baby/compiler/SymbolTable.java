@@ -96,6 +96,42 @@ public class SymbolTable {
         }
     }
 
+    public void printSymbolTable(){
+        
+        System.out.println("Traversing using Iterator:");
+        Iterator<Map.Entry<String, Symbol>> iterator = symbolTable.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Symbol> entry = iterator.next();
+            String key = entry.getKey();
+            String name = entry.getValue().getName();
+            TokenType tokType = entry.getValue().getTokenType();
+            String datType = entry.getValue().getDataType();
+            
+            System.out.println("Key: " + key + "\tIdentifier: " + name + "\tTokenType: " + tokType + "\tDataType: " + datType);
+        }
+    }
+    
+    public void setDataType(int varCount, String dataType){
+        // Get the keys and reverse them
+        List<String> keys = new ArrayList<>(symbolTable.keySet());
+        Collections.reverse(keys);
+
+        int count = 0;
+
+        // Iterate over the reversed keys and set dataType
+        for (String key : keys) {
+            Symbol symbol = symbolTable.get(key);
+
+            // Set the dataType for the current symbol
+            symbol.setDataType(dataType);
+                    
+            count++;
+            if (count == varCount) {
+                break;  // Stop after setting dataType for varCount elements
+            }
+        }
+    }
+
     public static void main(String[] args) {
         SymbolTable symbolTable = new SymbolTable();
 

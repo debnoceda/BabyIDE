@@ -19,6 +19,7 @@ public class Parser {
     boolean success = true;
     private String fileName;
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
+    boolean hasOperators = false;
     boolean isWord = false, isAdd = false, isSub = false, isMul = false, isDiv = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
@@ -44,6 +45,7 @@ public class Parser {
         System.out.println("MIPS code has been written in the file: " + fileName);
         resetSymbolValues();
         Program();
+        symbolTable.printSymbolTable();
     }
 
     private void resetVarCount(){
@@ -161,11 +163,13 @@ public class Parser {
     }
 
     private void Declare() {
+        resetVarCount();
         if (lookahead.getTokenType() == TokenType.LET) { // LET == let
             match(TokenType.LET); // LET == let
             DeclareList();
             if (!match(TokenType.BE)) {Error("'be'");} // BE == be
             Type();
+            symbolTable.setDataType(varCount, dataType);
         }
     }
 
@@ -188,7 +192,7 @@ public class Parser {
             identifier = lookahead.getValue();  
             Var();
             DeclareType_();
-            // Insert in symbol table
+            symbolTable.insertSymbol(identifier,tokenType, dataType);
             resetSymbolValues();
         }
     }
@@ -211,6 +215,7 @@ public class Parser {
     }
 
     private void Assignment() {
+        isNum = false;
         String varName, value;
         varName = lookahead.getValue();
         Var();
@@ -221,7 +226,10 @@ public class Parser {
             appendLineToFile(filePath, mips.varDeclarationWord(varName, value, isNum));
         }
         if(isExpr){
-            appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum));
+            appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum, hasOperators));
+            if(hasOperators){
+
+            }
         }
     }
 
@@ -268,12 +276,14 @@ public class Parser {
 
     private void Expr_() {
         if (lookahead.getTokenType() == TokenType.PLUS) {
+            hasOperators = true;
             match(TokenType.PLUS);
             isAdd = true;
             Term();
             Expr_();
         }
         else if (lookahead.getTokenType() == TokenType.MINUS) {
+            hasOperators = true;
             match(TokenType.MINUS);
             isSub = true;
             Term();

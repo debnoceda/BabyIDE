@@ -50,9 +50,7 @@ public class MIPSAssembly {
         if (freeRegisters.isEmpty()) {
             throw new RuntimeException("No free registers available");
         }
-        String useReg = allocatedRegisters.pop();
-        releaseRegister(useReg);
-        return useReg;
+        return allocatedRegisters.pop();
     }
        
    public String generateMIPS(){
@@ -75,20 +73,36 @@ public class MIPSAssembly {
         return mipsCode.toString();
     }
 
-    public String varDeclarationExpr(String varName, String value, boolean isNum){
+    public String varDeclarationExpr(String varName, String value, boolean isNum, boolean hasOperators){
         StringBuilder mipsCode = new StringBuilder();
+        String useReg;
 
         mipsCode.append("\n.data\n");
-        if(isNum){
-            String useReg = getFreeRegister();
-            mipsCode.append(varName).append(": .word ").append(value).append("\n");
+        if (hasOperators){
+            useReg = getFreeRegister();
+            mipsCode.append(varName).append(": .word 0");
             mipsCode.append(".text\n\n");
-            mipsCode.append("lw ").append(useReg).append(varName);
+            mipsCode.append("lw ").append(useReg + ", ").append(varName).append("\n");
             useRegisters(useReg);
         }
         else{
-            mipsCode.append(varName).append(": .word 0");
-            mipsCode.append(".text\n\n");
+            if (isNum){
+                useReg = getFreeRegister();
+                mipsCode.append(varName).append(": .word ").append(value).append("\n");
+                mipsCode.append(".text\n\n");
+                mipsCode.append("lw ").append(useReg + ", ").append(varName).append("\n");
+                useRegisters(useReg);
+            }
+            else {
+                String useReg1 = getFreeRegister();
+                useReg = getUsedRegister();
+                mipsCode.append(varName).append(": .word 0\n");
+                mipsCode.append(".text\n\n");
+                mipsCode.append("move " + useReg1 + ", ");
+                mipsCode.append(useReg + "\n");
+                mipsCode.append("sw ").append(useReg1 + ", ").append(varName).append("\n");
+                useRegisters(useReg);
+            }
         }
         return mipsCode.toString();
     }
