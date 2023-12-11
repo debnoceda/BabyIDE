@@ -33,6 +33,7 @@ import javax.swing.event.UndoableEditListener;
 import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.Compiler;
+import packages.baby.components.CodeEditor;
 import packages.baby.components.LineNumber;
 
 /**
@@ -61,6 +62,10 @@ public class Ide extends javax.swing.JFrame {
 //        fileName.setText(afileName);
         setTitle(afileName);
         return afileName;
+    }
+    
+    public CodeEditor getEditor(){
+        return this.editor;
     }
     
     public class CustomCloseDialog extends JDialog {
@@ -699,6 +704,7 @@ public class Ide extends javax.swing.JFrame {
                 // User clicked "Open File"
                 editor.open();
                 updateFileName();
+                editor.setUnsavedChanges(false);
                 editor.resetUndoManager();
                 updateButtonActivity();
             } else if (choice == 1) {
@@ -711,7 +717,14 @@ public class Ide extends javax.swing.JFrame {
             }
         }
         
-
+        else {
+            editor.open();
+            updateFileName();
+            editor.setUnsavedChanges(false);
+            editor.resetUndoManager();
+            updateButtonActivity();
+        }
+        
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
