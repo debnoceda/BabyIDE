@@ -20,7 +20,8 @@ public class Parser {
     private String fileName;
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
     boolean hasOperators = false;
-    boolean isWord = false, isAdd = false, isSub = false, isMul = false, isDiv = false;
+    boolean isWord = false; 
+    // boolean isAdd = false, isSub = false, isMul = false, isDiv = false;
     boolean isIDNum = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
@@ -222,6 +223,10 @@ public class Parser {
         isNum = false;
         String varName, value;
         varName = lookahead.getValue();
+
+        if(!symbolTable.isDeclared(varName))
+            VarNotDeclaredError(varName);
+
         Var();
         if (!match(TokenType.EQUAL)) {Error("'='");}
         value = lookahead.getValue();
@@ -235,6 +240,11 @@ public class Parser {
                 
             }
         }
+    }
+
+    private String VarNotDeclaredError(String var){
+        success = false;
+        return "Error at line " + lookahead.getNLine() + ": " + var + " not declared.";
     }
 
     private void Value() {
@@ -273,23 +283,32 @@ public class Parser {
     private void Expr() {
         Term();
         Expr_();
-        if (isAdd){
+        if (mips.getOperators() == "+"){
             appendLineToFile(filePath, mips.addOperand());
+        }
+        else if (mips.getOperators() == "-"){
+            appendLineToFile(filePath, mips.subOperand());
         }
     }
 
     private void Expr_() {
         if (lookahead.getTokenType() == TokenType.PLUS) {
             hasOperators = true;
+            String op = lookahead.getValue();
+            mips.pushToOpStack(op);
             match(TokenType.PLUS);
-            isAdd = true;
+            // isAdd = true;
+            // isSub = false;
             Term();
             Expr_();
         }
         else if (lookahead.getTokenType() == TokenType.MINUS) {
             hasOperators = true;
+            String op = lookahead.getValue();
+            mips.pushToOpStack(op);
             match(TokenType.MINUS);
-            isSub = true;
+            // isAdd = false;
+            // isSub = true;
             Term();
             Expr_();
         }
@@ -302,14 +321,20 @@ public class Parser {
 
     private void Term_() {
         if (lookahead.getTokenType() == TokenType.TIMES) {
+            hasOperators = true;
+            String op = lookahead.getValue();
+            mips.pushToOpStack(op);
             match(TokenType.TIMES);
-            isMul = true;
+            // isMul = true;
             Factor();
             Term_();
         }
         else if (lookahead.getTokenType() == TokenType.DIVIDE) {
+            hasOperators = true;
+            String op = lookahead.getValue();
+            mips.pushToOpStack(op);
             match(TokenType.DIVIDE);
-            isDiv = true;
+            // isDiv = true;
             Factor();
             Term_();
         }
@@ -401,7 +426,13 @@ public class Parser {
 
     private void Var() {
         if (lookahead.getTokenType() == TokenType.ID) {
-            String varDataType = symbolTable.getKeyDataType(lookahead.getValue());
+            String var = lookahead.getValue();
+            tokenType = symbolTable.getKeyTokenType(var);
+            if(tokenType == null)
+                VarNotDeclaredError(var);
+                //set token type for the declared variable 
+
+            String varDataType = symbolTable.getKeyDataType(var);
             if(varDataType.equals("num")){      
                 isIDNum = true;
             }

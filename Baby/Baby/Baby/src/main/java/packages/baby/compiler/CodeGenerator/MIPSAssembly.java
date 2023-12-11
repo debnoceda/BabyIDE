@@ -4,8 +4,6 @@
  */
 package packages.baby.compiler.CodeGenerator;
 
-import java.util.BitSet;
-
 /**
  *
  * @author Dave Noceda
@@ -17,6 +15,7 @@ public class MIPSAssembly {
 
     private Stack<String> freeRegisters;
     private Stack<String> allocatedRegisters;
+    private Stack<String> operators;
     private static int stringCounter = 0;
 
     public MIPSAssembly(){
@@ -47,10 +46,24 @@ public class MIPSAssembly {
     }
 
     public String getUsedRegister() {
-        if (freeRegisters.isEmpty()) {
-            throw new RuntimeException("No free registers available");
+        if (allocatedRegisters.isEmpty()) {
+            return "EmptyStack";
         }
-        return allocatedRegisters.pop();
+        else
+            return allocatedRegisters.pop();
+    }
+
+    public void pushToOpStack (String op){
+        if (op == "+" || op == "-" || op == "*" || op == "/"){
+            operators.push(op);
+        }
+    }
+
+    public String getOperators (){
+        if (allocatedRegisters.isEmpty()) {
+            return "EmptyStack";
+        }
+        return operators.pop();
     }
        
    public String generateMIPS(){
@@ -82,7 +95,7 @@ public class MIPSAssembly {
             useReg = getUsedRegister();
             mipsCode.append(varName).append(": .word 0\n");
             mipsCode.append(".text\n\n");
-            mipsCode.append("lw ").append(useReg + ", ").append(varName).append("\n");
+            mipsCode.append("sw ").append(useReg + ", ").append(varName).append("\n");
         }
         else{
             if (isNum){
@@ -108,10 +121,62 @@ public class MIPSAssembly {
 
     public String addOperand (){
         StringBuilder mipsCode = new StringBuilder();
-        String useReg = getFreeRegister();
-        mipsCode.append("add ").append(useReg + " ").append(getUsedRegister() + " " + getUsedRegister());
-        useRegisters(useReg);
+        String op1 = getUsedRegister();
+        String op2 = getUsedRegister();
+        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+            String useReg = getFreeRegister();
+            mipsCode.append("add ").append(useReg + " ").append(op1 + " " + op2);
+            useRegisters(useReg);
+        }
+        else{
+            mipsCode.append("");
+        }
+        return mipsCode.toString();
+    }
 
+    public String subOperand (){
+        StringBuilder mipsCode = new StringBuilder();
+        String op1 = getUsedRegister();
+        String op2 = getUsedRegister();
+        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+            String useReg = getFreeRegister();
+            mipsCode.append("sub ").append(useReg + " ").append(op1 + " " + op2);
+            useRegisters(useReg);
+        }
+        else{
+            mipsCode.append("");
+        }
+        return mipsCode.toString();
+    }
+
+    public String mulOperand (){
+        StringBuilder mipsCode = new StringBuilder();
+        String op1 = getUsedRegister();
+        String op2 = getUsedRegister();
+        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+            String useReg = getFreeRegister();
+            mipsCode.append("mul ").append(useReg + " ").append(op1 + " " + op2);
+            useRegisters(useReg);
+        }
+        else{
+            mipsCode.append("");
+        }
+        return mipsCode.toString();
+    }
+
+    public String divOperand (){
+        StringBuilder mipsCode = new StringBuilder();
+        String op1 = getUsedRegister();
+        String op2 = getUsedRegister();
+        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+            String useReg = getFreeRegister();
+            mipsCode.append("div ").append(op1 + " " + op2);
+            mipsCode.append("mflo" + useReg);
+            useRegisters(useReg);
+        }
+        else{
+            mipsCode.append("");
+        }
         return mipsCode.toString();
     }
 

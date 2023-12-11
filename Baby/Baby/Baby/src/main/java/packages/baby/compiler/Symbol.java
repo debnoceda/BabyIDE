@@ -33,7 +33,7 @@ public class Symbol {
     }
 
     public String getDataType() {
-        return dataType;
+        return dataType != null ? dataType : "";
     }
 
 

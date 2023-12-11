@@ -124,6 +124,10 @@ public class SymbolTable {
         return symbolTable.containsKey(key) ? symbolTable.get(key).getDataType() : "";
     }
 
+    public TokenType getKeyTokenType(String key){
+        return symbolTable.containsKey(key) ? symbolTable.get(key).getTokenType() : null;
+    }
+
     public void printSymbolTable(){
         
         System.out.println("Traversing using Iterator:");
@@ -165,6 +169,10 @@ public class SymbolTable {
                 break;  // Stop after setting dataType for varCount elements
             }
         }
+    }
+
+    public boolean isDeclared(String identifier){
+        return symbolTable.containsKey(identifier);
     }
 
     private boolean isDataTypeConsistent(String dataType, TokenType tokenType){
