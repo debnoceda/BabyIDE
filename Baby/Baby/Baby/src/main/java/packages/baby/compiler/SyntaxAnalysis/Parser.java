@@ -14,8 +14,10 @@ public class Parser {
     StringBuilder message = new StringBuilder();
     boolean success = true;
     private String fileName;
-    String mipsCode, filePath, statement;
     boolean isShowLine = false;
+    String mipsCode;
+    String filePath;
+    String statement;
 
     public Parser(List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.tokens = tokens;
@@ -44,6 +46,7 @@ public class Parser {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(line);
             writer.newLine(); // Append a new line
+            System.out.println("Line appended to the file.");
         } catch (IOException e) {
             System.err.println("Error appending line to the file: " + e.getMessage());
         }
@@ -85,7 +88,7 @@ public class Parser {
     }
 
     private void Program(MIPSAssembly mips) {
-        StmtList(mips);
+        StmtList();
         if (success && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
             message.append("Parsing successful!");
@@ -95,20 +98,20 @@ public class Parser {
         }                                             
     }
     
-    private void StmtList(MIPSAssembly mips) {
-    	Stmt(mips);
+    private void StmtList() {
+    	Stmt();
         if (!match(TokenType.SEMICOLON)) {Error("';'");} // SEMICOLON == ;
-        StmtList_(mips);
+        StmtList_();
     }
     
-    private void StmtList_(MIPSAssembly mips) {
+    private void StmtList_() {
         if (lookahead.getTokenType() == TokenType.LET || lookahead.getTokenType() == TokenType.ID ||
             lookahead.getTokenType() == TokenType.SHOW || lookahead.getTokenType() == TokenType.SHOWLINE) { // LET == let || ID == Variable names || SHOW == show || SHOWLINE == showline
-            StmtList(mips);
+            StmtList();
         }
     }
 
-    private void Stmt(MIPSAssembly mips) {
+    private void Stmt() {
         if (lookahead.getTokenType() == TokenType.LET) { // LET == let
             Declare();
         }
@@ -116,7 +119,7 @@ public class Parser {
             Assignment();
         }
         else if (lookahead.getTokenType() == TokenType.SHOW || lookahead.getTokenType() == TokenType.SHOWLINE) { // SHOW == show || SHOWLINE == showline
-            Print(mips);
+            Print();
         }
     }
 
@@ -252,7 +255,7 @@ public class Parser {
         }
     }
 
-    private void Print(MIPSAssembly mips) {
+    private void Print() {
         PrintKeyword();
         if (!match(TokenType.LPAREN)) {Error("'('");}
         Output();
