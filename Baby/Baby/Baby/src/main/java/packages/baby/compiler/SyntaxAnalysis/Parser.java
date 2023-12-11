@@ -2,9 +2,13 @@ package packages.baby.compiler.SyntaxAnalysis;
 
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.LexicalAnalysis.TokenType;
+import packages.baby.compiler.Symbol;
+import packages.baby.compiler.SymbolTable;
 import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 import java.io.BufferedWriter;
 
@@ -14,9 +18,21 @@ public class Parser {
     StringBuilder message = new StringBuilder();
     boolean success = true;
     private String fileName;
-    boolean isShowLine = false, isNum = false, isID = false;
+    boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
+    boolean isWord = false, isAdd = false, isSub = false, isMul = false, isDiv = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
+
+    List<Symbol> symbolsToAdd;
+    SymbolTable symbolTable = new SymbolTable();
+
+    // Attributes that contains values to add in symbol
+    String identifier;
+    TokenType tokenType;  
+    String dataType; 
+
+    // Track number of variables declared in one let statement
+    int varCount = 0;
 
     public Parser(List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.tokens = tokens;
@@ -26,7 +42,18 @@ public class Parser {
         mipsCode = mips.generateMIPS();
         filePath = writeToFile(fileName, mipsCode);
         System.out.println("MIPS code has been written in the file: " + fileName);
+        resetSymbolValues();
         Program();
+    }
+
+    private void resetVarCount(){
+        varCount = 0;
+    }
+    
+    private void resetSymbolValues(){
+        identifier = null;
+        tokenType = null;  
+        dataType = null; 
     }
     
     private void setFileName(String afileName){
@@ -40,7 +67,7 @@ public class Parser {
             e.printStackTrace();
         }
         return filename;
-    }   
+    } 
 
     public static void appendLineToFile(String filePath, String line) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -50,6 +77,17 @@ public class Parser {
             System.err.println("Error appending line to the file: " + e.getMessage());
         }
     }
+
+    // public static void appendToFile(String filePath, String content) throws IOException {
+    //     try (RandomAccessFile randomAccessFile = new RandomAccessFile(filePath, "rw")) {
+    //         // Move the file pointer to the end of the file
+    //         randomAccessFile.seek(randomAccessFile.length());
+
+    //         // Write the content at the end of the file
+    //         randomAccessFile.writeBytes(content);
+    //         System.out.println("Content appended to the file.");
+    //     }
+    // }
     
     private Token getToken() {
         
@@ -144,10 +182,14 @@ public class Parser {
     }
 
     private void DeclareType() { 
+        resetSymbolValues();
+        
         if (lookahead.getTokenType() == TokenType.ID) {
-            // identfier = lookahead.getValue()
+            identifier = lookahead.getValue();  
             Var();
             DeclareType_();
+            // Insert in symbol table
+            resetSymbolValues();
         }
     }
 
@@ -160,6 +202,7 @@ public class Parser {
 
     private void Type() {
         if (lookahead.getTokenType() == TokenType.DATATYPE) {
+            dataType = lookahead.getValue();
             match(TokenType.DATATYPE); 
         }
         else {
@@ -174,8 +217,11 @@ public class Parser {
         if (!match(TokenType.EQUAL)) {Error("'='");}
         value = lookahead.getValue();
         Value();
-        if(isID){
-            appendLineToFile(filePath, mips.varDeclaration(varName, value, isNum));
+        if(isWord){
+            appendLineToFile(filePath, mips.varDeclarationWord(varName, value, isNum));
+        }
+        if(isExpr){
+            appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum));
         }
     }
 
@@ -185,10 +231,15 @@ public class Parser {
         }
         else if (lookahead.getTokenType() == TokenType.LPAREN || lookahead.getTokenType() == TokenType.ID || 
                  lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
+            // Assuming we will only be able to handle INT values
+            tokenType = TokenType.INT;
             Expr();
+            isExpr = true;
         }
         else if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
+            tokenType = lookahead.getTokenType();
             Word();
+            isWord = true;
         }
         else {
             Error("Value after '='");
@@ -218,11 +269,13 @@ public class Parser {
     private void Expr_() {
         if (lookahead.getTokenType() == TokenType.PLUS) {
             match(TokenType.PLUS);
+            isAdd = true;
             Term();
             Expr_();
         }
         else if (lookahead.getTokenType() == TokenType.MINUS) {
             match(TokenType.MINUS);
+            isSub = true;
             Term();
             Expr_();
         }
@@ -236,11 +289,13 @@ public class Parser {
     private void Term_() {
         if (lookahead.getTokenType() == TokenType.TIMES) {
             match(TokenType.TIMES);
+            isMul = true;
             Factor();
             Term_();
         }
         else if (lookahead.getTokenType() == TokenType.DIVIDE) {
             match(TokenType.DIVIDE);
+            isDiv = true;
             Factor();
             Term_();
         }
@@ -264,15 +319,14 @@ public class Parser {
         PrintKeyword();
         if (!match(TokenType.LPAREN)) {Error("'('");}
         Output();
-        System.out.println("statement: " + statement);
         if(isShowLine){
             if(statement != null)
-                appendLineToFile(filePath, mips.printStatements(statement));
+                appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID));
             appendLineToFile(filePath, mips.printNewLine());
         }
         else{
             if(statement != null)
-                appendLineToFile(filePath, mips.printStatements(statement));
+                appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID));
         }
         if (!match(TokenType.RPAREN)) {Error("')'");}
     }
@@ -292,14 +346,18 @@ public class Parser {
     private void Output() {
         if (lookahead.getTokenType() == TokenType.LPAREN || lookahead.getTokenType() == TokenType.ID || 
             lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
+            statement = lookahead.getValue();
             Expr();
+            isExpr = true;
         }
         else if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
             statement = lookahead.getValue();
             Prompt();
+            isExpr = false;
         }
         else{
             statement = null;
+            isExpr = false;
         }
     }
 
@@ -331,5 +389,18 @@ public class Parser {
             isID = true;
         }
     }
+
+    private boolean isDataTypeConsistent(){
+        return isNumTypeConsistent() || isWordTypeConsistent();
+    }
+
+    private boolean isNumTypeConsistent(){
+        return dataType.equals("num") && (tokenType != TokenType.INT || tokenType != TokenType.INT);
+    }
+
+    private boolean isWordTypeConsistent(){
+        return dataType.equals("word") && (tokenType != TokenType.STR || tokenType != TokenType.CHAR);
+    }
+
 }
 

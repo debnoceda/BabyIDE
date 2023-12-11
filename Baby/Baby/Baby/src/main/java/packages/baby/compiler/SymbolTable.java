@@ -5,15 +5,15 @@ import java.util.*;
         
 public class SymbolTable {
 
-    private HashMap<String, Symbol> symbolTable;
+    private Map<String, Symbol> symbolTable;
 
     public SymbolTable() {
-        this.symbolTable = new HashMap<>();
+        this.symbolTable = new LinkedHashMap<>();
     }
 
     // Method to insert a symbol into the table
-    public void insertSymbol(String identifier, String value, TokenType type) {
-        Symbol symbol = new Symbol(identifier, value, type);
+    public void insertSymbol(String identifier,TokenType tokenType, String dataType) {
+        Symbol symbol = new Symbol(identifier, tokenType, dataType);
         symbolTable.put(identifier, symbol);
     }
 
@@ -24,21 +24,44 @@ public class SymbolTable {
     }
 
     // Method to set attributes for an existing symbol
-    public void setSymbolAttributes(String identifier, String value, TokenType type) {
+    public void setSymbolAttributes(String identifier, TokenType tokenType, String dataType) { // D
         if (symbolTable.containsKey(identifier)) {
             Symbol symbol = symbolTable.get(identifier);
             symbol.setName(identifier);
-            symbol.setValue(value);
-            symbol.setType(type);
+            //symbol.setValue(value);
+            symbol.setTokenType(tokenType);
+            symbol.setDataType(dataType);
         } else {
             System.out.println("'" + identifier + "' not found in the symbol table.");
         }
     }
 
-    public void setSymbolValue(String identifier, String value) {
+    // public void setSymbolValue(String identifier, String value) {
+    //     if (symbolTable.containsKey(identifier)) {
+    //         Symbol symbol = symbolTable.get(identifier); {
+    //             symbol.setValue(value);
+    //         }
+    //     }
+    //     else {
+    //         System.out.println("'" + identifier + "' not found in the symbol table.");
+    //     }
+    // }
+
+    public void setSymbolTokenType(String identifier, TokenType tokenType) {
         if (symbolTable.containsKey(identifier)) {
             Symbol symbol = symbolTable.get(identifier); {
-                symbol.setValue(value);
+                symbol.setTokenType(tokenType);
+            }
+        }
+        else {
+            System.out.println("'" + identifier + "' not found in the symbol table.");
+        }
+    }
+
+    public void setSymbolType(String identifier, String dataType) {
+        if (symbolTable.containsKey(identifier)) {
+            Symbol symbol = symbolTable.get(identifier); {
+                symbol.setDataType(dataType);
             }
         }
         else {
@@ -51,8 +74,9 @@ public class SymbolTable {
         if (symbolTable.containsKey(identifier)) {
             Symbol symbol = symbolTable.get(identifier);
             // Resetting attributes
-            symbol.setValue("");
-            symbol.setType(null);
+            //symbol.setValue(null);
+            symbol.setTokenType(null);
+            symbol.setDataType(null);
         } else {
             System.out.println("'" + identifier + "' not found in the symbol table.");
         }
@@ -76,10 +100,10 @@ public class SymbolTable {
         SymbolTable symbolTable = new SymbolTable();
 
         // Inserting symbols into the table
-        symbolTable.insertSymbol("x", "1", TokenType.INT);
-        symbolTable.insertSymbol("y", "1.8", TokenType.DEC);
-        symbolTable.insertSymbol("error", "this is an error", TokenType.STR);
-        symbolTable.insertSymbol("ch", "a", TokenType.CHAR);
+        symbolTable.insertSymbol("x", TokenType.INT, "num");
+        symbolTable.insertSymbol("y", TokenType.DEC, "num");
+        symbolTable.insertSymbol("error", TokenType.STR, "word");
+        symbolTable.insertSymbol("ch", TokenType.CHAR, "word");
 
         // Displaying the symbol table
         symbolTable.displayTable();
@@ -89,12 +113,12 @@ public class SymbolTable {
         System.out.println("Looked Up Symbol: " + lookedUpSymbol.toString());
 
         // Setting attributes for an existing symbol
-        symbolTable.setSymbolAttributes("x", "2", TokenType.INT);
+        symbolTable.setSymbolAttributes("x", TokenType.INT, "num");
         symbolTable.displayTable();
 
-        // Setting attributes for an existing symbol
-        symbolTable.setSymbolValue("x", "3");
-        symbolTable.displayTable();
+        // // Setting attributes for an existing symbol
+        // symbolTable.setSymbolValue("x", "3");
+        // symbolTable.displayTable();
 
         // Resetting attributes for an existing symbol
         symbolTable.resetSymbolAttributes("x");
