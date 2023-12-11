@@ -44,6 +44,19 @@ public class MIPSAssembly {
         return mipsCode.toString();
     }
 
+    public String varDeclaration(String varName, String value, boolean isNum){
+        StringBuilder mipsCode = new StringBuilder();
+
+        mipsCode.append(".data\n");
+        if (isNum)
+            mipsCode.append(varName).append(": .word ").append(value).append("\n");
+        else
+            mipsCode.append(varName).append(": .asciiz ").append(value).append("\n");
+        mipsCode.append(".text\n");
+
+        return mipsCode.toString();
+    }
+
     public String exitProgram(){
         StringBuilder mipsCode = new StringBuilder();
 
