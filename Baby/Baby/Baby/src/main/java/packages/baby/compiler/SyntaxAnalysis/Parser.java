@@ -131,7 +131,7 @@ public class Parser {
 
     private void Program() {
         StmtList();
-        if (success && match(TokenType.EOF)) { // EOF == $
+        if (message.isEmpty() && success && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
             message.append("Parsing successful!");
         }
@@ -273,6 +273,9 @@ public class Parser {
     private void Expr() {
         Term();
         Expr_();
+        if (isAdd){
+            appendLineToFile(filePath, mips.addOperand());
+        }
     }
 
     private void Expr_() {

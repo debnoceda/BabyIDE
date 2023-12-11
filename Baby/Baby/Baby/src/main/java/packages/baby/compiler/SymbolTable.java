@@ -30,7 +30,11 @@ public class SymbolTable {
     }
 
     private String DuplicateVarDeclareError(String var){
-        return "Error: Variable '" + var + "' declared multiple times.";
+        return "Error: Variable '" + var + "' declared multiple times.\n\n";
+    }
+
+    private String InconsistentDataTypeError(String var, String dataType){
+        return "Error: Data type of the value assigned at '" + var + "' is inconsistent with the declared data type. '" + dataType + "' expected. \n\n";
     }
 
 
@@ -145,12 +149,16 @@ public class SymbolTable {
         // Iterate over the reversed keys and set dataType
         for (String key : keys) {
             Symbol symbol = symbolTable.get(key);
+            
+            TokenType tokenType = symbol.getTokenType();
 
             // Handle inconsistencies in data type
-
-
-            // Set the dataType for the current symbol
-            symbol.setDataType(dataType);
+            if(isDataTypeConsistent(dataType, tokenType)){
+                symbol.setDataType(dataType);
+            }
+            else{
+                message.append(InconsistentDataTypeError(key,dataType));
+            }
                     
             count++;
             if (count == varCount) {
@@ -164,11 +172,11 @@ public class SymbolTable {
     }
 
     private boolean isNumTypeConsistent(String dataType, TokenType tokenType){
-        return dataType.equals("num") && (tokenType != TokenType.INT || tokenType != TokenType.DEC || tokenType != null);
+        return dataType.equals("num") && (tokenType == TokenType.INT || tokenType == TokenType.DEC || tokenType == null);
     }
 
     private boolean isWordTypeConsistent(String dataType, TokenType tokenType){
-        return dataType.equals("word") && (tokenType != TokenType.STR || tokenType != TokenType.CHAR || tokenType != null);
+        return dataType.equals("word") && (tokenType == TokenType.STR || tokenType == TokenType.CHAR || tokenType == null);
     }
 
     // public static void main(String[] args) {

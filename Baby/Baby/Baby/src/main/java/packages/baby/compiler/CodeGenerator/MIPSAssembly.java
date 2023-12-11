@@ -79,11 +79,10 @@ public class MIPSAssembly {
 
         mipsCode.append("\n.data\n");
         if (hasOperators){
-            useReg = getFreeRegister();
-            mipsCode.append(varName).append(": .word 0");
+            useReg = getUsedRegister();
+            mipsCode.append(varName).append(": .word 0\n");
             mipsCode.append(".text\n\n");
             mipsCode.append("lw ").append(useReg + ", ").append(varName).append("\n");
-            useRegisters(useReg);
         }
         else{
             if (isNum){
@@ -110,7 +109,7 @@ public class MIPSAssembly {
     public String addOperand (){
         StringBuilder mipsCode = new StringBuilder();
         String useReg = getFreeRegister();
-        mipsCode.append("add ").append(useReg).append(getUsedRegister() + " " + getUsedRegister());
+        mipsCode.append("add ").append(useReg + " ").append(getUsedRegister() + " " + getUsedRegister());
         useRegisters(useReg);
 
         return mipsCode.toString();
