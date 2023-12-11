@@ -125,8 +125,7 @@ public class HomeScreen extends javax.swing.JFrame {
         boolean fileOpened = ide.openAction(evt);
         if(fileOpened){
             ide.setVisible(true);//displays the ide frame
-            dispose(); //closes the current frame
-            ide.updateFileName();
+            dispose(); //closes the current frame   
         }
     }//GEN-LAST:event_openFileActionPerformed
 

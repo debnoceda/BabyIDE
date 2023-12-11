@@ -711,14 +711,7 @@ public class Ide extends javax.swing.JFrame {
             }
         }
         
-        else {
-            editor.open();
-            updateFileName();
-            editor.resetUndoManager();
-            updateButtonActivity();
-        }
-        
-        updateFileName();  
+
     }//GEN-LAST:event_OpenActionPerformed
 
     private void newWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newWindowActionPerformed
