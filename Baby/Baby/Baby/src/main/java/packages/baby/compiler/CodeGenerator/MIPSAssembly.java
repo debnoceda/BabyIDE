@@ -18,8 +18,6 @@ public class MIPSAssembly {
     private Stack<String> freeRegisters;
     private Stack<String> allocatedRegisters;
     private static int stringCounter = 0;
-    private Stack<String> operators;
-    private Stack<String> operators2;
     OpRegisterAllocation regTable;
     
 
@@ -27,8 +25,6 @@ public class MIPSAssembly {
         regTable = new OpRegisterAllocation();
         freeRegisters = new Stack<>();
         allocatedRegisters = new Stack<>();
-        operators = new Stack<>();
-        operators2 = new Stack<>();
         for (int i = 9; i >= 0; i--) {
             freeRegisters.push("$t" + i);
         }
@@ -59,29 +55,6 @@ public class MIPSAssembly {
         }
         else
             return allocatedRegisters.pop();
-    }
-       
-    public void pushToOpStack (String op){
-        if (op.equals("+") || op.equals("-")){
-            operators.push(op);
-        }
-        else if(op.equals("*") || op.equals("/")){
-            operators2.push(op);
-        }
-    }
-
-    public String getOperators (){
-        if (operators.isEmpty()) {
-            return "EmptyStack";
-        }
-        return operators.pop();
-    }
-
-    public String getOperators2 (){
-        if (operators2.isEmpty()) {
-            return "EmptyStack";
-        }
-        return operators2.pop();
     }
 
     public void regOrder (String var){

@@ -35,3 +35,7 @@ ans: .word 0
     la $a0, newline
     syscall
 
+
+    li $v0, 10
+    syscall
+

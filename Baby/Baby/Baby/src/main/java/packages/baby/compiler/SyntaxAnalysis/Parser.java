@@ -310,27 +310,16 @@ public class Parser {
     private void Expr_() {
         if (lookahead.getTokenType() == TokenType.PLUS) {
             hasOperators = true;
-            String op = lookahead.getValue();
-            mips.pushToOpStack(op);
-            match(TokenType.PLUS);
             Term();
+            appendLineToFile(filePath, mips.addOperand());
             Expr_();
         }
         else if (lookahead.getTokenType() == TokenType.MINUS) {
             hasOperators = true;
-            String op = lookahead.getValue();
-            mips.pushToOpStack(op);
             match(TokenType.MINUS);
             Term();
-            Expr_();
-        }
-        String op = mips.getOperators();
-        System.out.println("checker: "+ op);
-        if (op.equals("+")){
-            appendLineToFile(filePath, mips.addOperand());
-        } 
-        else if (op.equals("-")){
             appendLineToFile(filePath, mips.subOperand());
+            Expr_();
         }
     }
 
@@ -342,27 +331,17 @@ public class Parser {
     private void Term_() {
         if (lookahead.getTokenType() == TokenType.TIMES) {
             hasOperators = true;
-            String op = lookahead.getValue();
-            mips.pushToOpStack(op);
             match(TokenType.TIMES);
             Factor();
+            appendLineToFile(filePath, mips.mulOperand());
             Term_();
         }
         else if (lookahead.getTokenType() == TokenType.DIVIDE) {
             hasOperators = true;
-            String op = lookahead.getValue();
-            mips.pushToOpStack(op);
             match(TokenType.DIVIDE);
             Factor();
-            Term_();
-        }
-        String op = mips.getOperators2();
-        // System.out.println("checker2: "+ op);
-        if (op.equals("*")){
-            appendLineToFile(filePath, mips.mulOperand());
-        }
-        else if (op.equals("/")){
             appendLineToFile(filePath, mips.divOperand());
+            Term_();
         }
     }
 
