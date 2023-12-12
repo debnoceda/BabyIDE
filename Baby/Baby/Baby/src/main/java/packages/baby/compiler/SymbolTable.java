@@ -188,11 +188,11 @@ public class SymbolTable {
     }
 
     public boolean isNumTypeConsistent(String dataType, TokenType tokenType){
-        return dataType.equals("num") && (tokenType == TokenType.INT || tokenType == TokenType.DEC || tokenType == null);
+        return dataType != null && dataType.equals("num") && (tokenType == TokenType.INT || tokenType == TokenType.DEC || tokenType == null);
     }
 
     public boolean isWordTypeConsistent(String dataType, TokenType tokenType){
-        return dataType.equals("word") && (tokenType == TokenType.STR || tokenType == TokenType.CHAR || tokenType == null);
+        return dataType != null && dataType.equals("word") && (tokenType == TokenType.STR || tokenType == TokenType.CHAR || tokenType == null);
     }
 
     // public static void main(String[] args) {

@@ -481,7 +481,7 @@ public class Parser {
 
            
 
-            if (!isAssignVar && !var.equals(identifier) && isDeclared(var)){
+            if (!isAssignVar && var != null && !var.equals(identifier) && isDeclared(var)){
                 
                 /*  There is a possibility that there are multiple var in an expr.*/
 
@@ -506,7 +506,7 @@ public class Parser {
                         // Check inconsistencies first of B token type and A datatype
                         // Inconsistencies in being declared var is already handled
 
-                        if (varToUpdate.equals(assignVar) && !symbolTable.isDataTypeConsistent(dataTypeA, tokenType))
+                        if (varToUpdate != null && varToUpdate.equals(assignVar) && !symbolTable.isDataTypeConsistent(dataTypeA, tokenType))
                             symbolTable.InconsistentDataTypeError(assignVar, dataTypeA);
 
                         symbolTable.setTokenType(varToUpdate, tokenType);
@@ -527,7 +527,7 @@ public class Parser {
             }
 
             String varDataType = symbolTable.getKeyDataType(var);
-            if(!varDataType.isBlank() && varDataType.equals("num")){      
+            if(varDataType != null && varDataType.equals("num")){      
                 isIDNum = true;
             }
             match(TokenType.ID);
@@ -536,7 +536,7 @@ public class Parser {
     }
 
     private void VarNotInitializedError(String var){
-        message.append("Error: variable '" + var + "' might not have been initialized.");
+        message.append("Error: variable '" + var + "' might not have been initialized.\n\n");
     }
 
 }
