@@ -9,10 +9,11 @@ public class OpRegisterAllocation {
     Map<String, String> registerTable = new HashMap<>();
 
     public OpRegisterAllocation (){
-        registerTable = new LinkedHashMap<>();
+        this.registerTable = new LinkedHashMap<>();
     }
 
     public void insertIntoTable (String key, String register){
+        System.out.println("key: " + key + " value: " + register);
         registerTable.put (key, register);
     }
 

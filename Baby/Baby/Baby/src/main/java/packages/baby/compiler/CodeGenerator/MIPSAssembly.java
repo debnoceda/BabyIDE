@@ -4,13 +4,14 @@
  */
 package packages.baby.compiler.CodeGenerator;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Dave Noceda
  */
 
 import java.util.Stack;
-import packages.baby.compiler.CodeGenerator.OpRegisterAllocation;
 
 public class MIPSAssembly {
 
@@ -18,14 +19,16 @@ public class MIPSAssembly {
     private Stack<String> allocatedRegisters;
     private static int stringCounter = 0;
     private Stack<String> operators;
-    OpRegisterAllocation reg;
+    private Stack<String> operators2;
+    OpRegisterAllocation regTable;
     
 
     public MIPSAssembly(){
-        this.reg = reg;
+        regTable = new OpRegisterAllocation();
         freeRegisters = new Stack<>();
         allocatedRegisters = new Stack<>();
         operators = new Stack<>();
+        operators2 = new Stack<>();
         for (int i = 9; i >= 0; i--) {
             freeRegisters.push("$t" + i);
         }
@@ -59,8 +62,11 @@ public class MIPSAssembly {
     }
        
     public void pushToOpStack (String op){
-        if (op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/")){
+        if (op.equals("+") || op.equals("-")){
             operators.push(op);
+        }
+        else if(op.equals("*") || op.equals("/")){
+            operators2.push(op);
         }
     }
 
@@ -69,6 +75,19 @@ public class MIPSAssembly {
             return "EmptyStack";
         }
         return operators.pop();
+    }
+
+    public String getOperators2 (){
+        if (operators2.isEmpty()) {
+            return "EmptyStack";
+        }
+        return operators2.pop();
+    }
+
+    public void regOrder (String var){
+        String register = regTable.getRegister(var);
+        if (register != null)
+            useRegisters(register);
     }
        
    public String generateMIPS(){
@@ -108,7 +127,7 @@ public class MIPSAssembly {
                 mipsCode.append(varName).append(": .word ").append(value).append("\n");
                 mipsCode.append(".text\n\n");
                 mipsCode.append("    lw ").append(useReg + ", ").append(varName).append("\n");
-                // reg.insertIntoTable(varName, useReg);
+                regTable.insertIntoTable(varName, useReg);
                 useRegisters(useReg);
             }
             else {
@@ -117,9 +136,9 @@ public class MIPSAssembly {
                 mipsCode.append(varName).append(": .word 0\n");
                 mipsCode.append(".text\n\n");
                 mipsCode.append("    move " + useReg1 + ", ");
+                regTable.insertIntoTable(varName, useReg1);
                 mipsCode.append(useReg + "\n");
                 mipsCode.append("    sw ").append(useReg1 + ", ").append(varName).append("\n");
-                useRegisters(useReg);
             }
         }
         return mipsCode.toString();
@@ -129,13 +148,11 @@ public class MIPSAssembly {
         StringBuilder mipsCode = new StringBuilder();
         String op2 = getUsedRegister();
         String op1 = getUsedRegister();
+        System.out.println ("nisud ari");
         if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
             mipsCode.append("    add ").append(useReg + " ").append(op1 + " " + op2 + "\n");
             useRegisters(useReg);
-        }
-        else{
-            mipsCode.append("");
         }
         return mipsCode.toString();
     }
@@ -222,7 +239,7 @@ public class MIPSAssembly {
                 }
             }
         }
-        mipsCode.append("syscall\n");
+        mipsCode.append("    syscall\n");
 
         return mipsCode.toString();
     }

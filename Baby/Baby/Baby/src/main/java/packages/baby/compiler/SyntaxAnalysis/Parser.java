@@ -325,10 +325,10 @@ public class Parser {
             Expr_();
         }
         String op = mips.getOperators();
-        // System.out.println("checker: "+ op);
+        System.out.println("checker: "+ op);
         if (op.equals("+")){
             appendLineToFile(filePath, mips.addOperand());
-        }
+        } 
         else if (op.equals("-")){
             appendLineToFile(filePath, mips.subOperand());
         }
@@ -356,8 +356,8 @@ public class Parser {
             Factor();
             Term_();
         }
-        String op = mips.getOperators();
-        // System.out.println("checker: "+ op);
+        String op = mips.getOperators2();
+        // System.out.println("checker2: "+ op);
         if (op.equals("*")){
             appendLineToFile(filePath, mips.mulOperand());
         }
@@ -373,6 +373,8 @@ public class Parser {
             if (!match(TokenType.RPAREN)) {Error("')'");}
         }
         else if (lookahead.getTokenType() == TokenType.ID) {
+            String var = lookahead.getValue();
+            mips.regOrder(var);
             Var();
         }
         else if (lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
