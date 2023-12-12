@@ -427,6 +427,21 @@ public class Parser {
             isExpr = false;
         }
     }
+    
+    private void setTokenTypeOfAssignVar(){
+        if(!assignVar.isBlank()){
+            String assignVarDataType = symbolTable.getKeyDataType(assignVar);
+            if (!symbolTable.isDataTypeConsistent(assignVarDataType, tokenType))
+                symbolTable.InconsistentDataTypeError(assignVar, assignVarDataType);
+
+            else {
+                TokenType assignVarTokenType = symbolTable.getKeyTokenType(assignVar);
+                if(assignVarTokenType == null){
+                    symbolTable.setTokenType(assignVar, tokenType);
+                }
+            }
+        }    
+    }
 
     private void Num() {
         tokenType = lookahead.getTokenType();
@@ -438,6 +453,7 @@ public class Parser {
             match(TokenType.DEC);
             isNum = true;
         }
+        setTokenTypeOfAssignVar();
     }
 
     private void Word() {
@@ -450,6 +466,7 @@ public class Parser {
             match(TokenType.CHAR); 
             isNum = false;
         }
+        setTokenTypeOfAssignVar();
     }
 
     private void Var() {
