@@ -7,7 +7,7 @@ import packages.baby.compiler.SymbolTable;
 import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+// import java.io.RandomAccessFile;
 
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 import java.io.BufferedWriter;
@@ -21,7 +21,6 @@ public class Parser {
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
     boolean hasOperators = false;
     boolean isWord = false; 
-    // boolean isAdd = false, isSub = false, isMul = false, isDiv = false;
     boolean isIDNum = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
@@ -132,6 +131,9 @@ public class Parser {
 
     private void Program() {
         StmtList();
+        System.out.println("message: " + message);
+        System.out.println("success: " + success);
+        System.out.println("TokenType: " + TokenType.EOF);
         if (message.isEmpty() && success && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
             message.append("Parsing successful!");
@@ -283,12 +285,6 @@ public class Parser {
     private void Expr() {
         Term();
         Expr_();
-        if (mips.getOperators() == "+"){
-            appendLineToFile(filePath, mips.addOperand());
-        }
-        else if (mips.getOperators() == "-"){
-            appendLineToFile(filePath, mips.subOperand());
-        }
     }
 
     private void Expr_() {
@@ -297,8 +293,6 @@ public class Parser {
             String op = lookahead.getValue();
             mips.pushToOpStack(op);
             match(TokenType.PLUS);
-            // isAdd = true;
-            // isSub = false;
             Term();
             Expr_();
         }
@@ -307,10 +301,16 @@ public class Parser {
             String op = lookahead.getValue();
             mips.pushToOpStack(op);
             match(TokenType.MINUS);
-            // isAdd = false;
-            // isSub = true;
             Term();
             Expr_();
+        }
+        String op = mips.getOperators();
+        // System.out.println("checker: "+ op);
+        if (op.equals("+")){
+            appendLineToFile(filePath, mips.addOperand());
+        }
+        else if (op.equals("-")){
+            appendLineToFile(filePath, mips.subOperand());
         }
     }
 
@@ -325,7 +325,6 @@ public class Parser {
             String op = lookahead.getValue();
             mips.pushToOpStack(op);
             match(TokenType.TIMES);
-            // isMul = true;
             Factor();
             Term_();
         }
@@ -334,9 +333,16 @@ public class Parser {
             String op = lookahead.getValue();
             mips.pushToOpStack(op);
             match(TokenType.DIVIDE);
-            // isDiv = true;
             Factor();
             Term_();
+        }
+        String op = mips.getOperators();
+        // System.out.println("checker: "+ op);
+        if (op.equals("+")){
+            appendLineToFile(filePath, mips.addOperand());
+        }
+        else if (op.equals("-")){
+            appendLineToFile(filePath, mips.subOperand());
         }
     }
 

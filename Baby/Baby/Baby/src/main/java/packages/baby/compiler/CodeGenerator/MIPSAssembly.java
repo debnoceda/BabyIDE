@@ -15,12 +15,13 @@ public class MIPSAssembly {
 
     private Stack<String> freeRegisters;
     private Stack<String> allocatedRegisters;
-    private Stack<String> operators;
     private static int stringCounter = 0;
+    private Stack<String> operators;
 
     public MIPSAssembly(){
         freeRegisters = new Stack<>();
         allocatedRegisters = new Stack<>();
+        operators = new Stack<>();
         for (int i = 9; i >= 0; i--) {
             freeRegisters.push("$t" + i);
         }
@@ -52,15 +53,15 @@ public class MIPSAssembly {
         else
             return allocatedRegisters.pop();
     }
-
+       
     public void pushToOpStack (String op){
-        if (op == "+" || op == "-" || op == "*" || op == "/"){
+        if (op.equals("+") || op.equals("-") || op.equals("*") || op.equals("/")){
             operators.push(op);
         }
     }
 
     public String getOperators (){
-        if (allocatedRegisters.isEmpty()) {
+        if (operators.isEmpty()) {
             return "EmptyStack";
         }
         return operators.pop();
@@ -121,9 +122,9 @@ public class MIPSAssembly {
 
     public String addOperand (){
         StringBuilder mipsCode = new StringBuilder();
-        String op1 = getUsedRegister();
         String op2 = getUsedRegister();
-        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+        String op1 = getUsedRegister();
+        if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
             mipsCode.append("add ").append(useReg + " ").append(op1 + " " + op2);
             useRegisters(useReg);
@@ -136,9 +137,9 @@ public class MIPSAssembly {
 
     public String subOperand (){
         StringBuilder mipsCode = new StringBuilder();
-        String op1 = getUsedRegister();
         String op2 = getUsedRegister();
-        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+        String op1 = getUsedRegister();
+        if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
             mipsCode.append("sub ").append(useReg + " ").append(op1 + " " + op2);
             useRegisters(useReg);
@@ -151,9 +152,9 @@ public class MIPSAssembly {
 
     public String mulOperand (){
         StringBuilder mipsCode = new StringBuilder();
-        String op1 = getUsedRegister();
         String op2 = getUsedRegister();
-        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+        String op1 = getUsedRegister();
+        if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
             mipsCode.append("mul ").append(useReg + " ").append(op1 + " " + op2);
             useRegisters(useReg);
@@ -166,9 +167,9 @@ public class MIPSAssembly {
 
     public String divOperand (){
         StringBuilder mipsCode = new StringBuilder();
-        String op1 = getUsedRegister();
         String op2 = getUsedRegister();
-        if (op1 != "EmptyStack" || op2 != "EmptyStack"){
+        String op1 = getUsedRegister();
+        if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
             mipsCode.append("div ").append(op1 + " " + op2);
             mipsCode.append("mflo" + useReg);
