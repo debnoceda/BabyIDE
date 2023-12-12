@@ -36,6 +36,9 @@ public class Parser {
     // Track number of variables declared in one let statement
     int varCount = 0;
 
+    // Determine if var parsed is a previously declared variable reassigned
+    boolean isAssignVar = false;
+
     public Parser(StringBuilder message, List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.message = message;
         this.tokens = tokens;
@@ -125,9 +128,16 @@ public class Parser {
         setSuccess(false);
     }
 
+    private String VarNotDeclaredError(String var){
+        success = false;
+        return "Error at line " + lookahead.getNLine() + ": variable '" + var + "' not declared.";
+    }
+
+
     public String printParseError() {
         return message.toString();
     }
+
 
     private void Program() {
         StmtList();
@@ -221,15 +231,23 @@ public class Parser {
         }
     }
 
+    private boolean isDeclared(String varName){
+        boolean declared = !symbolTable.isDeclared(varName);
+        if(!declared)
+            VarNotDeclaredError(varName);
+        return declared;
+    }
+
     private void Assignment() {
         isNum = false;
         String varName, value;
         varName = lookahead.getValue();
 
-        if(!symbolTable.isDeclared(varName))
-            VarNotDeclaredError(varName);
+        if(isDeclared(varName))
+            isAssignVar = true;
 
         Var();
+        isAssignVar = false;
         if (!match(TokenType.EQUAL)) {Error("'='");}
         value = lookahead.getValue();
         Value();
@@ -242,11 +260,6 @@ public class Parser {
                 
             }
         }
-    }
-
-    private String VarNotDeclaredError(String var){
-        success = false;
-        return "Error at line " + lookahead.getNLine() + ": " + var + " not declared.";
     }
 
     private void Value() {
@@ -338,11 +351,11 @@ public class Parser {
         }
         String op = mips.getOperators();
         // System.out.println("checker: "+ op);
-        if (op.equals("+")){
-            appendLineToFile(filePath, mips.addOperand());
+        if (op.equals("*")){
+            appendLineToFile(filePath, mips.mulOperand());
         }
-        else if (op.equals("-")){
-            appendLineToFile(filePath, mips.subOperand());
+        else if (op.equals("/")){
+            appendLineToFile(filePath, mips.divOperand());
         }
     }
 
@@ -433,10 +446,44 @@ public class Parser {
     private void Var() {
         if (lookahead.getTokenType() == TokenType.ID) {
             String var = lookahead.getValue();
-            tokenType = symbolTable.getKeyTokenType(var);
-            if(tokenType == null)
-                VarNotDeclaredError(var);
-                //set token type for the declared variable 
+            
+            // Case 1: let x 
+            // Case 2: let x = y
+            // Case 3: y = x
+
+            /*  The codes in the next condition should only execute 
+                if var is a variable assigned at a variable X, say X = var.
+                This should not run for any variable X, 
+                that is every variable before '=' or 
+                for a being declared variable, say X in let X be num.
+            */
+
+            /*  For a being declared variable, say X in let X be num,
+                we set the value for the identifier as X.
+                So we can say that the var is not being declared
+                when var != identifier.
+                We have to place it before isDeclared(var), so it will
+                short circuit since, it is always not declared initially.
+            */
+
+            /*  For a variable in assignment statement, say X in X = a,
+                we still need to check if X is already declared. But,
+                it is being handled in Assignment.
+                We could make flag to determine if isAssignVar
+            */
+
+            if (!isAssignVar && !var.equals(identifier) && isDeclared(var)){
+
+                // Handle if a var B is assigned at var A : A = B
+                // Get token type of var B if declared
+                tokenType = symbolTable.getKeyTokenType(var);
+                if(tokenType == null)
+                    // Set  A tokenType = B tokenType 
+                    // Identifier is currently A, if B is an assigned variable
+                    symbolTable.setTokenType(identifier, tokenType);
+                // !!Check inconsistensies
+                // error: variable x might not have been initialized
+            }
 
             String varDataType = symbolTable.getKeyDataType(var);
             if(varDataType.equals("num")){      

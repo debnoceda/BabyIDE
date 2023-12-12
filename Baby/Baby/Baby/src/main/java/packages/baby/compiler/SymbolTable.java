@@ -142,6 +142,14 @@ public class SymbolTable {
             System.out.println("Key: " + key + "\tIdentifier: " + name + "\tTokenType: " + tokType + "\tDataType: " + datType);
         }
     }
+
+    public void setTokenType(String key, TokenType tokenType){
+        Symbol symbol = symbolTable.get(key);
+
+        // check for consistencies first
+        symbol.setTokenType(tokenType);
+
+    }
     
     public void setDataType(int varCount, String dataType){
         // Get the keys and reverse them
