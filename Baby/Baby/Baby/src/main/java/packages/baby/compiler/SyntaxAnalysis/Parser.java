@@ -38,6 +38,7 @@ public class Parser {
 
     // Determine if var parsed is a previously declared variable reassigned
     boolean isAssignVar = false;
+    String assignVar = "";
 
     public Parser(StringBuilder message, List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.message = message;
@@ -62,6 +63,10 @@ public class Parser {
         identifier = null;
         tokenType = null;  
         dataType = null; 
+    }
+
+    private void resetAssignVar(){
+        String assignVar = "";
     }
     
     private void setFileName(String afileName){
@@ -128,9 +133,9 @@ public class Parser {
         setSuccess(false);
     }
 
-    private String VarNotDeclaredError(String var){
+    private void VarNotDeclaredError(String var){
         success = false;
-        return "Error at line " + lookahead.getNLine() + ": variable '" + var + "' not declared.";
+        message.append("Error at line " + lookahead.getNLine() + ": variable '" + var + "' not declared.\n\n");
     }
 
 
@@ -232,7 +237,7 @@ public class Parser {
     }
 
     private boolean isDeclared(String varName){
-        boolean declared = !symbolTable.isDeclared(varName);
+        boolean declared = symbolTable.isDeclared(varName);
         if(!declared)
             VarNotDeclaredError(varName);
         return declared;
@@ -243,8 +248,9 @@ public class Parser {
         String varName, value;
         varName = lookahead.getValue();
 
-        if(isDeclared(varName))
-            isAssignVar = true;
+        isDeclared(varName);
+        isAssignVar = true;
+        assignVar = varName;
 
         Var();
         isAssignVar = false;
@@ -260,6 +266,7 @@ public class Parser {
                 
             }
         }
+        resetAssignVar();
     }
 
     private void Value() {
@@ -469,29 +476,67 @@ public class Parser {
             /*  For a variable in assignment statement, say X in X = a,
                 we still need to check if X is already declared. But,
                 it is being handled in Assignment.
-                We could make flag to determine if isAssignVar
+                We could make flag to determine if isAssignVar.
             */
 
+           
+
             if (!isAssignVar && !var.equals(identifier) && isDeclared(var)){
+                
+                /*  There is a possibility that there are multiple var in an expr.*/
 
                 // Handle if a var B is assigned at var A : A = B
+                // var A can be assignVar or a being declared var
+                String varToUpdate = identifier != null ? identifier : assignVar; 
+
                 // Get token type of var B if declared
                 tokenType = symbolTable.getKeyTokenType(var);
-                if(tokenType == null)
-                    // Set  A tokenType = B tokenType 
-                    // Identifier is currently A, if B is an assigned variable
-                    symbolTable.setTokenType(identifier, tokenType);
+                if(tokenType != null){
+                    // Set  A tokenType = B tokenType
+
+                    /*  Ensure that 
+                        if TokenType of var A is NOT null,
+                        we do not need set token type again.
+                    */ 
+                    
+                    // Check if 
+                    TokenType tokenTypeA = symbolTable.getKeyTokenType(varToUpdate);
+                    String dataTypeA = symbolTable.getKeyDataType(varToUpdate);
+                    if(tokenTypeA == null){
+                        // Check inconsistencies first of B token type and A datatype
+                        // Inconsistencies in being declared var is already handled
+
+                        if (varToUpdate.equals(assignVar) && !symbolTable.isDataTypeConsistent(dataTypeA, tokenType))
+                            symbolTable.InconsistentDataTypeError(assignVar, dataTypeA);
+
+                        symbolTable.setTokenType(varToUpdate, tokenType);
+                    }
+                    
+                    else{
+                        // Check inconsistencies
+                    }
+                }
+
+                else{
+                    // If token type is null
+                    VarNotInitializedError(var);
+                }
+                    
                 // !!Check inconsistensies
-                // error: variable x might not have been initialized
+            
             }
 
             String varDataType = symbolTable.getKeyDataType(var);
-            if(varDataType.equals("num")){      
+            if(!varDataType.isBlank() && varDataType.equals("num")){      
                 isIDNum = true;
             }
             match(TokenType.ID);
             isID = true;
         }
+    }
+
+    private void VarNotInitializedError(String var){
+        message.append("Error: variable '" + var + "' might not have been initialized.");
     }
 
 }

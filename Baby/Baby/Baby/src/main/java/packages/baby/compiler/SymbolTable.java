@@ -23,18 +23,18 @@ public class SymbolTable {
         }
 
         else{
-            message.append(DuplicateVarDeclareError(identifier));
+            DuplicateVarDeclareError(identifier);
         }
 
         
     }
 
-    private String DuplicateVarDeclareError(String var){
-        return "Error: Variable '" + var + "' declared multiple times.\n\n";
+    private void DuplicateVarDeclareError(String var){
+        message.append("Error: Variable '" + var + "' declared multiple times.\n\n");
     }
 
-    private String InconsistentDataTypeError(String var, String dataType){
-        return "Error: Data type of the value assigned at '" + var + "' is inconsistent with the declared data type. '" + dataType + "' expected. \n\n";
+    public void InconsistentDataTypeError(String var, String dataType){
+        message.append("Error: Data type of the value assigned at '" + var + "' is inconsistent with the declared data type. '" + dataType + "' expected. \n\n");
     }
 
 
@@ -169,7 +169,7 @@ public class SymbolTable {
                 symbol.setDataType(dataType);
             }
             else{
-                message.append(InconsistentDataTypeError(key,dataType));
+                InconsistentDataTypeError(key,dataType);
             }
                     
             count++;
@@ -183,15 +183,15 @@ public class SymbolTable {
         return symbolTable.containsKey(identifier);
     }
 
-    private boolean isDataTypeConsistent(String dataType, TokenType tokenType){
+    public boolean isDataTypeConsistent(String dataType, TokenType tokenType){
         return isNumTypeConsistent(dataType, tokenType) || isWordTypeConsistent(dataType, tokenType);
     }
 
-    private boolean isNumTypeConsistent(String dataType, TokenType tokenType){
+    public boolean isNumTypeConsistent(String dataType, TokenType tokenType){
         return dataType.equals("num") && (tokenType == TokenType.INT || tokenType == TokenType.DEC || tokenType == null);
     }
 
-    private boolean isWordTypeConsistent(String dataType, TokenType tokenType){
+    public boolean isWordTypeConsistent(String dataType, TokenType tokenType){
         return dataType.equals("word") && (tokenType == TokenType.STR || tokenType == TokenType.CHAR || tokenType == null);
     }
 
