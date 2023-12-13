@@ -224,14 +224,14 @@ public class Parser {
     private void DeclareType_() {
         if (lookahead.getTokenType() == TokenType.EQUAL) {
             match(TokenType.EQUAL);
-            // String value = lookahead.getValue();
+            String value = lookahead.getValue();
             Value();
-            // if(isWord){
-            //     appendLineToFile(filePath, mips.varDeclarationWord(identifier, value, isNum));
-            // }
-            // else if(isExpr){
-            //     appendLineToFile(filePath, mips.varDeclarationExpr(identifier, value, isNum, hasOperators));
-            // }
+            if(isWord){
+                appendLineToFile(filePath, mips.varDeclarationWord(identifier, value, isNum));
+            }
+            else if(isExpr){
+                appendLineToFile(filePath, mips.varDeclarationExpr(identifier, value, isNum, hasOperators));
+            }
 
         }
     }
