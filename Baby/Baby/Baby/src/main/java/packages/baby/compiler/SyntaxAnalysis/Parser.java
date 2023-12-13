@@ -222,7 +222,15 @@ public class Parser {
     private void DeclareType_() {
         if (lookahead.getTokenType() == TokenType.EQUAL) {
             match(TokenType.EQUAL);
-            Value(); 
+            // String value = lookahead.getValue();
+            Value();
+            // if(isWord){
+            //     appendLineToFile(filePath, mips.varDeclarationWord(identifier, value, isNum));
+            // }
+            // else if(isExpr){
+            //     appendLineToFile(filePath, mips.varDeclarationExpr(identifier, value, isNum, hasOperators));
+            // }
+
         }
     }
 
@@ -260,11 +268,8 @@ public class Parser {
         if(isWord){
             appendLineToFile(filePath, mips.varDeclarationWord(varName, value, isNum));
         }
-        if(isExpr){
+        else if(isExpr){
             appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum, hasOperators));
-            if(hasOperators){
-                
-            }
         }
         resetAssignVar();
     }
@@ -277,10 +282,12 @@ public class Parser {
                  lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {            
             Expr();
             isExpr = true;
+            isWord = false;
         }
         else if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
             Word();
             isWord = true;
+            isExpr = false;
         }
         else {
             Error("Value after '='");
@@ -298,6 +305,7 @@ public class Parser {
 
     private void Prompt() {
         if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
+            isExpr = false;
             Word();
         }
     }
@@ -310,6 +318,7 @@ public class Parser {
     private void Expr_() {
         if (lookahead.getTokenType() == TokenType.PLUS) {
             hasOperators = true;
+            match(TokenType.PLUS);
             Term();
             appendLineToFile(filePath, mips.addOperand());
             Expr_();
@@ -346,17 +355,20 @@ public class Parser {
     }
 
     private void Factor() {
+        String value = lookahead.getValue();
         if (lookahead.getTokenType() == TokenType.LPAREN) {
-            match(TokenType.LPAREN); 
+            match(TokenType.LPAREN);  
             Expr();
             if (!match(TokenType.RPAREN)) {Error("')'");}
         }
         else if (lookahead.getTokenType() == TokenType.ID) {
-            String var = lookahead.getValue();
-            mips.regOrder(var);
+            mips.regOrder(value);
+            isIDNum = false;
             Var();
         }
         else if (lookahead.getTokenType() == TokenType.INT || lookahead.getTokenType() == TokenType.DEC) {
+            appendLineToFile(filePath, mips.immediateNum(value));
+            mips.regOrder(value);
             Num();
         }
     }
@@ -371,10 +383,15 @@ public class Parser {
             appendLineToFile(filePath, mips.printNewLine());
         }
         else{
-            if(statement != null)
+            if(statement != null){
                 appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID, isNum, isIDNum));
+            }
         }
         if (!match(TokenType.RPAREN)) {Error("')'");}
+        isExpr = false;
+        isID = false;
+        isNum = false;
+        isIDNum = false;
     }
 
     private void PrintKeyword() {

@@ -13,7 +13,7 @@ public class OpRegisterAllocation {
     }
 
     public void insertIntoTable (String key, String register){
-        System.out.println("key: " + key + " value: " + register);
+        // System.out.println("key: " + key + " value: " + register);
         registerTable.put (key, register);
     }
 

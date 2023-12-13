@@ -17,6 +17,7 @@ public class MIPSAssembly {
 
     private Stack<String> freeRegisters;
     private Stack<String> allocatedRegisters;
+    private Stack<String> regRelease;
     private static int stringCounter = 0;
     OpRegisterAllocation regTable;
     
@@ -25,6 +26,7 @@ public class MIPSAssembly {
         regTable = new OpRegisterAllocation();
         freeRegisters = new Stack<>();
         allocatedRegisters = new Stack<>();
+        regRelease = new Stack<>();
         for (int i = 9; i >= 0; i--) {
             freeRegisters.push("$t" + i);
         }
@@ -32,7 +34,7 @@ public class MIPSAssembly {
 
     public String getFreeRegister() {
         if (freeRegisters.isEmpty()) {
-            throw new RuntimeException("No free registers available");
+            return "NoRegistersAvailable";
         }
         return freeRegisters.pop();
     }
@@ -57,8 +59,36 @@ public class MIPSAssembly {
             return allocatedRegisters.pop();
     }
 
+    public String getRegRelease(){
+        if (regRelease.isEmpty()) {
+            return "EmptyStack";
+        }
+        else
+            return regRelease.pop();
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            // Try parsing the string as an integer
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e1) {
+            try {
+                // Try parsing the string as a double
+                Double.parseDouble(str);
+                return true;
+            } catch (NumberFormatException e2) {
+                // If both parseInt and parseDouble throw exceptions, the string is not a number
+                return false;
+            }
+        }
+    }
+
     public void regOrder (String var){
         String register = regTable.getRegister(var);
+        if (isNumeric(var)){
+            regRelease.push(register);
+        }
         if (register != null)
             useRegisters(register);
     }
@@ -77,7 +107,7 @@ public class MIPSAssembly {
     public String varDeclarationWord(String varName, String value, boolean isNum){
         StringBuilder mipsCode = new StringBuilder();
 
-        mipsCode.append(".data\n");
+        mipsCode.append("\n.data\n");
         mipsCode.append(varName).append(": .asciiz ").append(value).append("\n");
         mipsCode.append(".text\n");
         return mipsCode.toString();
@@ -93,6 +123,7 @@ public class MIPSAssembly {
             mipsCode.append(varName).append(": .word 0\n");
             mipsCode.append(".text\n\n");
             mipsCode.append("    sw ").append(useReg + ", ").append(varName).append("\n");
+            regTable.insertIntoTable(varName, useReg);
         }
         else{
             if (isNum){
@@ -117,16 +148,31 @@ public class MIPSAssembly {
         return mipsCode.toString();
     }
 
+    public String immediateNum (String value){
+        StringBuilder mipsCode = new StringBuilder();
+        String useReg = getFreeRegister();
+
+        mipsCode.append("    li " + useReg + " " + value);
+        regTable.insertIntoTable(value, useReg);
+
+        return mipsCode.toString();
+    }
+
     public String addOperand (){
         StringBuilder mipsCode = new StringBuilder();
         String op2 = getUsedRegister();
         String op1 = getUsedRegister();
-        System.out.println ("nisud ari");
         if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
-            mipsCode.append("    add ").append(useReg + " ").append(op1 + " " + op2 + "\n");
+            mipsCode.append("    add ").append(useReg + " ").append(op1 + " " + op2);
             useRegisters(useReg);
         }
+        String release = getRegRelease();
+        String release2 = getRegRelease();
+        if(!release.equals("EmptyStack"))
+            releaseRegister(release);
+        else if(!release2.equals("EmptyStack"))
+            releaseRegister(release2);
         return mipsCode.toString();
     }
 
@@ -136,12 +182,15 @@ public class MIPSAssembly {
         String op1 = getUsedRegister();
         if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
-            mipsCode.append("    sub ").append(useReg + " ").append(op1 + " " + op2 + "\n");
+            mipsCode.append("    sub ").append(useReg + " ").append(op1 + " " + op2);
             useRegisters(useReg);
         }
-        else{
-            mipsCode.append("");
-        }
+        String release = getRegRelease();
+        String release2 = getRegRelease();
+        if(!release.equals("EmptyStack"))
+            releaseRegister(release);
+        else if(!release2.equals("EmptyStack"))
+            releaseRegister(release2);
         return mipsCode.toString();
     }
 
@@ -151,12 +200,15 @@ public class MIPSAssembly {
         String op1 = getUsedRegister();
         if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
-            mipsCode.append("    mul ").append(useReg + " ").append(op1 + " " + op2 + "\n");
+            mipsCode.append("    mul ").append(useReg + " ").append(op1 + " " + op2);
             useRegisters(useReg);
         }
-        else{
-            mipsCode.append("");
-        }
+        String release = getRegRelease();
+        String release2 = getRegRelease();
+        if(!release.equals("EmptyStack"))
+            releaseRegister(release);
+        else if(!release2.equals("EmptyStack"))
+            releaseRegister(release2);
         return mipsCode.toString();
     }
 
@@ -167,12 +219,15 @@ public class MIPSAssembly {
         if (op1 != "EmptyStack" && op2 != "EmptyStack"){
             String useReg = getFreeRegister();
             mipsCode.append("    div ").append(op1 + " " + op2 + "\n");
-            mipsCode.append("    mflo " + useReg + "\n");
+            mipsCode.append("    mflo " + useReg);
             useRegisters(useReg);
         }
-        else{
-            mipsCode.append("");
-        }
+        String release = getRegRelease();
+        String release2 = getRegRelease();
+        if(!release.equals("EmptyStack"))
+            releaseRegister(release);
+        else if(!release2.equals("EmptyStack"))
+            releaseRegister(release2);
         return mipsCode.toString();
     }
 
@@ -200,15 +255,15 @@ public class MIPSAssembly {
         }
         else{
             if (isID){
-                if (isNum || isIDNum){
-                    mipsCode.append("\n");
-                    mipsCode.append("    li $v0, 1\n");
-                    mipsCode.append("    lw $a0, ").append(value).append("\n");
-                }
-                else if(!isNum){
+                if(!isIDNum){
                     mipsCode.append("\n");
                     mipsCode.append("    li $v0, 4\n");
                     mipsCode.append("    la $a0, ").append(value).append("\n");
+                }
+                else if (isNum || isIDNum){
+                    mipsCode.append("\n");
+                    mipsCode.append("    li $v0, 1\n");
+                    mipsCode.append("    lw $a0, ").append(value).append("\n");
                 }
             }
         }

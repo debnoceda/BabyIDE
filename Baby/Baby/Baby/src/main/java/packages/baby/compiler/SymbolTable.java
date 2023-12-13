@@ -144,10 +144,12 @@ public class SymbolTable {
     }
 
     public void setTokenType(String key, TokenType tokenType){
-        Symbol symbol = symbolTable.get(key);
+        
+            Symbol symbol = symbolTable.get(key);
 
-        // check for consistencies first
-        symbol.setTokenType(tokenType);
+            // check for consistencies first
+            symbol.setTokenType(tokenType);
+        
 
     }
     
