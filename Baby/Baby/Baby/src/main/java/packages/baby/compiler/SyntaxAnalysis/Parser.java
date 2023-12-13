@@ -40,6 +40,8 @@ public class Parser {
     boolean isAssignVar = false;
     String assignVar = "";
 
+    boolean isPrinting = false;
+
     public Parser(StringBuilder message, List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.message = message;
         this.tokens = tokens;
@@ -388,6 +390,7 @@ public class Parser {
             }
         }
         if (!match(TokenType.RPAREN)) {Error("')'");}
+        isPrinting = false;
         isExpr = false;
         isID = false;
         isNum = false;
@@ -398,10 +401,12 @@ public class Parser {
         if (lookahead.getTokenType() == TokenType.SHOW) {
             match(TokenType.SHOW);
             isShowLine = false;
+            isPrinting = true;
         }
         else if (lookahead.getTokenType() == TokenType.SHOWLINE) {
             match(TokenType.SHOWLINE);
             isShowLine = true;
+            isPrinting = true;
         }
 
     }
@@ -496,7 +501,7 @@ public class Parser {
 
            
 
-            if (!isAssignVar && var != null && !var.equals(identifier) && isDeclared(var)){
+            if (!isPrinting && !isAssignVar && var != null && !var.equals(identifier) && isDeclared(var)){
                 
                 /*  There is a possibility that there are multiple var in an expr.*/
 
