@@ -41,6 +41,7 @@ public class Parser {
     String assignVar = "";
 
     boolean isPrinting = false;
+    boolean isDeclaredVar = false;
 
     public Parser(StringBuilder message, List<Token> tokens, String afileName, MIPSAssembly mips) {
         this.message = message;
@@ -212,10 +213,12 @@ public class Parser {
         resetSymbolValues();
         
         if (lookahead.getTokenType() == TokenType.ID) {
-            identifier = lookahead.getValue();  
+            identifier = lookahead.getValue(); 
+            isDeclaredVar = true;
             Var();
+            isDeclaredVar = false;
             DeclareType_();
-            symbolTable.insertSymbol(identifier,tokenType, dataType);
+            symbolTable.updateSymbol(identifier, tokenType, dataType);
             varCount++;
             resetSymbolValues();
         }
@@ -499,9 +502,12 @@ public class Parser {
                 We could make flag to determine if isAssignVar.
             */
 
+            if (isDeclaredVar){
+                symbolTable.insertID(var);
+            }
            
 
-            if (!isPrinting && !isAssignVar && var != null && !var.equals(identifier) && isDeclared(var)){
+            if ( var != null && !isPrinting && !isAssignVar && !var.equals(identifier) && isDeclared(var)){
                 
                 /*  There is a possibility that there are multiple var in an expr.*/
 
@@ -522,12 +528,13 @@ public class Parser {
                     // Check if 
                     TokenType tokenTypeA = symbolTable.getKeyTokenType(varToUpdate);
                     String dataTypeA = symbolTable.getKeyDataType(varToUpdate);
+
+                    if (varToUpdate != null && varToUpdate.equals(assignVar) && !symbolTable.isDataTypeConsistent(dataTypeA, tokenType))
+                        symbolTable.InconsistentDataTypeError(assignVar, dataTypeA);
+
                     if(tokenTypeA == null){
                         // Check inconsistencies first of B token type and A datatype
                         // Inconsistencies in being declared var is already handled
-
-                        if (varToUpdate != null && varToUpdate.equals(assignVar) && !symbolTable.isDataTypeConsistent(dataTypeA, tokenType))
-                            symbolTable.InconsistentDataTypeError(assignVar, dataTypeA);
 
                         symbolTable.setTokenType(varToUpdate, tokenType);
                     }

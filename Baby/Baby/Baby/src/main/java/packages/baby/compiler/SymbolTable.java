@@ -29,6 +29,32 @@ public class SymbolTable {
         
     }
 
+    public void insertID(String identifier){
+        // Handle here if identifier already exists in symbol table
+        if(!symbolTable.containsKey(identifier)){
+            Symbol symbol = new Symbol(identifier, null, null);
+            symbolTable.put(identifier, symbol);
+        }
+
+        else{
+            DuplicateVarDeclareError(identifier);
+        }
+    }
+
+    public void updateSymbol(String identifier,TokenType tokenType, String dataType){
+        // Handle here if identifier already exists in symbol table
+        if(symbolTable.containsKey(identifier)){
+            Symbol symbol = symbolTable.get(identifier); 
+            
+            if (symbol.getTokenType() == null)
+                symbol.setTokenType(tokenType);
+            
+            if (symbol.getDataType() == null)
+                symbol.setDataType(dataType);
+        
+        }
+    }
+
     private void DuplicateVarDeclareError(String var){
         message.append("Error: Variable '" + var + "' declared multiple times.\n\n");
     }
