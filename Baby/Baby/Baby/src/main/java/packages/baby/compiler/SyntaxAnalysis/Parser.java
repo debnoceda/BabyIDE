@@ -17,9 +17,12 @@ public class Parser {
     Token lookahead;
     StringBuilder message;
     boolean success = true;
+
+    // Attributes used in Code Generation
+    String prompt, varName;
     private String fileName;
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
-    boolean hasOperators = false;
+    boolean hasOperators = false, isGet = false, isPrompt = false;
     boolean isWord = false; 
     boolean isIDNum = false;
     String mipsCode, filePath, statement;
@@ -193,6 +196,10 @@ public class Parser {
             DeclareList();
             if (!match(TokenType.BE)) {Error("'be'");} // BE == be
             Type();
+            if (isPrompt){
+                appendLineToFile(filePath, mips.printStatements(prompt, isExpr, isID, isNum, isIDNum));
+            }
+            appendLineToFile(filePath, mips.input(varName, isNum));
             symbolTable.setDataType(varCount, dataType);
         }
     }
@@ -213,7 +220,8 @@ public class Parser {
         resetSymbolValues();
         
         if (lookahead.getTokenType() == TokenType.ID) {
-            identifier = lookahead.getValue(); 
+            identifier = lookahead.getValue();
+            varName = lookahead.getValue();
             isDeclaredVar = true;
             Var();
             isDeclaredVar = false;
@@ -242,6 +250,9 @@ public class Parser {
     private void Type() {
         if (lookahead.getTokenType() == TokenType.DATATYPE) {
             dataType = lookahead.getValue();
+            if(dataType.equals("num")){
+                isNum = true;
+            }
             match(TokenType.DATATYPE); 
         }
         else {
@@ -301,6 +312,7 @@ public class Parser {
 
     private void Get() {
         if (lookahead.getTokenType() ==  TokenType.ENTER) {
+            isGet = true;
             match(TokenType.ENTER);
             if (!match(TokenType.LPAREN)) {Error("'('");}
             Prompt();
@@ -310,6 +322,8 @@ public class Parser {
 
     private void Prompt() {
         if (lookahead.getTokenType() == TokenType.STR || lookahead.getTokenType() == TokenType.CHAR) {
+            isPrompt = true;
+            prompt = lookahead.getValue();
             isExpr = false;
             Word();
         }

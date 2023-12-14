@@ -158,6 +158,32 @@ public class MIPSAssembly {
         return mipsCode.toString();
     }
 
+    public String input (String varName, boolean isNum){
+        StringBuilder mipsCode = new StringBuilder();
+
+        if(!isNum){
+            mipsCode.append("\n.data\n");
+            mipsCode.append("  " + varName + ": .space 256\n");
+            mipsCode.append(".text\n\n");
+
+            mipsCode.append("    li $v0, 8\n");
+            mipsCode.append("    la $a0 " + varName + "\n");
+            mipsCode.append("    li $a1, 255\n");
+            mipsCode.append("    syscall\n");
+        }
+        else{
+            mipsCode.append("\n.data\n");
+            mipsCode.append("  " + varName + ": .word 0\n");
+            mipsCode.append(".text\n\n");
+
+            mipsCode.append("    li $v0, 5\n");
+            mipsCode.append("    syscall\n");
+            mipsCode.append("    sw $v0 " + varName + "\n");
+        }
+        
+        return mipsCode.toString();
+    }
+
     public String addOperand (){
         StringBuilder mipsCode = new StringBuilder();
         String op2 = getUsedRegister();
