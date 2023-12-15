@@ -7,10 +7,10 @@ import packages.baby.compiler.SymbolTable;
 import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
-// import java.io.RandomAccessFile;
 
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 import java.io.BufferedWriter;
+import packages.baby.compiler.CodeGenerator.CompilerTerminalIntegration;
 
 public class Parser {
     List<Token> tokens;
@@ -24,7 +24,7 @@ public class Parser {
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
     boolean hasOperators = false, isGet = false, isPrompt = false;
     boolean isWord = false; 
-    boolean isIDNum = false;
+    boolean isIDNum = false, isCodeGenDone = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
 
@@ -55,9 +55,12 @@ public class Parser {
         setFileName(afileName);
         mipsCode = mips.generateMIPS();
         filePath = writeToFile(fileName, mipsCode);
-        System.out.println("MIPS code has been written in the file: " + fileName);
         resetSymbolValues();
         Program();
+        System.out.println("MIPS code has been written in the file: " + fileName);
+        if (isCodeGenDone){
+
+        }
         symbolTable.printSymbolTable();
     }
 
@@ -157,6 +160,7 @@ public class Parser {
         System.out.println("TokenType: " + TokenType.EOF);
         if (message.isEmpty() && success && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
+            isCodeGenDone = true;
             message.append("Parsing successful!");
         }
         else {
