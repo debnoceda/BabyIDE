@@ -8,7 +8,8 @@ public class CompilerTerminalIntegration {
     private InputStream spimOutput;
 
     public void startQtSPIM(String filePath) throws IOException {
-        ProcessBuilder processBuilder = new ProcessBuilder("path/to/qtspim", filePath);
+        String qtspimPath = "C:\\Program Files (x86)\\QtSpim\\QtSpim.exe";
+        ProcessBuilder processBuilder = new ProcessBuilder(qtspimPath, filePath);
         spimProcess = processBuilder.start();
         spimInput = spimProcess.getOutputStream();
         spimOutput = spimProcess.getInputStream();
@@ -20,18 +21,21 @@ public class CompilerTerminalIntegration {
         }
     }
 
-    public void readOutput() {
+    public String readOutput() {
+        StringBuilder output = new StringBuilder();
         new Thread(() -> {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(spimOutput))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     // Process the output as needed
-                    System.out.println(line);
+                    output.append(line);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
+
+        return output.toString();
     }
 
     public void sendUserInput(String userInput) throws IOException {
@@ -50,27 +54,27 @@ public class CompilerTerminalIntegration {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            CompilerTerminalIntegration compilerIntegration = new CompilerTerminalIntegration();
-            compilerIntegration.startQtSPIM("your_mips_file.asm");
+    // public static void main(String[] args) {
+    //     try {
+    //         CompilerTerminalIntegration compilerIntegration = new CompilerTerminalIntegration();
+    //         compilerIntegration.startQtSPIM("your_mips_file.asm");
 
-            // Example: Sending MIPS code
-            compilerIntegration.sendMIPSCode("Your MIPS assembly code here\n");
+    //         // Example: Sending MIPS code
+    //         compilerIntegration.sendMIPSCode("Your MIPS assembly code here\n");
 
-            // Example: Reading output in a separate thread
-            compilerIntegration.readOutput();
+    //         // Example: Reading output in a separate thread
+    //         compilerIntegration.readOutput();
 
-            // Example: Sending user input
-            compilerIntegration.sendUserInput("User input here");
+    //         // Example: Sending user input
+    //         compilerIntegration.sendUserInput("User input here");
 
-            // Example: Waiting for the completion of the MIPS compiler
-            int exitCode = compilerIntegration.waitForCompletion();
+    //         // Example: Waiting for the completion of the MIPS compiler
+    //         int exitCode = compilerIntegration.waitForCompletion();
 
-            // Close the resources
-            compilerIntegration.close();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+    //         // Close the resources
+    //         compilerIntegration.close();
+    //     } catch (IOException | InterruptedException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 }

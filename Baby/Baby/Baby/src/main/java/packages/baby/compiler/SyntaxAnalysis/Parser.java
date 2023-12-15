@@ -24,7 +24,7 @@ public class Parser {
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
     boolean hasOperators = false, isGet = false, isPrompt = false;
     boolean isWord = false; 
-    boolean isIDNum = false, isCodeGenDone = false;
+    boolean isIDNum = false, parsingSuccess = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
 
@@ -57,10 +57,18 @@ public class Parser {
         filePath = writeToFile(fileName, mipsCode);
         resetSymbolValues();
         Program();
-        System.out.println("MIPS code has been written in the file: " + fileName);
-        if (isCodeGenDone){
-
+        if(parsingSuccess){
+            try{
+                CompilerTerminalIntegration mipsCompiler = new CompilerTerminalIntegration();
+                mipsCompiler.startQtSPIM(filePath);
+                message.append(mipsCompiler.readOutput());
+                int exitCode = mipsCompiler.waitForCompletion();
+                mipsCompiler.close();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();  // Handle the exception appropriately
+            }
         }
+        System.out.println("MIPS code has been written in the file: " + fileName);
         symbolTable.printSymbolTable();
     }
 
@@ -160,8 +168,8 @@ public class Parser {
         System.out.println("TokenType: " + TokenType.EOF);
         if (message.isEmpty() && success && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
-            isCodeGenDone = true;
             message.append("Parsing successful!");
+            parsingSuccess = true;
         }
         else {
             message.append("Parsing Unsuccessful!"); // ehhhhhhhhhhhhh
@@ -200,10 +208,12 @@ public class Parser {
             DeclareList();
             if (!match(TokenType.BE)) {Error("'be'");} // BE == be
             Type();
-            if (isPrompt){
-                appendLineToFile(filePath, mips.printStatements(prompt, isExpr, isID, isNum, isIDNum));
+            if (isGet){
+                if (isPrompt){
+                    appendLineToFile(filePath, mips.printStatements(prompt, isExpr, isID, isNum, isIDNum));
+                }
+                appendLineToFile(filePath, mips.input(varName, isNum));
             }
-            appendLineToFile(filePath, mips.input(varName, isNum));
             symbolTable.setDataType(varCount, dataType);
         }
     }
