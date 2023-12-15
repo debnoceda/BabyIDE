@@ -141,6 +141,10 @@ public class Parser {
         return message.toString();
     }
 
+    private void MultipleEnterError(){
+        success = false;
+        message.append("Error at line " + lookahead.getNLine() + ": multiple enter function in one declaration statement is not allowed.\n\n");
+    }
 
     private void Program() {
         StmtList();
@@ -193,6 +197,13 @@ public class Parser {
                     appendLineToFile(filePath, mips.printStatements(prompt, isExpr, isID, isNum, isIDNum));
                 }
                 appendLineToFile(filePath, mips.input(varName, isNum));
+
+                if(isNum)
+                    symbolTable.setTokenType(varName, TokenType.INT);
+                else
+                    symbolTable.setTokenType(varName, TokenType.STR);
+
+                isGet = false;
             }
             symbolTable.setDataType(varCount, dataType);
         }
@@ -223,6 +234,10 @@ public class Parser {
             symbolTable.updateSymbol(identifier, tokenType, dataType);
             varCount++;
             resetSymbolValues();
+        }
+
+        else {
+            Error("variable");
         }
     }
 
@@ -306,6 +321,8 @@ public class Parser {
 
     private void Get() {
         if (lookahead.getTokenType() ==  TokenType.ENTER) {
+            if(isGet)
+                MultipleEnterError();
             isGet = true;
             match(TokenType.ENTER);
             if (!match(TokenType.LPAREN)) {Error("'('");}
