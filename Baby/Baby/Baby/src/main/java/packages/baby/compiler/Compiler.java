@@ -4,11 +4,13 @@
  */
 package packages.baby.compiler;
 
+import java.io.IOException;
 import java.util.List;
 import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.SyntaxAnalysis.Parser;
 import packages.baby.components.Terminal;
+import packages.baby.compiler.CodeGenerator.CompilerTerminalIntegration;
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 
 /**
@@ -20,6 +22,7 @@ public class Compiler {
     String code = "";
     Terminal terminal;
     StringBuilder message = new StringBuilder();
+    String output;
     
     List<Token> tokens;
     
@@ -62,8 +65,16 @@ public class Compiler {
         // System.out.println(lexicalAnalyzer.getCh());
         //terminal.setText(printTokens(tokens) + "\n" + successState);
 //        terminal.setText(printTokens(tokens));
-        terminal.setText(getTerminalMessage());
-        
+        output = getTerminalMessage();
+        terminal.setText(output);
+        if(output.equals("Parsing successful!")){
+            try{
+                CompilerTerminalIntegration mipsCompiler = new CompilerTerminalIntegration();
+                mipsCompiler.runMIPSFile(parser.getFilePath());
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();  // Handle the exception appropriately
+            }
+        }   
     }
     
     public String printTokens(List<Token> tokens){

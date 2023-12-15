@@ -7,45 +7,34 @@ public class CompilerTerminalIntegration {
     private OutputStream spimInput;
     private InputStream spimOutput;
 
-    public void startQtSPIM(String filePath) throws IOException {
+    public void runMIPSFile(String filePath) throws IOException, InterruptedException {
         String qtspimPath = "C:\\Program Files (x86)\\QtSpim\\QtSpim.exe";
         ProcessBuilder processBuilder = new ProcessBuilder(qtspimPath, filePath);
         spimProcess = processBuilder.start();
         spimInput = spimProcess.getOutputStream();
         spimOutput = spimProcess.getInputStream();
-    }
 
-    public void sendMIPSCode(String code) throws IOException {
-        try (Writer writer = new OutputStreamWriter(spimInput)) {
-            writer.write(code);
-        }
-    }
+        // try (Writer writer = new OutputStreamWriter(spimInput)) {
+        //     // Send user input if needed
+        //     writer.write(userInput);
+        // }
 
-    public String readOutput() {
-        StringBuilder output = new StringBuilder();
-        new Thread(() -> {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(spimOutput))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Process the output as needed
-                    output.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        // Read and print the output in the current terminal
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(spimOutput))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
             }
-        }).start();
-
-        return output.toString();
-    }
-
-    public void sendUserInput(String userInput) throws IOException {
-        try (Writer writer = new OutputStreamWriter(spimInput)) {
-            writer.write(userInput);
         }
-    }
 
-    public int waitForCompletion() throws InterruptedException {
-        return spimProcess.waitFor();
+        // Wait for the completion of the MIPS compiler
+        int exitCode = spimProcess.waitFor();
+        if (exitCode != 0) {
+            System.err.println("Error: MIPS compilation failed with exit code " + exitCode);
+        }
+
+        // Close the resources
+        close();
     }
 
     public void close() {
@@ -57,22 +46,14 @@ public class CompilerTerminalIntegration {
     // public static void main(String[] args) {
     //     try {
     //         CompilerTerminalIntegration compilerIntegration = new CompilerTerminalIntegration();
-    //         compilerIntegration.startQtSPIM("your_mips_file.asm");
+    //         // Specify the path to your MIPS assembly file
+    //         String mipsFilePath = "your_mips_file.asm";
 
-    //         // Example: Sending MIPS code
-    //         compilerIntegration.sendMIPSCode("Your MIPS assembly code here\n");
+    //         // Optional: Provide user input if needed
+    //         String userInput = "User input here";
 
-    //         // Example: Reading output in a separate thread
-    //         compilerIntegration.readOutput();
-
-    //         // Example: Sending user input
-    //         compilerIntegration.sendUserInput("User input here");
-
-    //         // Example: Waiting for the completion of the MIPS compiler
-    //         int exitCode = compilerIntegration.waitForCompletion();
-
-    //         // Close the resources
-    //         compilerIntegration.close();
+    //         // Run the MIPS file and print output in the terminal
+    //         compilerIntegration.runMIPSFile(mipsFilePath, userInput);
     //     } catch (IOException | InterruptedException e) {
     //         e.printStackTrace();
     //     }

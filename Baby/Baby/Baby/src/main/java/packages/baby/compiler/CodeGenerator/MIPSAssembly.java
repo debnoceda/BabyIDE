@@ -4,8 +4,6 @@
  */
 package packages.baby.compiler.CodeGenerator;
 
-import java.util.HashMap;
-
 /**
  *
  * @author Dave Noceda
@@ -180,7 +178,7 @@ public class MIPSAssembly {
             mipsCode.append("    syscall\n");
             mipsCode.append("    sw $v0 " + varName + "\n");
         }
-        
+
         return mipsCode.toString();
     }
 

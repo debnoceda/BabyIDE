@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 import java.io.BufferedWriter;
-import packages.baby.compiler.CodeGenerator.CompilerTerminalIntegration;
 
 public class Parser {
     List<Token> tokens;
@@ -24,7 +23,7 @@ public class Parser {
     boolean isShowLine = false, isNum = false, isID = false, isExpr = false;
     boolean hasOperators = false, isGet = false, isPrompt = false;
     boolean isWord = false; 
-    boolean isIDNum = false, parsingSuccess = false;
+    boolean isIDNum = false;
     String mipsCode, filePath, statement;
     MIPSAssembly mips;
 
@@ -57,17 +56,6 @@ public class Parser {
         filePath = writeToFile(fileName, mipsCode);
         resetSymbolValues();
         Program();
-        if(parsingSuccess){
-            try{
-                CompilerTerminalIntegration mipsCompiler = new CompilerTerminalIntegration();
-                mipsCompiler.startQtSPIM(filePath);
-                message.append(mipsCompiler.readOutput());
-                int exitCode = mipsCompiler.waitForCompletion();
-                mipsCompiler.close();
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();  // Handle the exception appropriately
-            }
-        }
         System.out.println("MIPS code has been written in the file: " + fileName);
         symbolTable.printSymbolTable();
     }
@@ -108,16 +96,9 @@ public class Parser {
         }
     }
 
-    // public static void appendToFile(String filePath, String content) throws IOException {
-    //     try (RandomAccessFile randomAccessFile = new RandomAccessFile(filePath, "rw")) {
-    //         // Move the file pointer to the end of the file
-    //         randomAccessFile.seek(randomAccessFile.length());
-
-    //         // Write the content at the end of the file
-    //         randomAccessFile.writeBytes(content);
-    //         System.out.println("Content appended to the file.");
-    //     }
-    // }
+    public String getFilePath (){
+        return filePath;
+    }
     
     private Token getToken() {
         
@@ -169,7 +150,6 @@ public class Parser {
         if (message.isEmpty() && success && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
             message.append("Parsing successful!");
-            parsingSuccess = true;
         }
         else {
             message.append("Parsing Unsuccessful!"); // ehhhhhhhhhhhhh
