@@ -293,7 +293,7 @@ public class Parser {
         if(isWord){
             appendLineToFile(filePath, mips.varDeclarationWord(varName, value, isNum));
         }
-        else if(isExpr){
+        else if(isExpr){ 
             appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum, hasOperators));
         }
         resetAssignVar();
@@ -341,6 +341,7 @@ public class Parser {
     }
 
     private void Expr() {
+        isExpr = true;
         Term();
         Expr_();
     }

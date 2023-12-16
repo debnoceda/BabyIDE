@@ -114,16 +114,18 @@ public class MIPSAssembly {
     public String varDeclarationExpr(String varName, String value, boolean isNum, boolean hasOperators){
         StringBuilder mipsCode = new StringBuilder();
         String useReg;
-
-        mipsCode.append("\n.data\n");
         if (hasOperators){
             useReg = getUsedRegister();
-            mipsCode.append(varName).append(": .word 0\n");
-            mipsCode.append(".text\n\n");
+            if (regTable.getRegister(varName) == null){
+                mipsCode.append("\n.data\n");
+                mipsCode.append(varName).append(": .word 0\n");
+                mipsCode.append(".text\n\n");
+            }
             mipsCode.append("    sw ").append(useReg + ", ").append(varName).append("\n");
             regTable.insertIntoTable(varName, useReg);
         }
         else{
+            mipsCode.append("\n.data\n");
             if (isNum){
                 useReg = getFreeRegister();
                 mipsCode.append(varName).append(": .word ").append(value).append("\n");
@@ -170,6 +172,7 @@ public class MIPSAssembly {
             mipsCode.append("    syscall\n");
         }
         else{
+            String useReg;
             mipsCode.append("\n.data\n");
             mipsCode.append("  " + varName + ": .word 0\n");
             mipsCode.append(".text\n\n");
@@ -177,6 +180,10 @@ public class MIPSAssembly {
             mipsCode.append("    li $v0, 5\n");
             mipsCode.append("    syscall\n");
             mipsCode.append("    sw $v0 " + varName + "\n");
+            useReg = getFreeRegister();
+            mipsCode.append("    lw ").append(useReg + ", ").append(varName).append("\n");
+            regTable.insertIntoTable(varName, useReg);
+            useRegisters(useReg);
         }
 
         return mipsCode.toString();

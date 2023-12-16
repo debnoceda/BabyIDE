@@ -31,10 +31,13 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
+import packages.baby.compiler.CodeGenerator.CompilerTerminalIntegration;
+import packages.baby.compiler.SyntaxAnalysis.Parser;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.Compiler;
 import packages.baby.components.CodeEditor;
 import packages.baby.components.LineNumber;
+import java.io.*;
 
 /**
  *
@@ -43,6 +46,8 @@ import packages.baby.components.LineNumber;
 
 public class Ide extends javax.swing.JFrame {
     private String afileName;
+    String output;
+    Parser parser;
 
     public Ide() {
         setTitle("Baby");
@@ -840,6 +845,15 @@ public class Ide extends javax.swing.JFrame {
         
         Compiler compiler = new Compiler(code, terminal);
         compiler.run(afileName);
+        output = terminal.getText();
+        if(output.equals("Parsing successful!")){
+            try{
+                CompilerTerminalIntegration mipsCompiler = new CompilerTerminalIntegration();
+                mipsCompiler.runMIPSFile(compiler.getFilePath());
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();  // Handle the exception appropriately
+            }
+        }  
         
 //        String[] lines = code.split("\n");
 //

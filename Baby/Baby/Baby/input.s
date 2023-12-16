@@ -10,6 +10,7 @@ main:
     li $v0, 5
     syscall
     sw $v0 x
+    lw $t0, x
 
 
 .data
@@ -19,14 +20,10 @@ main:
     li $v0, 5
     syscall
     sw $v0 y
+    lw $t1, y
 
-
-
-.data
-x: .word 0
-.text
-
-    sw EmptyStack, x
+    add $t2 $t0 $t1
+    sw $t2, x
 
 
     li $v0, 1
@@ -36,5 +33,9 @@ x: .word 0
 
     li $v0, 4
     la $a0, newline
+    syscall
+
+
+    li $v0, 10
     syscall
 

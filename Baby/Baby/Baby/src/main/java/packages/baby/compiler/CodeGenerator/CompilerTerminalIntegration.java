@@ -8,8 +8,14 @@ public class CompilerTerminalIntegration {
     private InputStream spimOutput;
 
     public void runMIPSFile(String filePath) throws IOException, InterruptedException {
-        String qtspimPath = "C:\\Program Files (x86)\\QtSpim\\QtSpim.exe";
+        String qtspimPath = "C:\\Program Files (x86)\\QtSpim\\QtSpim.exe"; // Adjust if necessary!!
         ProcessBuilder processBuilder = new ProcessBuilder(qtspimPath, filePath);
+
+        // if you want to use MARS compiler
+        // String qtspimPath = "C:\\Users\\Acer\\Documents\\Mars4_5.jar"; // Adjust if necessary!!
+        // ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", qtspimPath, filePath); //Adjust if necessary!
+
+
         spimProcess = processBuilder.start();
         spimInput = spimProcess.getOutputStream();
         spimOutput = spimProcess.getInputStream();
@@ -42,20 +48,4 @@ public class CompilerTerminalIntegration {
             spimProcess.destroy();
         }
     }
-
-    // public static void main(String[] args) {
-    //     try {
-    //         CompilerTerminalIntegration compilerIntegration = new CompilerTerminalIntegration();
-    //         // Specify the path to your MIPS assembly file
-    //         String mipsFilePath = "your_mips_file.asm";
-
-    //         // Optional: Provide user input if needed
-    //         String userInput = "User input here";
-
-    //         // Run the MIPS file and print output in the terminal
-    //         compilerIntegration.runMIPSFile(mipsFilePath, userInput);
-    //     } catch (IOException | InterruptedException e) {
-    //         e.printStackTrace();
-    //     }
-    // }
 }

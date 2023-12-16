@@ -2,23 +2,62 @@
 newline: .asciiz "\n"
 .text
 main:
-    li $t0 2
 
 .data
-x: .word 2
+statement_0: .asciiz "Enter x: "
 .text
+    li $v0, 4
+    la $a0, statement_0
+    syscall
 
-    lw $t1, x
-
-    li $t2 3
 
 .data
-y: .word 3
+  x: .word 0
 .text
 
-    lw $t3, y
+    li $v0, 5
+    syscall
+    sw $v0 x
+    lw $t0, x
 
-    mul $t4 $t1 $t3
+
+.data
+statement_1: .asciiz "Enter y: "
+.text
+    li $v0, 4
+    la $a0, statement_1
+    syscall
+
+
+.data
+  y: .word 0
+.text
+
+    li $v0, 5
+    syscall
+    sw $v0 y
+    lw $t1, y
+
+
+.data
+statement_2: .asciiz "Enter z: "
+.text
+    li $v0, 4
+    la $a0, statement_2
+    syscall
+
+
+.data
+  z: .word 0
+.text
+
+    li $v0, 5
+    syscall
+    sw $v0 z
+    lw $t2, z
+
+    mul $t3 $t1 $t2
+    add $t4 $t0 $t3
 
 .data
 ans: .word 0

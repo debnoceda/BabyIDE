@@ -10,7 +10,6 @@ import packages.baby.compiler.LexicalAnalysis.LexicalAnalyzer;
 import packages.baby.compiler.LexicalAnalysis.Token;
 import packages.baby.compiler.SyntaxAnalysis.Parser;
 import packages.baby.components.Terminal;
-import packages.baby.compiler.CodeGenerator.CompilerTerminalIntegration;
 import packages.baby.compiler.CodeGenerator.MIPSAssembly;
 
 /**
@@ -22,7 +21,7 @@ public class Compiler {
     String code = "";
     Terminal terminal;
     StringBuilder message = new StringBuilder();
-    String output;
+    String output, filepath;
     
     List<Token> tokens;
     
@@ -60,6 +59,7 @@ public class Compiler {
         
         // Start Syntax Analysis of Code
         Parser parser = new Parser(message, tokens, afileName, mips);
+        filepath = parser.getFilePath();
         //String successState = "Parse Success State: " + parser.getSuccess();
         
         // System.out.println(lexicalAnalyzer.getCh());
@@ -67,14 +67,10 @@ public class Compiler {
 //        terminal.setText(printTokens(tokens));
         output = getTerminalMessage();
         terminal.setText(output);
-        if(output.equals("Parsing successful!")){
-            try{
-                CompilerTerminalIntegration mipsCompiler = new CompilerTerminalIntegration();
-                mipsCompiler.runMIPSFile(parser.getFilePath());
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();  // Handle the exception appropriately
-            }
-        }   
+    }
+
+    public String getFilePath(){
+        return filepath;
     }
     
     public String printTokens(List<Token> tokens){
