@@ -8,6 +8,7 @@ public class CompilerTerminalIntegration {
     private InputStream spimOutput;
 
     public void runMIPSFile(String filePath) throws IOException, InterruptedException {
+        StringBuilder output = new StringBuilder();
         String qtspimPath = "C:\\Program Files (x86)\\QtSpim\\QtSpim.exe"; // Adjust if necessary!!
         ProcessBuilder processBuilder = new ProcessBuilder(qtspimPath, filePath);
 
@@ -29,7 +30,8 @@ public class CompilerTerminalIntegration {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(spimOutput))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                if (!line.equals("MARS 4.5  Copyright 2003-2014 Pete Sanderson and Kenneth Vollmar") && line != null)
+                    output.append("\n" + line);
             }
         }
 
@@ -41,6 +43,7 @@ public class CompilerTerminalIntegration {
 
         // Close the resources
         close();
+        // return output.toString();
     }
 
     public void close() {

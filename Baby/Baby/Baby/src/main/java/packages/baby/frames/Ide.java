@@ -850,10 +850,12 @@ public class Ide extends javax.swing.JFrame {
             try{
                 CompilerTerminalIntegration mipsCompiler = new CompilerTerminalIntegration();
                 mipsCompiler.runMIPSFile(compiler.getFilePath());
+                //show the result in terminal, works if no user input, set the runMIPSFile to public String
+                // terminal.setText(output + mipsCompiler.runMIPSFile(compiler.getFilePath()));
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();  // Handle the exception appropriately
             }
-        }  
+        }
         
 //        String[] lines = code.split("\n");
 //
