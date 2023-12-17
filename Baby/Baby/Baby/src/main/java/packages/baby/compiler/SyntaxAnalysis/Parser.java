@@ -307,6 +307,12 @@ public class Parser {
             if (symbolTable.getKeyDataType(varName).equals("num"))
                 isNum = true;
             appendLineToFile(filePath, mips.input(varName, isNum));
+
+            if(isNum)
+                symbolTable.setTokenType(varName, TokenType.INT);
+            else
+                symbolTable.setTokenType(varName, TokenType.STR);
+
             isGet = false;
             isNum = false;
         }
@@ -510,7 +516,9 @@ public class Parser {
             match(TokenType.CHAR); 
             isNum = false;
         }
-        setTokenTypeOfAssignVar();
+
+        if(!isPrompt)
+            setTokenTypeOfAssignVar();
     }
 
     private void Var() {
