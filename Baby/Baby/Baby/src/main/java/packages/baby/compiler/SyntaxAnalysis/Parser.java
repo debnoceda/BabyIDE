@@ -296,6 +296,16 @@ public class Parser {
         else if(isExpr){ 
             appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum, hasOperators));
         }
+        else if (isGet){
+            if (isPrompt){
+                appendLineToFile(filePath, mips.printStatements(prompt, isExpr, isID, isNum, isIDNum));
+            }
+            if (symbolTable.getKeyDataType(varName).equals("num"))
+                isNum = true;
+            appendLineToFile(filePath, mips.input(varName, isNum));
+            isGet = false;
+            isNum = false;
+        }
         resetAssignVar();
     }
 
