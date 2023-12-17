@@ -248,9 +248,11 @@ public class Parser {
             Value();
             if(isWord){
                 appendLineToFile(filePath, mips.varDeclarationWord(identifier, value, isNum));
+                isWord = false;
             }
             else if(isExpr){
                 appendLineToFile(filePath, mips.varDeclarationExpr(identifier, value, isNum, hasOperators));
+                isExpr = false;
             }
 
         }
@@ -292,9 +294,11 @@ public class Parser {
         Value();
         if(isWord){
             appendLineToFile(filePath, mips.varDeclarationWord(varName, value, isNum));
+            isWord = false;
         }
         else if(isExpr){ 
             appendLineToFile(filePath, mips.varDeclarationExpr(varName, value, isNum, hasOperators));
+            isExpr = false;
         }
         else if (isGet){
             if (isPrompt){

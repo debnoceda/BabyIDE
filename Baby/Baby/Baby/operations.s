@@ -20,6 +20,14 @@ statement_6: .asciiz "Enter x: "
     sw $v0 x
     lw $t0, x
 
+    li $t1 10
+
+.data
+a: .word 10
+.text
+
+    lw $t2, a
+
 
 .data
 statement_7: .asciiz "Enter y: "
@@ -36,34 +44,35 @@ statement_7: .asciiz "Enter y: "
     li $v0, 5
     syscall
     sw $v0 y
-    lw $t1, y
+    lw $t3, y
 
-
-.data
-statement_8: .asciiz "Enter z: "
-.text
-    li $v0, 4
-    la $a0, statement_8
-    syscall
-
+    li $t4 100
 
 .data
-  z: .word 0
+z: .word 100
 .text
 
-    li $v0, 5
-    syscall
-    sw $v0 z
-    lw $t2, z
+    lw $t5, z
 
-    mul $t3 $t1 $t2
-    add $t4 $t0 $t3
+    mul $t6 $t3 $t5
+    div $t6 $t2
+    mflo $t4
+    add $t7 $t0 $t4
+    sub $t8 $t7 $t3
 
 .data
 ans: .word 0
 .text
 
-    sw $t4, ans
+    sw $t8, ans
+
+
+.data
+statement_8: .asciiz "The answer is: "
+.text
+    li $v0, 4
+    la $a0, statement_8
+    syscall
 
 
     li $v0, 1
@@ -73,9 +82,5 @@ ans: .word 0
 
     li $v0, 4
     la $a0, newline
-    syscall
-
-
-    li $v0, 10
     syscall
 
