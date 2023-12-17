@@ -195,6 +195,7 @@ public class Parser {
             if (isGet){
                 if (isPrompt){
                     appendLineToFile(filePath, mips.printStatements(prompt, isExpr, isID, isNum, isIDNum));
+                    isPrompt = false;
                 }
                 appendLineToFile(filePath, mips.input(varName, isNum));
 
@@ -303,6 +304,7 @@ public class Parser {
         else if (isGet){
             if (isPrompt){
                 appendLineToFile(filePath, mips.printStatements(prompt, isExpr, isID, isNum, isIDNum));
+                isPrompt = false;
             }
             if (symbolTable.getKeyDataType(varName).equals("num"))
                 isNum = true;

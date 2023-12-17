@@ -4,10 +4,10 @@ newline: .asciiz "\n"
 main:
 
 .data
-statement_6: .asciiz "Enter x: "
+statement_0: .asciiz "Enter x: "
 .text
     li $v0, 4
-    la $a0, statement_6
+    la $a0, statement_0
     syscall
 
 
@@ -27,14 +27,6 @@ a: .word 10
 .text
 
     lw $t2, a
-
-
-.data
-statement_7: .asciiz "Enter y: "
-.text
-    li $v0, 4
-    la $a0, statement_7
-    syscall
 
 
 .data
@@ -68,10 +60,10 @@ ans: .word 0
 
 
 .data
-statement_8: .asciiz "The answer is: "
+statement_1: .asciiz "The answer is: "
 .text
     li $v0, 4
-    la $a0, statement_8
+    la $a0, statement_1
     syscall
 
 
@@ -82,5 +74,9 @@ statement_8: .asciiz "The answer is: "
 
     li $v0, 4
     la $a0, newline
+    syscall
+
+
+    li $v0, 10
     syscall
 
