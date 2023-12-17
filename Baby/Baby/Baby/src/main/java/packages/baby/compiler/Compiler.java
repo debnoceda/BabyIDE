@@ -47,7 +47,7 @@ public class Compiler {
         code = code.replaceAll("#.*\n", ""); // !! Issue: will also remove those in quote marks
 
         // Handle numbers with signs
-        code.replaceAll("([+-/*])\\s*([+-])\\s*([0-9]+)", "$1 $2$3"); 
+        code = code.replaceAll("([=+-/*])\\s*([+-])\\s*([0-9]+)", "$1 $2$3"); 
         
         String[] lines = code.split("\n");           
 
