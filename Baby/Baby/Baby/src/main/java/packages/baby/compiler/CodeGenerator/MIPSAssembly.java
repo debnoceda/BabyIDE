@@ -125,16 +125,27 @@ public class MIPSAssembly {
             regTable.insertIntoTable(varName, useReg);
         }
         else{
-            mipsCode.append("\n.data\n");
             if (isNum){
-                useReg = getFreeRegister();
-                mipsCode.append(varName).append(": .word ").append(value).append("\n");
-                mipsCode.append(".text\n\n");
-                mipsCode.append("    lw ").append(useReg + ", ").append(varName).append("\n");
-                regTable.insertIntoTable(varName, useReg);
-                useRegisters(useReg);
+                String useReg1 = getUsedRegister();
+                if (regTable.getRegister(varName) == null){
+                    useReg = getFreeRegister();
+                    mipsCode.append("\n.data\n");
+                    mipsCode.append(varName).append(": .word ").append(value).append("\n");
+                    mipsCode.append(".text\n\n");
+                    mipsCode.append("    lw ").append(useReg + ", ").append(varName).append("\n");
+                    regTable.insertIntoTable(varName, useReg);
+                    useRegisters(useReg);
+                }
+                else {
+                    useReg = getUsedRegister();
+                    mipsCode.append("    li " + useReg + ", " + value + "\n");
+                    mipsCode.append("    move " + useReg1 + ", " + useReg + "\n");
+                    mipsCode.append("    sw " + useReg1 + ", " + varName + "\n");
+                    releaseRegister(useReg);
+                }
             }
             else {
+                mipsCode.append("\n.data\n");
                 String useReg1 = getFreeRegister();
                 useReg = getUsedRegister();
                 mipsCode.append(varName).append(": .word 0\n");
@@ -151,6 +162,8 @@ public class MIPSAssembly {
     public String immediateNum (String value){
         StringBuilder mipsCode = new StringBuilder();
         String useReg = getFreeRegister();
+
+        System.out.println("niagi ari");
 
         mipsCode.append("    li " + useReg + " " + value);
         regTable.insertIntoTable(value, useReg);
