@@ -163,8 +163,6 @@ public class MIPSAssembly {
         StringBuilder mipsCode = new StringBuilder();
         String useReg = getFreeRegister();
 
-        System.out.println("niagi ari");
-
         mipsCode.append("    li " + useReg + " " + value);
         regTable.insertIntoTable(value, useReg);
 
@@ -309,6 +307,12 @@ public class MIPSAssembly {
                     mipsCode.append("    li $v0, 1\n");
                     mipsCode.append("    lw $a0, ").append(value).append("\n");
                 }
+            }
+            else if (isExpr){
+                String useReg = getUsedRegister();
+                mipsCode.append("\n");
+                mipsCode.append("    li $v0, 1\n");
+                mipsCode.append("    move $a0, ").append(useReg).append("\n");
             }
         }
         mipsCode.append("    syscall\n");

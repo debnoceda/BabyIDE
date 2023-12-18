@@ -151,7 +151,7 @@ public class Parser {
         System.out.println("message: " + message);
         System.out.println("success: " + success);
         System.out.println("TokenType: " + TokenType.EOF);
-        if (message.isEmpty() && success && match(TokenType.EOF)) { // EOF == $
+        if (message.isEmpty() && match(TokenType.EOF)) { // EOF == $
             appendLineToFile(filePath, mips.exitProgram());
             message.append("Parsing successful!");
         }
@@ -437,6 +437,7 @@ public class Parser {
         }
         else{
             if(statement != null){
+                System.out.println("nisud siya ari");
                 appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID, isNum, isIDNum));
             }
         }
