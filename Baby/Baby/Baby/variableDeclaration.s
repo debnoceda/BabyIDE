@@ -17,10 +17,10 @@ y: .asciiz "I love CMSC 124"
 
 
 .data
-statement_0: .asciiz "Enter z: "
+statement_2: .asciiz "Enter z: "
 .text
     li $v0, 4
-    la $a0, statement_0
+    la $a0, statement_2
     syscall
 
 
@@ -35,10 +35,10 @@ statement_0: .asciiz "Enter z: "
 
 
 .data
-statement_1: .asciiz "Enter a: "
+statement_3: .asciiz "Enter a: "
 .text
     li $v0, 4
-    la $a0, statement_1
+    la $a0, statement_3
     syscall
 
 
@@ -53,10 +53,10 @@ statement_1: .asciiz "Enter a: "
 
 
 .data
-statement_2: .asciiz "The value of x is "
+statement_4: .asciiz "The value of x is "
 .text
     li $v0, 4
-    la $a0, statement_2
+    la $a0, statement_4
     syscall
 
 
@@ -71,10 +71,10 @@ statement_2: .asciiz "The value of x is "
 
 
 .data
-statement_3: .asciiz "The value of y is "
+statement_5: .asciiz "The value of y is "
 .text
     li $v0, 4
-    la $a0, statement_3
+    la $a0, statement_5
     syscall
 
 
@@ -89,10 +89,10 @@ statement_3: .asciiz "The value of y is "
 
 
 .data
-statement_4: .asciiz "The value of z is "
+statement_6: .asciiz "The value of z is "
 .text
     li $v0, 4
-    la $a0, statement_4
+    la $a0, statement_6
     syscall
 
 
@@ -107,10 +107,10 @@ statement_4: .asciiz "The value of z is "
 
 
 .data
-statement_5: .asciiz "The value of a is "
+statement_7: .asciiz "The value of a is "
 .text
     li $v0, 4
-    la $a0, statement_5
+    la $a0, statement_7
     syscall
 
 

@@ -434,12 +434,19 @@ public class Parser {
             if(statement != null)
                 appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID, isNum, isIDNum));
             appendLineToFile(filePath, mips.printNewLine());
+            isExpr = false;
+            isID = false;
+            isNum = false;
+            isIDNum = false;
         }
         else{
             if(statement != null){
-                System.out.println("nisud siya ari");
                 appendLineToFile(filePath, mips.printStatements(statement, isExpr, isID, isNum, isIDNum));
             }
+            isExpr = false;
+            isID = false;
+            isNum = false;
+            isIDNum = false;
         }
         if (!match(TokenType.RPAREN)) {Error("')'");}
         isPrinting = false;
