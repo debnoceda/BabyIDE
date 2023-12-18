@@ -41,7 +41,7 @@ public class Compiler {
         */
 
         // Add white space before and after particular symbols
-        code = code.replaceAll("([,;()\\+\\-*/])", " $1 "); // !! Issue: will also replace symbols inside quote marks
+        code = code.replaceAll("([=,;()\\+\\-*/])", " $1 "); // !! Issue: will also replace symbols inside quote marks
 
         // Remove comments
         code = code.replaceAll("#.*\n", ""); // !! Issue: will also remove those in quote marks
@@ -49,7 +49,7 @@ public class Compiler {
         // Handle numbers with signs
         code = code.replaceAll("([=+-/*])\\s*([+-])\\s*([0-9]+)", "$1 $2$3"); 
         
-        String[] lines = code.split("\n");           
+        String[] lines = code.split("\\n+");           
 
         // Start Lexical Analysis of code
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
